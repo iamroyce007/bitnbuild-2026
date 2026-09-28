@@ -1,0 +1,19 @@
+# Core runtime (API, engines, workers). Python 3.12+.
+fastapi==0.135.0
+uvicorn[standard]==0.41.0
+python-multipart==0.0.22
+pydantic==2.13.0b2
+pydantic-settings==2.15.0
+SQLAlchemy==2.0.53
+psycopg[binary]==3.3.6
+redis==5.2.1
+neo4j==6.3.1
+networkx==3.6.1
+httpx==0.28.1
+dnspython==2.8.0
+idna==3.19
+cryptography==46.0.5
+numpy==2.4.2
+scipy==1.17.1
+scikit-learn==1.8.0   # must match the version the models in models/ were trained with
+joblib==1.5.3
