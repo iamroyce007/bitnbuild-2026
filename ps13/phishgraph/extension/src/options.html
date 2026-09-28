@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PhishGraph Guard settings</title>
+  <link rel="stylesheet" href="ui.css" />
+  <style>
+    main { max-width: 620px; margin: 40px auto; padding: 0 20px; }
+    h1 { font-size: 22px; margin: 16px 0 4px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-top: 18px; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; margin-bottom: 6px; }
+    .check { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
+    .check:first-of-type { border-top: 0; }
+    .check input { margin-top: 3px; accent-color: var(--accent); }
+    .check small { display: block; color: var(--muted); }
+    .row { display: flex; gap: 10px; align-items: center; }
+    #msg { font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand"><img src="../icons/icon-32.png" alt="" />PhishGraph Guard</div>
+    <h1>Connect to your PhishGraph server</h1>
+    <p class="muted">The extension only talks to the server below. Page addresses are sent to it for checking; email content only if you enable Gmail scanning.</p>
+    <section class="card">
+      <div class="field"><label class="label" for="server">Server URL</label><input type="url" id="server" placeholder="http://localhost:8000" /></div>
+      <div class="field"><label class="label" for="apiKey">API key</label><input type="password" id="apiKey" placeholder="X-API-Key value" autocomplete="off" /></div>
+      <div class="row"><button class="btn primary" id="save">Save and test</button><span id="msg" class="muted"></span></div>
+    </section>
+    <section class="card">
+      <div class="check"><input type="checkbox" id="protectPages" /><label for="protectPages">Check pages I open<small>High-risk pages are replaced by a warning before you can type anything.</small></label></div>
+      <div class="check"><input type="checkbox" id="scanGmail" /><label for="scanGmail">Scan Gmail messages I open<small>The opened message (sender, subject, body, links) is sent to your server and a verdict banner appears above it.</small></label></div>
+      <div class="field" style="margin-top:10px"><label class="label" for="blockThreshold">Show the full-page warning at</label>
+        <select id="blockThreshold"><option value="FLAG">FLAG and above</option><option value="QUARANTINE">QUARANTINE and above (default)</option><option value="BLOCK">BLOCK only</option></select></div>
+    </section>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
