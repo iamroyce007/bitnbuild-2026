@@ -21,6 +21,8 @@ from .graph_store import get_graph_store
 
 JOIN_THRESHOLD = 0.55
 _lock = threading.Lock()
+_INFRA_CACHE: dict[str, tuple[float, set[str]]] = {}  # campaign id -> (computed at, infrastructure node ids)
+_INFRA_TTL = 120.0
 
 
 def _infra(seeds: list[str]) -> set[str]:
@@ -34,9 +36,16 @@ def _infra(seeds: list[str]) -> set[str]:
 
 
 def _campaign_infra(cid: str) -> set[str]:
-    # campaign -> email -> url -> domain -> ip/ns/cert is 5 hops
+    """Infrastructure reachable from a campaign (campaign -> email -> url -> domain -> ip/ns/cert = 5 hops).
+    Cached per campaign and invalidated when the campaign gains a message, so matching stays O(campaigns)."""
+    import time
+    hit = _INFRA_CACHE.get(cid)
+    if hit and time.time() - hit[0] < _INFRA_TTL:
+        return hit[1]
     g = get_graph_store().subgraph([f'campaign:{cid}'], depth=5, limit=1500)
-    return {n for n, d in g.nodes(data=True) if d.get('type') in ('ip', 'cert', 'ns', 'domain') and (d.get('type') == 'domain' or _specificity(g, n) >= 0.3)}
+    out = {n for n, d in g.nodes(data=True) if d.get('type') in ('ip', 'cert', 'ns', 'domain') and (d.get('type') == 'domain' or _specificity(g, n) >= 0.3)}
+    _INFRA_CACHE[cid] = (time.time(), out)
+    return out
 
 
 def match(embedding: np.ndarray | None, seeds: list[str], brands: list[str]) -> tuple[dict | None, float]:
@@ -47,14 +56,19 @@ def match(embedding: np.ndarray | None, seeds: list[str], brands: list[str]) -> 
         return None, 0.0
     mine = _infra(seeds)
     now = datetime.now(timezone.utc)
+    # semantic similarity for every campaign in one matrix product
+    sem_all = np.zeros(len(camps), dtype=np.float32)
+    if embedding is not None:
+        rows = [(i, c.centroid) for i, c in enumerate(camps) if c.centroid]
+        if rows:
+            M = np.asarray([r[1] for r in rows], dtype=np.float32)
+            M /= np.linalg.norm(M, axis=1, keepdims=True) + 1e-9
+            sem_all[[r[0] for r in rows]] = np.clip(M @ embedding, 0, None)
     best, best_sim = None, 0.0
-    for c in camps:
-        sem = 0.0
-        if embedding is not None and c.centroid:
-            cen = np.asarray(c.centroid, dtype=np.float32)
-            sem = float(max(0.0, cen @ embedding / (np.linalg.norm(cen) + 1e-9)))
+    for i, c in enumerate(camps):
+        sem = float(sem_all[i])
         infra = 0.0
-        if mine:
+        if mine and (sem >= 0.2 or len(camps) <= 60):  # only walk infrastructure for plausible candidates
             ci = _campaign_infra(c.id)
             if ci:
                 infra = min(1.0, len(mine & ci) / 2)
@@ -102,6 +116,7 @@ def assign(detection_id: str, embedding: np.ndarray | None, seeds: list[str], br
         stats['emails'] = int(stats.get('emails', 0)) + 1
         c.stats = stats
         cid = c.id
+    _INFRA_CACHE.pop(cid, None)  # campaign changed: recompute its infrastructure next time
     gs.upsert_node(f'campaign:{cid}', 'campaign', {'label': cid, 'risk': risk})
     gs.upsert_edge(f'email:{detection_id}', f'campaign:{cid}', 'PART_OF', source='campaign_engine', confidence=max(sim, 0.6))
     refresh_stats(cid)
