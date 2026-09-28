@@ -16,7 +16,7 @@ from ..config import get_settings
 
 @lru_cache(maxsize=1)
 def _confusables() -> dict[str, str]:
-    path = get_settings().data_dir / 'raw' / 'confusables.txt'
+    path = get_settings().ref_dir / 'confusables.txt'
     table: dict[str, str] = {}
     with open(path, encoding='utf-8-sig') as f:
         for line in f:

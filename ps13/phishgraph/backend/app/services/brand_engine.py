@@ -117,7 +117,7 @@ class BrandEngine:
             for d in b.domains:
                 self.official.setdefault(d.lower(), b)
         self.rank: dict[str, int] = {}
-        tranco = s.data_dir / 'raw' / 'top-1m.csv'
+        tranco = s.ref_dir / 'top-1m.csv'
         if tranco.exists():
             with open(tranco, newline='') as f:
                 for row in csv.reader(f):

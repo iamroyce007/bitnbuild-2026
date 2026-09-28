@@ -14,7 +14,7 @@ from .unicode_utils import to_ascii, to_unicode
 @lru_cache(maxsize=1)
 def _psl() -> tuple[set[str], set[str], set[str]]:
     rules, wild, exc = set(), set(), set()
-    with open(get_settings().data_dir / 'raw' / 'public_suffix_list.dat', encoding='utf-8') as f:
+    with open(get_settings().ref_dir / 'public_suffix_list.dat', encoding='utf-8') as f:
         for line in f:
             line = line.strip()
             if not line or line.startswith('//'):

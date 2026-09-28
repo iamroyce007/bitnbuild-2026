@@ -74,6 +74,15 @@ class Settings(BaseSettings):
     t_quarantine: int = 60
     t_block: int = 85
 
+    reference_dir: str = ''  # where top-1m.csv / public_suffix_list.dat / confusables.txt live (default data/raw, then data/reference)
+
+    @property
+    def ref_dir(self) -> Path:
+        if self.reference_dir:
+            return Path(self.reference_dir)
+        raw = ROOT / 'data' / 'raw'
+        return raw if (raw / 'confusables.txt').exists() else ROOT / 'data' / 'reference'
+
     @property
     def data_dir(self) -> Path:
         return ROOT / 'data'
