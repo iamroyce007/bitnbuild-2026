@@ -39,3 +39,5 @@ ps13/phishgraph/data/processed/*.log
 ps13/phishgraph/dist-*.zip
 ps13/phishgraph/frontend/tsconfig.tsbuildinfo
 ps13/phishgraph/data/processed/*.jsonl
+ps13/phishgraph/.vercel-api-key
+ps13/phishgraph/public/

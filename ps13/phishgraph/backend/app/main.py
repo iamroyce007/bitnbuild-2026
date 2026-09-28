@@ -159,8 +159,8 @@ def recent_events(since: str = ''):
     return [e for e in bus.recent if not since or str(e.get('at', '')) > since][-50:]
 
 
-DIST = ROOT / 'frontend' / 'dist'
-if DIST.exists():
+DIST = ROOT / 'frontend' / 'dist' if (ROOT / 'frontend' / 'dist' / 'index.html').exists() else ROOT / 'public'  # public/ = Vercel build
+if (DIST / 'index.html').exists():
     app.mount('/assets', StaticFiles(directory=DIST / 'assets'), name='assets')
 
     @app.get('/{path:path}', include_in_schema=False)
