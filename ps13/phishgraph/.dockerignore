@@ -1,0 +1,10 @@
+**/node_modules
+**/__pycache__
+frontend/dist
+data/raw
+data/*.db*
+data/graph.json
+data/processed/*.log
+models/all-MiniLM-L6-v2
+extension
+.env
