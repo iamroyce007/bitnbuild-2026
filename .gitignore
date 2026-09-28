@@ -36,3 +36,4 @@ ps01/
 Problem-Statements.pdf
 ps13/.venv/
 ps13/phishgraph/data/processed/*.log
+ps13/phishgraph/dist-*.zip
