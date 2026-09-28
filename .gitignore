@@ -38,3 +38,4 @@ ps13/.venv/
 ps13/phishgraph/data/processed/*.log
 ps13/phishgraph/dist-*.zip
 ps13/phishgraph/frontend/tsconfig.tsbuildinfo
+ps13/phishgraph/data/processed/*.jsonl
