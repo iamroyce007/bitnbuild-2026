@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="ui.css" />
+  <style>
+    body { width: 360px; padding: 14px; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .score { font: 600 26px/1 var(--mono); }
+    .host { font: 12px var(--mono); color: var(--muted); word-break: break-all; margin: 6px 0 8px; }
+    .foot { display: flex; gap: 8px; }
+    .foot .btn { flex: 1; min-height: 32px; font-size: 12px; }
+    .empty { color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><img src="../icons/icon-32.png" alt="" />PhishGraph Guard</div>
+    <span class="label" id="status">…</span>
+  </header>
+  <section class="card" id="page">
+    <div class="label">This page</div>
+    <div class="empty" id="pageEmpty">No verdict yet for this tab.</div>
+    <div id="pageBody" hidden>
+      <div class="top"><span class="pill" id="pill"></span><span class="score" id="score"></span></div>
+      <div class="host" id="host"></div>
+      <ul class="reasons" id="reasons"></ul>
+    </div>
+  </section>
+  <section class="card" id="last" hidden>
+    <div class="label">Last right-click check</div>
+    <div class="host" id="lastTarget"></div>
+    <div class="top"><span class="pill" id="lastPill"></span><span class="score" id="lastScore"></span></div>
+  </section>
+  <div class="foot">
+    <a class="btn" id="dash" target="_blank">Open dashboard</a>
+    <button class="btn" id="opts">Settings</button>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
