@@ -147,6 +147,21 @@ Dashboard and API on http://localhost:8000, Neo4j browser on http://localhost:74
 
 > **Verification status:** the Compose file was written for this project but has not been run on the development machine (Docker was not installed there). Everything else in this README was run and tested.
 
+## Vercel (serverless demo)
+
+Live: https://phishgraph.vercel.app (API key required; enter it on the Settings page).
+
+```bash
+python3 -c "import secrets;print(secrets.token_urlsafe(32))" > .vercel-api-key   # once; git-ignored
+npx vercel login                                                                  # once
+./scripts/deploy_vercel.sh
+```
+The script builds the dashboard locally, bundles it into the single Python function (`api/index.py`, routed by `vercel.json`)
+and deploys from a git-free copy (Vercel blocks CLI deploys whose commit author is not a verified team member).
+Serverless trade-offs: SQLite and the graph live in `/tmp` and are re-seeded with DEMO DATA on each cold start (first request
+~15 s), jobs run inline, WebSockets fall back to polling, and the semantic (MiniLM) stage is off, so campaigns cluster on
+infrastructure and brand only. Set `DATABASE_URL` to a hosted Postgres for persistence.
+
 ## Demo
 
 ```bash
