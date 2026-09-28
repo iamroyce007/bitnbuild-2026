@@ -293,7 +293,7 @@ class BrandEngine:
         t = skeleton(text)
         out = []
         for b in self.brands:
-            names = {skeleton(b.name)} | {k for k in b.keywords if len(k) >= 4}
+            names = {skeleton(b.name.split(' /')[0])} | {skeleton(k) for k in b.keywords if len(k) >= 3}
             if any(re.search(rf'(?<![a-z]){re.escape(n)}(?![a-z])', t) for n in names):
                 out.append(b)
         return out[:5]

@@ -1,0 +1,152 @@
+{
+ "data": {
+  "n": 19855,
+  "by_source": {
+   "ealvaradob": 19855
+  },
+  "phishing_ratio": 0.3758,
+  "by_channel": {
+   "sms": 5403,
+   "email": 14452
+  }
+ },
+ "splits": {
+  "random_stratified": {
+   "tfidf_lr": {
+    "precision": 0.969,
+    "recall": 0.9625,
+    "f1": 0.9657,
+    "roc_auc": 0.9959,
+    "pr_auc": 0.9941,
+    "confusion": {
+     "tn": 2433,
+     "fp": 46,
+     "fn": 56,
+     "tp": 1436
+    },
+    "n": 3971
+   },
+   "minilm_lr": {
+    "precision": 0.9036,
+    "recall": 0.9424,
+    "f1": 0.9226,
+    "roc_auc": 0.9853,
+    "pr_auc": 0.979,
+    "confusion": {
+     "tn": 2329,
+     "fp": 150,
+     "fn": 86,
+     "tp": 1406
+    },
+    "n": 3971
+   },
+   "blend": {
+    "precision": 0.9587,
+    "recall": 0.9638,
+    "f1": 0.9612,
+    "roc_auc": 0.9965,
+    "pr_auc": 0.9948,
+    "confusion": {
+     "tn": 2417,
+     "fp": 62,
+     "fn": 54,
+     "tp": 1438
+    },
+    "n": 3971
+   }
+  },
+  "cross_channel_email_to_sms": {
+   "tfidf_lr": {
+    "precision": 0.6593,
+    "recall": 0.9511,
+    "f1": 0.7788,
+    "roc_auc": 0.927,
+    "pr_auc": 0.8983,
+    "confusion": {
+     "tn": 2138,
+     "fp": 1076,
+     "fn": 107,
+     "tp": 2082
+    },
+    "n": 5403
+   },
+   "minilm_lr": {
+    "precision": 0.6629,
+    "recall": 0.9333,
+    "f1": 0.7752,
+    "roc_auc": 0.8949,
+    "pr_auc": 0.8358,
+    "confusion": {
+     "tn": 2175,
+     "fp": 1039,
+     "fn": 146,
+     "tp": 2043
+    },
+    "n": 5403
+   },
+   "blend": {
+    "precision": 0.6752,
+    "recall": 0.9584,
+    "f1": 0.7923,
+    "roc_auc": 0.935,
+    "pr_auc": 0.9095,
+    "confusion": {
+     "tn": 2205,
+     "fp": 1009,
+     "fn": 91,
+     "tp": 2098
+    },
+    "n": 5403
+   }
+  },
+  "cross_channel_sms_to_email": {
+   "tfidf_lr": {
+    "precision": 0.9237,
+    "recall": 0.7603,
+    "f1": 0.8341,
+    "roc_auc": 0.9669,
+    "pr_auc": 0.9428,
+    "confusion": {
+     "tn": 8848,
+     "fp": 331,
+     "fn": 1264,
+     "tp": 4009
+    },
+    "n": 14452
+   },
+   "minilm_lr": {
+    "precision": 0.8151,
+    "recall": 0.9014,
+    "f1": 0.8561,
+    "roc_auc": 0.958,
+    "pr_auc": 0.9385,
+    "confusion": {
+     "tn": 8101,
+     "fp": 1078,
+     "fn": 520,
+     "tp": 4753
+    },
+    "n": 14452
+   },
+   "blend": {
+    "precision": 0.9103,
+    "recall": 0.8932,
+    "f1": 0.9017,
+    "roc_auc": 0.9774,
+    "pr_auc": 0.9639,
+    "confusion": {
+     "tn": 8715,
+     "fp": 464,
+     "fn": 563,
+     "tp": 4710
+    },
+    "n": 14452
+   }
+  }
+ },
+ "notes": [
+  "zefang-liu/phishing-email-dataset is fully contained in ealvaradob/phishing-dataset (exact duplicates after normalisation), so a cross-source split between them is not meaningful; cross-channel splits are reported instead."
+ ],
+ "deployed": "stage1 hashed TF-IDF LR + stage2 MiniLM-embedding LR, averaged; trained on all de-duplicated data",
+ "seconds": 193
+}

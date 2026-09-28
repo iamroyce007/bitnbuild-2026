@@ -12,6 +12,8 @@ __pycache__/
 # large or regenerable data (see ps13/phishgraph/scripts/download_datasets.py)
 ps13/phishgraph/data/raw/
 ps13/phishgraph/data/*.db
+ps13/phishgraph/data/*.db-*
+ps13/phishgraph/data/*.tmp
 ps13/phishgraph/data/graph.json
 ps13/phishgraph/models/all-MiniLM-L6-v2/
 ps13/phishgraph/models/hf/
@@ -28,3 +30,9 @@ ps01/echoswarm/dist/
 .DS_Store
 .claude/
 .vercel/
+
+# not part of this repo
+ps01/
+Problem-Statements.pdf
+ps13/.venv/
+ps13/phishgraph/data/processed/*.log
