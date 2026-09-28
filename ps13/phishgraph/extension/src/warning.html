@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blocked by PhishGraph</title>
+  <link rel="stylesheet" href="ui.css" />
+  <style>
+    body { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+    main { width: min(680px, 100%); }
+    .frame { border: 1px solid var(--line); border-top: 4px solid var(--block); background: var(--panel); border-radius: 12px; padding: 28px; }
+    h1 { font-size: 26px; margin: 14px 0 8px; }
+    .url { font: 13px var(--mono); color: var(--muted); word-break: break-all; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 16px 0; }
+    .score { font: 600 40px/1 var(--mono); }
+    .row { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+    .actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+    details { margin-top: 18px; color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand"><img src="../icons/icon-32.png" alt="" />PhishGraph Guard</div>
+    <div class="frame" style="margin-top:14px">
+      <div class="row">
+        <div>
+          <span class="pill" id="pill">CHECKING</span>
+          <h1 id="title">This page looks like phishing</h1>
+          <p class="muted" id="lede">PhishGraph stopped this page before it loaded. Do not enter passwords, OTPs or card details here.</p>
+        </div>
+        <div style="text-align:right"><div class="label">Risk</div><div class="score" id="score">--</div></div>
+      </div>
+      <div class="url" id="url"></div>
+      <div class="label" style="margin-bottom:6px">Why</div>
+      <ul class="reasons" id="reasons"></ul>
+      <div class="actions">
+        <button class="btn primary" id="back">Go back to safety</button>
+        <button class="btn danger" id="proceed">I understand the risk, continue</button>
+      </div>
+      <details>
+        <summary>About this warning</summary>
+        Verdict from your PhishGraph server. Reasons are the evidence the detection engines recorded; the page itself was not loaded.
+      </details>
+    </div>
+  </main>
+  <script src="warning.js"></script>
+</body>
+</html>
