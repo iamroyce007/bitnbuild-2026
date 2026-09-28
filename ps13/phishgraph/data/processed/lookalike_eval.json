@@ -1,0 +1,291 @@
+{
+ "real_domains": {
+  "source": "Tranco ranks 100,001-150,000",
+  "n": 50000,
+  "flagged": 96,
+  "rate": 0.00192,
+  "by_kind": {
+   "combosquat": 48,
+   "tld_swap": 18,
+   "typosquat": 30
+  },
+  "sample": [
+   [
+    "speedhost.in",
+    "combosquat",
+    "indiapost.gov.in"
+   ],
+   [
+    "zomato.durban",
+    "tld_swap",
+    "zomato.com"
+   ],
+   [
+    "citicbank.cn",
+    "typosquat",
+    "citibank.com"
+   ],
+   [
+    "mwstatic.com",
+    "typosquat",
+    "mzstatic.com"
+   ],
+   [
+    "resbank.co.za",
+    "typosquat",
+    "yesbank.in"
+   ],
+   [
+    "intagram.com",
+    "typosquat",
+    "instagram.com"
+   ],
+   [
+    "telegram.space",
+    "tld_swap",
+    "telegram.org"
+   ],
+   [
+    "auto-messenger.ru",
+    "combosquat",
+    "facebook.com"
+   ],
+   [
+    "cloud.edu.tw",
+    "typosquat",
+    "icloud.com"
+   ],
+   [
+    "opensource.google",
+    "combosquat",
+    "google.com"
+   ],
+   [
+    "airtel.africa",
+    "tld_swap",
+    "airtel.in"
+   ],
+   [
+    "acloud.guru",
+    "typosquat",
+    "icloud.com"
+   ],
+   [
+    "vodafone.om",
+    "combosquat",
+    "myvi.in"
+   ],
+   [
+    "cloudskillsboost.google",
+    "combosquat",
+    "google.com"
+   ],
+   [
+    "paypay-sec.co.jp",
+    "combosquat",
+    "paypal.com"
+   ],
+   [
+    "nic.finance",
+    "combosquat",
+    "binance.com"
+   ],
+   [
+    "jump.finance",
+    "combosquat",
+    "binance.com"
+   ],
+   [
+    "azure-mobile.net",
+    "combosquat",
+    "microsoft.com"
+   ],
+   [
+    "zomato.vodka",
+    "tld_swap",
+    "zomato.com"
+   ],
+   [
+    "finance-ni.gov.uk",
+    "combosquat",
+    "binance.com"
+   ],
+   [
+    "compound.finance",
+    "combosquat",
+    "binance.com"
+   ],
+   [
+    "microsof.net",
+    "typosquat",
+    "microsoft.com"
+   ],
+   [
+    "it-finance.com",
+    "combosquat",
+    "binance.com"
+   ],
+   [
+    "azure-api.us",
+    "combosquat",
+    "microsoft.com"
+   ],
+   [
+    "tstatic.net",
+    "typosquat",
+    "gstatic.com"
+   ],
+   [
+    "zomato.technology",
+    "tld_swap",
+    "zomato.com"
+   ],
+   [
+    "nic.amazon",
+    "combosquat",
+    "amazon.com"
+   ],
+   [
+    "vodafonenet.ro",
+    "combosquat",
+    "myvi.in"
+   ],
+   [
+    "icloudv6.com",
+    "combosquat",
+    "apple.com"
+   ],
+   [
+    "telegram-store.com",
+    "combosquat",
+    "telegram.org"
+   ],
+   [
+    "vodafone.net.fj",
+    "combosquat",
+    "myvi.in"
+   ],
+   [
+    "finance.cz",
+    "typosquat",
+    "binance.com"
+   ],
+   [
+    "binance.cloud",
+    "tld_swap",
+    "binance.com"
+   ],
+   [
+    "bloggen.be",
+    "typosquat",
+    "blogger.com"
+   ],
+   [
+    "zomato.joburg",
+    "tld_swap",
+    "zomato.com"
+   ],
+   [
+    "slack.dev",
+    "tld_swap",
+    "slack.com"
+   ],
+   [
+    "icloud-platform.com",
+    "combosquat",
+    "apple.com"
+   ],
+   [
+    "ikbnet.co.at",
+    "typosquat",
+    "iobnet.co.in"
+   ],
+   [
+    "booking.page",
+    "tld_swap",
+    "booking.com"
+   ],
+   [
+    "ssl-images-amazon.cn",
+    "combosquat",
+    "amazon.com"
+   ]
+  ]
+ },
+ "generated_attacks": {
+  "n": 8354,
+  "curated_strong_recall": 0.87352,
+  "any_signal_rate": 0.8232,
+  "by_group": {
+   "brand homoglyph": {
+    "strong": 106,
+    "weak": 4,
+    "n": 112
+   },
+   "brand omission": {
+    "strong": 88,
+    "weak": 0,
+    "n": 106
+   },
+   "brand repetition": {
+    "strong": 89,
+    "weak": 18,
+    "n": 109
+   },
+   "brand transposition": {
+    "strong": 80,
+    "weak": 15,
+    "n": 96
+   },
+   "brand keyboard": {
+    "strong": 92,
+    "weak": 18,
+    "n": 112
+   },
+   "brand combosquat": {
+    "strong": 96,
+    "weak": 0,
+    "n": 112
+   },
+   "brand subdomain": {
+    "strong": 112,
+    "weak": 0,
+    "n": 112
+   },
+   "popular homoglyph": {
+    "strong": 824,
+    "weak": 367,
+    "n": 1309
+   },
+   "popular omission": {
+    "strong": 10,
+    "weak": 886,
+    "n": 1292
+   },
+   "popular repetition": {
+    "strong": 10,
+    "weak": 895,
+    "n": 1310
+   },
+   "popular transposition": {
+    "strong": 9,
+    "weak": 852,
+    "n": 1097
+   },
+   "popular keyboard": {
+    "strong": 9,
+    "weak": 987,
+    "n": 1275
+   },
+   "popular subdomain": {
+    "strong": 1310,
+    "weak": 0,
+    "n": 1312
+   }
+  }
+ },
+ "official_domains": {
+  "flagged": []
+ },
+ "throughput_domains_per_s": 5520
+}

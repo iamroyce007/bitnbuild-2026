@@ -1,0 +1,30 @@
+# dependencies / environments
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# secrets
+.env
+*.env.local
+
+# large or regenerable data (see ps13/phishgraph/scripts/download_datasets.py)
+ps13/phishgraph/data/raw/
+ps13/phishgraph/data/*.db
+ps13/phishgraph/data/graph.json
+ps13/phishgraph/models/all-MiniLM-L6-v2/
+ps13/phishgraph/models/hf/
+ps13/phishgraph/frontend/dist/
+
+# mobile build output
+ps01/echoswarm/mobile/www/
+ps01/echoswarm/mobile/android/app/build/
+ps01/echoswarm/mobile/android/.gradle/
+ps01/echoswarm/mobile/android/local.properties
+ps01/echoswarm/mobile/ios/App/Pods/
+ps01/echoswarm/dist/
+
+.DS_Store
+.claude/
+.vercel/

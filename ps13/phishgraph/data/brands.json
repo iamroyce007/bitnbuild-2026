@@ -1,0 +1,1224 @@
+{
+ "version": "2026-09-28",
+ "source": "PhishGraph curated knowledge base",
+ "brands": [
+  {
+   "id": "microsoft",
+   "name": "Microsoft",
+   "category": "tech",
+   "domains": [
+    "microsoft.com",
+    "microsoftonline.com",
+    "office.com",
+    "office365.com",
+    "live.com",
+    "outlook.com",
+    "sharepoint.com",
+    "onedrive.com",
+    "msn.com",
+    "azure.com",
+    "windows.net",
+    "skype.com",
+    "xbox.com",
+    "bing.com",
+    "hotmail.com",
+    "microsoft365.com",
+    "msftauth.net",
+    "microsoft",
+    "windows",
+    "xbox",
+    "azure",
+    "office",
+    "bing"
+   ],
+   "keywords": [
+    "microsoft",
+    "office365",
+    "outlook",
+    "onedrive",
+    "sharepoint",
+    "msonline",
+    "hotmail",
+    "microsoft365",
+    "azure"
+   ]
+  },
+  {
+   "id": "google",
+   "name": "Google",
+   "category": "tech",
+   "domains": [
+    "google.com",
+    "google.co.in",
+    "gmail.com",
+    "googleapis.com",
+    "gstatic.com",
+    "youtube.com",
+    "googleusercontent.com",
+    "withgoogle.com",
+    "g.co",
+    "goo.gl",
+    "googlemail.com",
+    "android.com",
+    "blogger.com",
+    "google",
+    "youtube",
+    "gmail",
+    "android",
+    "chrome"
+   ],
+   "keywords": [
+    "google",
+    "gmail",
+    "googledocs",
+    "googledrive"
+   ]
+  },
+  {
+   "id": "apple",
+   "name": "Apple",
+   "category": "tech",
+   "domains": [
+    "apple.com",
+    "icloud.com",
+    "me.com",
+    "mzstatic.com",
+    "apple"
+   ],
+   "keywords": [
+    "apple",
+    "icloud",
+    "appleid",
+    "itunes"
+   ]
+  },
+  {
+   "id": "amazon",
+   "name": "Amazon",
+   "category": "commerce",
+   "domains": [
+    "amazon.com",
+    "amazon.in",
+    "amazon.co.uk",
+    "amazon.de",
+    "amzn.to",
+    "amazonpay.in",
+    "amazonaws.com",
+    "primevideo.com",
+    "a2z.com",
+    "media-amazon.com",
+    "amazon",
+    "aws",
+    "prime"
+   ],
+   "keywords": [
+    "amazon",
+    "amzn",
+    "amazonpay",
+    "primevideo"
+   ]
+  },
+  {
+   "id": "meta",
+   "name": "Meta",
+   "category": "social",
+   "domains": [
+    "facebook.com",
+    "fb.com",
+    "instagram.com",
+    "whatsapp.com",
+    "whatsapp.net",
+    "meta.com",
+    "messenger.com",
+    "fbcdn.net",
+    "wa.me"
+   ],
+   "keywords": [
+    "facebook",
+    "instagram",
+    "whatsapp",
+    "messenger"
+   ]
+  },
+  {
+   "id": "paypal",
+   "name": "PayPal",
+   "category": "payments",
+   "domains": [
+    "paypal.com",
+    "paypal.me",
+    "paypalobjects.com"
+   ],
+   "keywords": [
+    "paypal"
+   ]
+  },
+  {
+   "id": "netflix",
+   "name": "Netflix",
+   "category": "media",
+   "domains": [
+    "netflix.com",
+    "nflxvideo.net",
+    "netflix"
+   ],
+   "keywords": [
+    "netflix"
+   ]
+  },
+  {
+   "id": "linkedin",
+   "name": "LinkedIn",
+   "category": "social",
+   "domains": [
+    "linkedin.com",
+    "lnkd.in",
+    "licdn.com"
+   ],
+   "keywords": [
+    "linkedin"
+   ]
+  },
+  {
+   "id": "x",
+   "name": "X / Twitter",
+   "category": "social",
+   "domains": [
+    "x.com",
+    "twitter.com",
+    "t.co"
+   ],
+   "keywords": [
+    "twitter"
+   ]
+  },
+  {
+   "id": "dropbox",
+   "name": "Dropbox",
+   "category": "tech",
+   "domains": [
+    "dropbox.com",
+    "dropboxusercontent.com"
+   ],
+   "keywords": [
+    "dropbox"
+   ]
+  },
+  {
+   "id": "docusign",
+   "name": "DocuSign",
+   "category": "tech",
+   "domains": [
+    "docusign.com",
+    "docusign.net"
+   ],
+   "keywords": [
+    "docusign"
+   ]
+  },
+  {
+   "id": "adobe",
+   "name": "Adobe",
+   "category": "tech",
+   "domains": [
+    "adobe.com",
+    "adobesign.com",
+    "acrobat.com"
+   ],
+   "keywords": [
+    "adobe",
+    "acrobat",
+    "adobesign"
+   ]
+  },
+  {
+   "id": "zoom",
+   "name": "Zoom",
+   "category": "tech",
+   "domains": [
+    "zoom.us",
+    "zoom.com"
+   ],
+   "keywords": [
+    "zoomus"
+   ]
+  },
+  {
+   "id": "slack",
+   "name": "Slack",
+   "category": "tech",
+   "domains": [
+    "slack.com"
+   ],
+   "keywords": [
+    "slack"
+   ]
+  },
+  {
+   "id": "github",
+   "name": "GitHub",
+   "category": "tech",
+   "domains": [
+    "github.com",
+    "github.io",
+    "githubusercontent.com"
+   ],
+   "keywords": [
+    "github"
+   ]
+  },
+  {
+   "id": "steam",
+   "name": "Steam",
+   "category": "gaming",
+   "domains": [
+    "steampowered.com",
+    "steamcommunity.com"
+   ],
+   "keywords": [
+    "steampowered",
+    "steamcommunity"
+   ]
+  },
+  {
+   "id": "coinbase",
+   "name": "Coinbase",
+   "category": "crypto",
+   "domains": [
+    "coinbase.com"
+   ],
+   "keywords": [
+    "coinbase"
+   ]
+  },
+  {
+   "id": "binance",
+   "name": "Binance",
+   "category": "crypto",
+   "domains": [
+    "binance.com"
+   ],
+   "keywords": [
+    "binance"
+   ]
+  },
+  {
+   "id": "metamask",
+   "name": "MetaMask",
+   "category": "crypto",
+   "domains": [
+    "metamask.io"
+   ],
+   "keywords": [
+    "metamask"
+   ]
+  },
+  {
+   "id": "dhl",
+   "name": "DHL",
+   "category": "logistics",
+   "domains": [
+    "dhl.com",
+    "dhl.co.in",
+    "dhl.de"
+   ],
+   "keywords": [
+    "dhl"
+   ]
+  },
+  {
+   "id": "fedex",
+   "name": "FedEx",
+   "category": "logistics",
+   "domains": [
+    "fedex.com"
+   ],
+   "keywords": [
+    "fedex"
+   ]
+  },
+  {
+   "id": "ups",
+   "name": "UPS",
+   "category": "logistics",
+   "domains": [
+    "ups.com"
+   ],
+   "keywords": []
+  },
+  {
+   "id": "usps",
+   "name": "USPS",
+   "category": "logistics",
+   "domains": [
+    "usps.com"
+   ],
+   "keywords": [
+    "usps"
+   ]
+  },
+  {
+   "id": "bluedart",
+   "name": "Blue Dart",
+   "category": "logistics",
+   "domains": [
+    "bluedart.com"
+   ],
+   "keywords": [
+    "bluedart"
+   ]
+  },
+  {
+   "id": "indiapost",
+   "name": "India Post",
+   "category": "gov-in",
+   "domains": [
+    "indiapost.gov.in"
+   ],
+   "keywords": [
+    "indiapost",
+    "speedpost"
+   ]
+  },
+  {
+   "id": "sbi",
+   "name": "State Bank of India",
+   "category": "bank-in",
+   "domains": [
+    "sbi.co.in",
+    "onlinesbi.sbi",
+    "onlinesbi.com",
+    "sbi",
+    "sbicard.com",
+    "yonosbi.com",
+    "bank.sbi",
+    "sbilife.co.in"
+   ],
+   "keywords": [
+    "sbi",
+    "onlinesbi",
+    "yonosbi",
+    "yono"
+   ]
+  },
+  {
+   "id": "hdfc",
+   "name": "HDFC Bank",
+   "category": "bank-in",
+   "domains": [
+    "hdfcbank.com",
+    "hdfc.com",
+    "hdfclife.com",
+    "hdfcbank.net",
+    "hdfcbank",
+    "hdfc"
+   ],
+   "keywords": [
+    "hdfc",
+    "hdfcbank"
+   ]
+  },
+  {
+   "id": "icici",
+   "name": "ICICI Bank",
+   "category": "bank-in",
+   "domains": [
+    "icicibank.com",
+    "icicidirect.com",
+    "icicilombard.com"
+   ],
+   "keywords": [
+    "icici",
+    "icicibank"
+   ]
+  },
+  {
+   "id": "axis",
+   "name": "Axis Bank",
+   "category": "bank-in",
+   "domains": [
+    "axisbank.com",
+    "axis.bank.in"
+   ],
+   "keywords": [
+    "axisbank"
+   ]
+  },
+  {
+   "id": "kotak",
+   "name": "Kotak Mahindra Bank",
+   "category": "bank-in",
+   "domains": [
+    "kotak.com",
+    "kotaksecurities.com"
+   ],
+   "keywords": [
+    "kotak"
+   ]
+  },
+  {
+   "id": "iob",
+   "name": "Indian Overseas Bank",
+   "category": "bank-in",
+   "domains": [
+    "iob.in",
+    "iobnet.co.in"
+   ],
+   "keywords": [
+    "iobnet"
+   ]
+  },
+  {
+   "id": "indianbank",
+   "name": "Indian Bank",
+   "category": "bank-in",
+   "domains": [
+    "indianbank.in",
+    "indianbank.net.in"
+   ],
+   "keywords": [
+    "indianbank"
+   ]
+  },
+  {
+   "id": "canara",
+   "name": "Canara Bank",
+   "category": "bank-in",
+   "domains": [
+    "canarabank.com",
+    "canarabank.in"
+   ],
+   "keywords": [
+    "canarabank"
+   ]
+  },
+  {
+   "id": "pnb",
+   "name": "Punjab National Bank",
+   "category": "bank-in",
+   "domains": [
+    "pnbindia.in",
+    "netpnb.com"
+   ],
+   "keywords": [
+    "pnbindia",
+    "netpnb"
+   ]
+  },
+  {
+   "id": "bob",
+   "name": "Bank of Baroda",
+   "category": "bank-in",
+   "domains": [
+    "bankofbaroda.in",
+    "bankofbaroda.com"
+   ],
+   "keywords": [
+    "bankofbaroda"
+   ]
+  },
+  {
+   "id": "yesbank",
+   "name": "Yes Bank",
+   "category": "bank-in",
+   "domains": [
+    "yesbank.in"
+   ],
+   "keywords": [
+    "yesbank"
+   ]
+  },
+  {
+   "id": "idfc",
+   "name": "IDFC FIRST Bank",
+   "category": "bank-in",
+   "domains": [
+    "idfcfirstbank.com"
+   ],
+   "keywords": [
+    "idfcfirst"
+   ]
+  },
+  {
+   "id": "federal",
+   "name": "Federal Bank",
+   "category": "bank-in",
+   "domains": [
+    "federalbank.co.in"
+   ],
+   "keywords": [
+    "federalbank"
+   ]
+  },
+  {
+   "id": "tmb",
+   "name": "Tamilnad Mercantile Bank",
+   "category": "bank-in",
+   "domains": [
+    "tmb.in"
+   ],
+   "keywords": [
+    "tmbnet"
+   ]
+  },
+  {
+   "id": "kvb",
+   "name": "Karur Vysya Bank",
+   "category": "bank-in",
+   "domains": [
+    "kvb.co.in"
+   ],
+   "keywords": [
+    "karurvysya"
+   ]
+  },
+  {
+   "id": "cub",
+   "name": "City Union Bank",
+   "category": "bank-in",
+   "domains": [
+    "cityunionbank.com"
+   ],
+   "keywords": [
+    "cityunionbank"
+   ]
+  },
+  {
+   "id": "paytm",
+   "name": "Paytm",
+   "category": "payments-in",
+   "domains": [
+    "paytm.com",
+    "paytm.in",
+    "paytmbank.com",
+    "paytmmoney.com"
+   ],
+   "keywords": [
+    "paytm"
+   ]
+  },
+  {
+   "id": "phonepe",
+   "name": "PhonePe",
+   "category": "payments-in",
+   "domains": [
+    "phonepe.com"
+   ],
+   "keywords": [
+    "phonepe"
+   ]
+  },
+  {
+   "id": "gpay",
+   "name": "Google Pay",
+   "category": "payments-in",
+   "domains": [
+    "pay.google.com"
+   ],
+   "keywords": [
+    "gpay",
+    "googlepay"
+   ]
+  },
+  {
+   "id": "npci",
+   "name": "NPCI / UPI",
+   "category": "payments-in",
+   "domains": [
+    "npci.org.in",
+    "bhimupi.org.in"
+   ],
+   "keywords": [
+    "npci",
+    "bhimupi"
+   ]
+  },
+  {
+   "id": "rbi",
+   "name": "Reserve Bank of India",
+   "category": "gov-in",
+   "domains": [
+    "rbi.org.in"
+   ],
+   "keywords": [
+    "rbi"
+   ]
+  },
+  {
+   "id": "incometax",
+   "name": "Income Tax Department",
+   "category": "gov-in",
+   "domains": [
+    "incometax.gov.in",
+    "incometaxindia.gov.in"
+   ],
+   "keywords": [
+    "incometax",
+    "itrefund",
+    "efiling"
+   ]
+  },
+  {
+   "id": "gst",
+   "name": "GST Portal",
+   "category": "gov-in",
+   "domains": [
+    "gst.gov.in"
+   ],
+   "keywords": [
+    "gstportal"
+   ]
+  },
+  {
+   "id": "uidai",
+   "name": "UIDAI / Aadhaar",
+   "category": "gov-in",
+   "domains": [
+    "uidai.gov.in"
+   ],
+   "keywords": [
+    "aadhaar",
+    "aadhar",
+    "uidai"
+   ]
+  },
+  {
+   "id": "epfo",
+   "name": "EPFO",
+   "category": "gov-in",
+   "domains": [
+    "epfindia.gov.in",
+    "epfo.gov.in"
+   ],
+   "keywords": [
+    "epfo",
+    "epfindia"
+   ]
+  },
+  {
+   "id": "digilocker",
+   "name": "DigiLocker",
+   "category": "gov-in",
+   "domains": [
+    "digilocker.gov.in"
+   ],
+   "keywords": [
+    "digilocker"
+   ]
+  },
+  {
+   "id": "irctc",
+   "name": "IRCTC",
+   "category": "gov-in",
+   "domains": [
+    "irctc.co.in"
+   ],
+   "keywords": [
+    "irctc"
+   ]
+  },
+  {
+   "id": "tneb",
+   "name": "TNEB / TNPDCL",
+   "category": "gov-in",
+   "domains": [
+    "tnebltd.gov.in",
+    "tangedco.gov.in",
+    "tnpdcl.gov.in"
+   ],
+   "keywords": [
+    "tneb",
+    "tangedco",
+    "tnpdcl",
+    "tnebnet"
+   ]
+  },
+  {
+   "id": "tnegov",
+   "name": "Tamil Nadu e-Governance",
+   "category": "gov-in",
+   "domains": [
+    "tn.gov.in",
+    "tnega.tn.gov.in"
+   ],
+   "keywords": [
+    "tnesevai"
+   ]
+  },
+  {
+   "id": "parivahan",
+   "name": "Parivahan / e-Challan",
+   "category": "gov-in",
+   "domains": [
+    "parivahan.gov.in"
+   ],
+   "keywords": [
+    "parivahan",
+    "echallan"
+   ]
+  },
+  {
+   "id": "nhai",
+   "name": "NHAI / FASTag",
+   "category": "gov-in",
+   "domains": [
+    "nhai.gov.in",
+    "ihmcl.co.in",
+    "fastag.org"
+   ],
+   "keywords": [
+    "fastag",
+    "nhai"
+   ]
+  },
+  {
+   "id": "passport",
+   "name": "Passport Seva",
+   "category": "gov-in",
+   "domains": [
+    "passportindia.gov.in"
+   ],
+   "keywords": [
+    "passportseva",
+    "passportindia"
+   ]
+  },
+  {
+   "id": "cowin",
+   "name": "CoWIN / Health",
+   "category": "gov-in",
+   "domains": [
+    "cowin.gov.in",
+    "mohfw.gov.in"
+   ],
+   "keywords": [
+    "cowin"
+   ]
+  },
+  {
+   "id": "flipkart",
+   "name": "Flipkart",
+   "category": "commerce",
+   "domains": [
+    "flipkart.com",
+    "fkrt.it"
+   ],
+   "keywords": [
+    "flipkart"
+   ]
+  },
+  {
+   "id": "myntra",
+   "name": "Myntra",
+   "category": "commerce",
+   "domains": [
+    "myntra.com"
+   ],
+   "keywords": [
+    "myntra"
+   ]
+  },
+  {
+   "id": "swiggy",
+   "name": "Swiggy",
+   "category": "commerce",
+   "domains": [
+    "swiggy.com",
+    "swiggy.in"
+   ],
+   "keywords": [
+    "swiggy"
+   ]
+  },
+  {
+   "id": "zomato",
+   "name": "Zomato",
+   "category": "commerce",
+   "domains": [
+    "zomato.com"
+   ],
+   "keywords": [
+    "zomato"
+   ]
+  },
+  {
+   "id": "jio",
+   "name": "Jio",
+   "category": "telecom",
+   "domains": [
+    "jio.com",
+    "jiofiber.com"
+   ],
+   "keywords": [
+    "reliancejio",
+    "myjio"
+   ]
+  },
+  {
+   "id": "airtel",
+   "name": "Airtel",
+   "category": "telecom",
+   "domains": [
+    "airtel.in",
+    "airtel.com",
+    "airtel"
+   ],
+   "keywords": [
+    "airtel"
+   ]
+  },
+  {
+   "id": "vi",
+   "name": "Vi (Vodafone Idea)",
+   "category": "telecom",
+   "domains": [
+    "myvi.in",
+    "vodafoneidea.com"
+   ],
+   "keywords": [
+    "vodafone",
+    "myvi"
+   ]
+  },
+  {
+   "id": "bsnl",
+   "name": "BSNL",
+   "category": "telecom",
+   "domains": [
+    "bsnl.co.in"
+   ],
+   "keywords": [
+    "bsnl"
+   ]
+  },
+  {
+   "id": "lic",
+   "name": "LIC",
+   "category": "insurance-in",
+   "domains": [
+    "licindia.in"
+   ],
+   "keywords": [
+    "licindia"
+   ]
+  },
+  {
+   "id": "hdfcergo",
+   "name": "HDFC ERGO",
+   "category": "insurance-in",
+   "domains": [
+    "hdfcergo.com"
+   ],
+   "keywords": [
+    "hdfcergo"
+   ]
+  },
+  {
+   "id": "zerodha",
+   "name": "Zerodha",
+   "category": "broker-in",
+   "domains": [
+    "zerodha.com",
+    "kite.trade"
+   ],
+   "keywords": [
+    "zerodha"
+   ]
+  },
+  {
+   "id": "groww",
+   "name": "Groww",
+   "category": "broker-in",
+   "domains": [
+    "groww.in"
+   ],
+   "keywords": [
+    "groww"
+   ]
+  },
+  {
+   "id": "upstox",
+   "name": "Upstox",
+   "category": "broker-in",
+   "domains": [
+    "upstox.com"
+   ],
+   "keywords": [
+    "upstox"
+   ]
+  },
+  {
+   "id": "chase",
+   "name": "Chase",
+   "category": "bank",
+   "domains": [
+    "chase.com",
+    "jpmorgan.com"
+   ],
+   "keywords": [
+    "jpmorganchase"
+   ]
+  },
+  {
+   "id": "wellsfargo",
+   "name": "Wells Fargo",
+   "category": "bank",
+   "domains": [
+    "wellsfargo.com"
+   ],
+   "keywords": [
+    "wellsfargo"
+   ]
+  },
+  {
+   "id": "bankofamerica",
+   "name": "Bank of America",
+   "category": "bank",
+   "domains": [
+    "bankofamerica.com",
+    "bofa.com"
+   ],
+   "keywords": [
+    "bankofamerica"
+   ]
+  },
+  {
+   "id": "hsbc",
+   "name": "HSBC",
+   "category": "bank",
+   "domains": [
+    "hsbc.com",
+    "hsbc.co.in",
+    "hsbc.co.uk"
+   ],
+   "keywords": [
+    "hsbc"
+   ]
+  },
+  {
+   "id": "citi",
+   "name": "Citi",
+   "category": "bank",
+   "domains": [
+    "citi.com",
+    "citibank.com"
+   ],
+   "keywords": [
+    "citibank"
+   ]
+  },
+  {
+   "id": "amex",
+   "name": "American Express",
+   "category": "bank",
+   "domains": [
+    "americanexpress.com",
+    "aexp.com"
+   ],
+   "keywords": [
+    "americanexpress",
+    "amex"
+   ]
+  },
+  {
+   "id": "visa",
+   "name": "Visa",
+   "category": "payments",
+   "domains": [
+    "visa.com",
+    "visa.co.in"
+   ],
+   "keywords": []
+  },
+  {
+   "id": "mastercard",
+   "name": "Mastercard",
+   "category": "payments",
+   "domains": [
+    "mastercard.com",
+    "mastercard.co.in"
+   ],
+   "keywords": [
+    "mastercard"
+   ]
+  },
+  {
+   "id": "stripe",
+   "name": "Stripe",
+   "category": "payments",
+   "domains": [
+    "stripe.com"
+   ],
+   "keywords": []
+  },
+  {
+   "id": "razorpay",
+   "name": "Razorpay",
+   "category": "payments-in",
+   "domains": [
+    "razorpay.com",
+    "rzp.io"
+   ],
+   "keywords": [
+    "razorpay"
+   ]
+  },
+  {
+   "id": "spotify",
+   "name": "Spotify",
+   "category": "media",
+   "domains": [
+    "spotify.com"
+   ],
+   "keywords": [
+    "spotify"
+   ]
+  },
+  {
+   "id": "hotstar",
+   "name": "Disney+ Hotstar",
+   "category": "media",
+   "domains": [
+    "hotstar.com"
+   ],
+   "keywords": [
+    "hotstar"
+   ]
+  },
+  {
+   "id": "wetransfer",
+   "name": "WeTransfer",
+   "category": "tech",
+   "domains": [
+    "wetransfer.com",
+    "we.tl"
+   ],
+   "keywords": [
+    "wetransfer"
+   ]
+  },
+  {
+   "id": "okta",
+   "name": "Okta",
+   "category": "tech",
+   "domains": [
+    "okta.com",
+    "oktacdn.com"
+   ],
+   "keywords": []
+  },
+  {
+   "id": "salesforce",
+   "name": "Salesforce",
+   "category": "tech",
+   "domains": [
+    "salesforce.com",
+    "force.com"
+   ],
+   "keywords": [
+    "salesforce"
+   ]
+  },
+  {
+   "id": "intuit",
+   "name": "Intuit / QuickBooks",
+   "category": "tech",
+   "domains": [
+    "intuit.com",
+    "quickbooks.com"
+   ],
+   "keywords": [
+    "quickbooks"
+   ]
+  },
+  {
+   "id": "yahoo",
+   "name": "Yahoo",
+   "category": "tech",
+   "domains": [
+    "yahoo.com",
+    "yahoo.co.in"
+   ],
+   "keywords": [
+    "yahoo"
+   ]
+  },
+  {
+   "id": "telegram",
+   "name": "Telegram",
+   "category": "social",
+   "domains": [
+    "telegram.org",
+    "t.me"
+   ],
+   "keywords": [
+    "telegram"
+   ]
+  },
+  {
+   "id": "booking",
+   "name": "Booking.com",
+   "category": "travel",
+   "domains": [
+    "booking.com"
+   ],
+   "keywords": []
+  },
+  {
+   "id": "airbnb",
+   "name": "Airbnb",
+   "category": "travel",
+   "domains": [
+    "airbnb.com",
+    "airbnb.co.in"
+   ],
+   "keywords": [
+    "airbnb"
+   ]
+  },
+  {
+   "id": "makemytrip",
+   "name": "MakeMyTrip",
+   "category": "travel",
+   "domains": [
+    "makemytrip.com"
+   ],
+   "keywords": [
+    "makemytrip"
+   ]
+  },
+  {
+   "id": "naukri",
+   "name": "Naukri",
+   "category": "jobs-in",
+   "domains": [
+    "naukri.com"
+   ],
+   "keywords": [
+    "naukri"
+   ]
+  },
+  {
+   "id": "annauniv",
+   "name": "Anna University",
+   "category": "edu-in",
+   "domains": [
+    "annauniv.edu"
+   ],
+   "keywords": [
+    "annauniv"
+   ]
+  },
+  {
+   "id": "tnpsc",
+   "name": "TNPSC",
+   "category": "gov-in",
+   "domains": [
+    "tnpsc.gov.in"
+   ],
+   "keywords": [
+    "tnpsc"
+   ]
+  }
+ ]
+}
