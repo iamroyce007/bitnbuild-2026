@@ -19,11 +19,13 @@ class MetaResult:
     signals: list[dict] = field(default_factory=list)  # {id, label, weight, evidence}
     claimed_brands: list[str] = field(default_factory=list)
     sender_verdict: dict | None = None
+    trust: list[str] = field(default_factory=list)  # verified-sender evidence that lowers risk
 
 
 def analyze(pm) -> MetaResult:
     be = get_brand_engine()
     sig: list[dict] = []
+    trust: list[str] = []
 
     def add(i: str, label: str, w: float, ev: str = '') -> None:
         sig.append({'id': i, 'label': label, 'weight': w, 'evidence': ev[:200]})
@@ -72,14 +74,19 @@ def analyze(pm) -> MetaResult:
         if re.fullmatch(r'\+?\d{10,13}', pm.sender.replace(' ', '')) and claimed and any(b.category.startswith(('bank', 'gov', 'payments', 'telecom')) for b in claimed):
             add('sms_personal_number', f'Claims to be {claimed[0].name} but comes from a personal mobile number {pm.sender}', 0.45, pm.sender)
         elif DLT_HEADER.match(pm.sender.upper()) and claimed:
-            add('sms_dlt_header', f'Registered SMS header {pm.sender} (weakly reassuring; headers can still be abused)', 0.0, pm.sender)
+            hdr = pm.sender.upper().split('-')[1]
+            if any(k.upper()[:3] in hdr for b in claimed for k in (b.keywords or [b.id]) if len(k) >= 3):
+                trust.append(f'registered SMS sender header {pm.sender} matches the brand it mentions')
     if pm.html_text_ratio > 40:
         add('html_heavy', f'Message is almost all markup (HTML/text ratio {pm.html_text_ratio})', 0.06, '')
     for t in pm.tricks:
         add(f'evasion_{t["id"]}', t['label'], 0.35 if t['id'] not in ('meta_refresh',) else 0.15, t.get('evidence', ''))
 
+    if pm.sender_domain and pm.sender_domain not in FREE_MAIL and sender_v and sender_v.official_brand and not any(pm.auth.get(m) in ('fail', 'softfail', 'permerror') for m in ('spf', 'dkim', 'dmarc')):
+        passed = [m for m in ('dmarc', 'spf', 'dkim') if pm.auth.get(m) == 'pass']
+        trust.append(f'sent from {sender_v.official_brand}\'s official domain {pm.sender_domain}' + (f' ({", ".join(passed)} pass)' if passed else ' (no authentication results supplied)'))
     acc = 1.0
     for s in sig:
         acc *= 1 - s['weight']
     return MetaResult(score=round(100 * (1 - acc), 1), signals=sorted(sig, key=lambda s: -s['weight']), claimed_brands=claimed_names,
-                      sender_verdict={'domain': pm.sender_domain, 'official_brand': sender_v.official_brand, 'tranco_rank': sender_v.tranco_rank} if sender_v else None)
+                      trust=trust, sender_verdict={'domain': pm.sender_domain, 'official_brand': sender_v.official_brand, 'tranco_rank': sender_v.tranco_rank} if sender_v else None)

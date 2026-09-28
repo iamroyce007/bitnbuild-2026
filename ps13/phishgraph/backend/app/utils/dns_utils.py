@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import json
 import socket
 import ssl
 from datetime import datetime, timezone
@@ -153,10 +154,37 @@ async def tls_cert(host: str, ip: str) -> dict | None:
     return out
 
 
+_DEMO: dict | None = None
+
+
+def demo_infrastructure() -> dict:
+    """Fictional infrastructure for the seeded demo domains (RFC 5737 IPs, RFC 5398 ASNs), labelled DEMO DATA."""
+    global _DEMO
+    if _DEMO is None:
+        p = get_settings().data_dir / 'demo' / 'demo_dataset.json'
+        _DEMO = json.loads(p.read_text())['infrastructure'] if p.exists() else {}
+    return _DEMO
+
+
+def _demo_enrichment(host: str, d: dict) -> dict:
+    from .url_utils import registrable
+    from datetime import timedelta
+    created = (datetime.now(timezone.utc) - timedelta(days=d['age_days'])).isoformat(timespec='seconds')
+    return {'host': host, 'registrable': registrable(host), 'demo': True,
+            'status': {'dns': 'DEMO DATA', 'rdap': 'DEMO DATA', 'tls': 'DEMO DATA'},
+            'dns': {'a': [d['ip']], 'aaaa': [], 'ns': d['ns'], 'mx': []},
+            'asn': [{'asn': d['asn'], 'name': d['asn_name'], 'country': 'ZZ', 'prefix': d['ip'].rsplit('.', 1)[0] + '.0/24', 'source': 'DEMO DATA'}],
+            'rdap': {'created': created, 'age_days': d['age_days'], 'registrar': d['registrar'], 'source': 'DEMO DATA'},
+            'tls': {'sha256': hashlib.sha256(d['cert'].encode()).hexdigest(), 'issuer': 'CN=Demo Free CA', 'subject': f'CN={host}',
+                    'not_before': created, 'age_days': d['age_days'], 'san': [host], 'self_signed': False, 'source': 'DEMO DATA'}}
+
+
 async def enrich_host(host: str) -> dict:
     """Parallel DNS -> (ASN per IP, TLS cert) + RDAP. Returns what was actually observed, with per-step status."""
     from .url_utils import registrable
     s = get_settings()
+    if s.demo_mode and host in demo_infrastructure():
+        return _demo_enrichment(host, demo_infrastructure()[host])
     blocked = ssrf_block_reason(host)
     res: dict = {'host': host, 'registrable': registrable(host), 'status': {}}
     if blocked and not s.allow_private_targets:

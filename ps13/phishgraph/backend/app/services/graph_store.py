@@ -34,7 +34,9 @@ class NetworkXStore:
 
     def __init__(self) -> None:
         self.g = nx.MultiDiGraph()
-        self.path = get_settings().data_dir / 'graph.json'
+        from pathlib import Path
+        st = get_settings()
+        self.path = Path(st.graph_path) if st.graph_path else st.data_dir / 'graph.json'
         self.lock = threading.RLock()
         self._dirty = 0
         self._last_save = time.time()

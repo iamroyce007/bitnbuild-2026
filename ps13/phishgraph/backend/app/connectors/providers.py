@@ -151,7 +151,7 @@ class LocalIntel(Connector):
     name = 'local_intel'
     supports = ('url', 'domain', 'ip', 'hash')
     external = False
-    ttl = 60
+    ttl = 0  # in-memory store: always live, so analyst confirmations take effect immediately
 
     async def _lookup(self, t: str, v: str) -> TIResult:
         from ..services.intel_store import get_intel_store

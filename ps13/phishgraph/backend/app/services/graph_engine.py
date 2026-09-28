@@ -186,7 +186,7 @@ def score(seeds: list[str], exclude: str | None = None, campaign_similarity: flo
             if lengths.get(b, 0) > 0:
                 p = nx.shortest_path(ug, s, b)
                 spec = min((_specificity(g, n) for n in p[1:-1] if g.nodes[n].get('type') in ('ip', 'ns', 'cert', 'asn')), default=1.0)
-                if spec >= 0.1:
+                if spec >= 0.3:  # paths through CDN / registrar-default infrastructure prove nothing
                     near.append((lengths[b], spec, p))
     near.sort(key=lambda x: (x[0], -x[1]))
     seen_bad: set[str] = set()
@@ -204,11 +204,14 @@ def score(seeds: list[str], exclude: str | None = None, campaign_similarity: flo
     # 2/3/5. infrastructure overlap with suspicious domains, specificity-weighted
     overlap, cert_overlap = 0.0, 0.0
     related: dict[str, float] = {}
+    shared: dict[tuple[str, str], list[tuple[str, float]]] = {}  # (my domain, other domain) -> [(infra node, contribution)]
     for dnode in domains:
         for _, infra, ed in g.out_edges(dnode, data=True):
             if ed.get('rel') not in INFRA_RELS:
                 continue
             spec = _specificity(g, infra)
+            if spec < 0.3:  # shared by huge numbers of unrelated sites: not a relationship
+                continue
             for other, _, ed2 in g.in_edges(infra, data=True):
                 if other == dnode or other in seedset or not other.startswith('domain:') or ed2.get('rel') != ed.get('rel'):
                     continue
@@ -221,10 +224,16 @@ def score(seeds: list[str], exclude: str | None = None, campaign_similarity: flo
                 overlap += c
                 if ed['rel'] == 'USES_CERT':
                     cert_overlap = max(cert_overlap, c)
-                if c >= 0.08:
-                    paths.append({'kind': 'shared_infrastructure', 'weight': round(c, 3), 'nodes': _nodes(g, (dnode, infra, other)),
-                                  'text': f'{_label(g, dnode)} shares {g.nodes[infra].get("type")} {_label(g, infra)} with '
-                                          f'{"known-bad" if od.get("malicious") else "suspicious"} domain {_label(g, other)}'})
+                shared.setdefault((dnode, other), []).append((infra, c))
+    NAMES = {'ip': 'IP', 'ns': 'nameserver', 'cert': 'TLS certificate'}
+    for (dnode, other), items in shared.items():
+        w = min(1.0, sum(c for _, c in items))
+        if w < 0.08:
+            continue
+        what = ', '.join(f'{NAMES.get(g.nodes[i].get("type"), g.nodes[i].get("type"))} {_label(g, i)}' for i, _ in sorted(items, key=lambda x: -x[1]))
+        bad_kind = 'known-bad' if g.nodes[other].get('malicious') else 'suspicious'
+        paths.append({'kind': 'shared_infrastructure', 'weight': round(w, 3), 'nodes': _nodes(g, [dnode, *(i for i, _ in items), other]),
+                      'text': f'{_label(g, dnode)} shares {what} with {bad_kind} domain {_label(g, other)}'})
     comps['infrastructure_overlap'] = min(1.0, overlap / 1.5)
     comps['certificate_overlap'] = min(1.0, cert_overlap)
     if related:
@@ -255,6 +264,8 @@ def score(seeds: list[str], exclude: str | None = None, campaign_similarity: flo
 
     total = sum(W[k] * v for k, v in comps.items())
     quality = 'good' if has_infra and g.number_of_nodes() > 8 else 'partial' if has_infra or bad else 'limited'
+    covered = {o for _, o in shared}
+    paths = [p for p in paths if not (p['kind'] == 'near_known_bad' and p['nodes'][-1]['id'] in covered)]  # already explained above
     paths.sort(key=lambda p: -p['weight'])
     return GraphRisk(score=round(100 * total, 1), components={k: round(v, 3) for k, v in comps.items()}, paths=paths[:8],
                      bad_neighbors=sorted(bad)[:20], data_quality=quality)

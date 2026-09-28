@@ -87,8 +87,9 @@ def unwrap(url: str, depth: int = 0) -> list[str]:
     except ValueError:
         return chain
     host = (p.hostname or '').lower()
-    key = _WRAPPERS.get(host)
-    if host in _WRAPPERS and (p.path.startswith('/url') or p.path.startswith('/l.php') or p.path.startswith('/redirect') or 'safelinks' in host or 'urldefense' in host or key):
+    wrapper = host if host in _WRAPPERS else next((w for w in _WRAPPERS if host.endswith('.' + w)), None)  # e.g. nam02.safelinks...
+    key = _WRAPPERS.get(wrapper) if wrapper else None
+    if wrapper and (p.path.startswith('/url') or p.path.startswith('/l.php') or p.path.startswith('/redirect') or 'safelinks' in host or 'urldefense' in host or key):
         q = dict(parse_qsl(p.query))
         target = q.get(key) if key else None
         if 'urldefense.com' in host:

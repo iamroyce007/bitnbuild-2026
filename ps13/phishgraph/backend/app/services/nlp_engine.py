@@ -205,7 +205,12 @@ class NLPEngine:
         intent_score = 1 - intent_score
         ps = [p for p in (p1, p2) if p is not None]
         p_ml = sum(ps) / len(ps) if ps else 0.0
-        combined = 1 - (1 - p_ml) * (1 - 0.75 * intent_score) if ps else intent_score
+        # The classifier alone over-flags transactional notices (training data labels commercial SMS spam as
+        # phishing), so without any concrete scam intent its probability counts at 60%.
+        if ps and not lst:
+            combined = 0.6 * p_ml
+        else:
+            combined = 1 - (1 - p_ml) * (1 - 0.75 * intent_score) if ps else intent_score
         return NLPResult(score=round(100 * combined, 1), p_stage1=p1, p_stage2=p2, intent_score=round(intent_score, 3), intents=lst,
                          top_terms=top, campaign_similarity=camp_sim, embedding=emb, model_available=bool(self.model))
 

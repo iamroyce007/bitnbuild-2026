@@ -126,9 +126,17 @@ async def analyze(pm: ParsedMessage, *, source: str = 'api', deep: bool = False,
                                                          or (u.brand.findings[0].confidence >= 0.84 and nlp is not None and nlp.score >= 60))
                        for u in url_results)
     all_trusted = bool(url_results) and all(u.trusted for u in url_results)
+    families = sum([
+        bool(nlp and nlp.score >= 40 and nlp.intents),            # language: concrete scam intent, not just a model score
+        bool(url_score is not None and url_score >= 50 and any(u.rules for u in url_results)),  # link: rule evidence
+        bool(brand_score and brand_score >= 60),                  # brand impersonation
+        bool(meta.score >= 40),                                   # sender / headers / attachments / evasion
+        bool(ti_score is not None and ti_score >= 50),            # threat intelligence
+        bool(graph_score is not None and graph_score >= 40),      # infrastructure graph
+    ])
     fusion = fuse(nlp.score if nlp else None, url_score, ti_score, graph_score, brand_score, meta.score,
                   hard_known_bad=hard_bad, strong_brand=strong_brand, all_urls_trusted=all_trusted, ti_clean_votes=ti.clean_votes,
-                  evasion=bool(pm.tricks))
+                  evasion=bool(pm.tricks), families=families, trust=meta.trust)
 
     campaign_id = None
     if fusion.decision != 'ALLOW':

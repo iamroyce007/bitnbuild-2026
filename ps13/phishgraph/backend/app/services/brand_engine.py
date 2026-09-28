@@ -289,13 +289,24 @@ class BrandEngine:
         return v
 
     def claimed_brands(self, text: str) -> list[Brand]:
-        """Brands a message *claims* to be from (name or keyword mentioned in text)."""
-        t = skeleton(text)
+        """Brands a message *claims* to be from (name or keyword mentioned in text).
+
+        Matches the case-folded text and its confusable skeleton (so "SBI" and Cyrillic "ЅBI" both count; a skeleton
+        alone would read capital I as l). Everyday-word brands (apple, amazon...) only count when capitalised."""
+        import unicodedata
+        plain = unicodedata.normalize('NFKC', text).casefold()
+        skel = skeleton(text)
         out = []
         for b in self.brands:
-            names = {skeleton(b.name.split(' /')[0])} | {skeleton(k) for k in b.keywords if len(k) >= 3}
-            if any(re.search(rf'(?<![a-z]){re.escape(n)}(?![a-z])', t) for n in names):
-                out.append(b)
+            names = {n for n in {b.name.split(' /')[0].casefold(), *b.keywords} if len(n) >= 3}
+            for n in names:
+                forms = {n, skeleton(n), skeleton(n.upper()), skeleton(n.title())}
+                hit = any(re.search(rf'(?<![a-z0-9]){re.escape(f)}(?![a-z0-9])', plain) or re.search(rf'(?<![a-z0-9]){re.escape(f)}(?![a-z0-9])', skel) for f in forms)
+                if hit and n in COMMON_WORD_KEYWORDS and not re.search(rf'\b(?:{re.escape(n.title())}|{re.escape(n.upper())})\b', text):
+                    hit = False
+                if hit:
+                    out.append(b)
+                    break
         return out[:5]
 
 

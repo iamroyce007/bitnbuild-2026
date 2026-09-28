@@ -37,7 +37,7 @@ def decide(score: float) -> str:
 
 def fuse(nlp: float | None, url: float | None, ti: float | None, graph: float | None, brand: float | None, meta: float | None,
          hard_known_bad: bool = False, strong_brand: bool = False, all_urls_trusted: bool = False, ti_clean_votes: int = 0,
-         evasion: bool = False) -> Fusion:
+         evasion: bool = False, families: int = 0, trust: list[str] | None = None) -> Fusion:
     st = get_settings()
     base = {'nlp': st.w_nlp, 'url': st.w_url, 'threat_intelligence': st.w_ti, 'graph': st.w_graph, 'brand': st.w_brand, 'metadata': st.w_meta}
     scores = {'nlp': nlp, 'url': url, 'threat_intelligence': ti, 'graph': graph, 'brand': brand, 'metadata': meta}
@@ -63,6 +63,16 @@ def fuse(nlp: float | None, url: float | None, ti: float | None, graph: float | 
         if final > cap:
             final = cap
             overrides.append(f'every link goes to an official/established domain (cap {int(cap)})')
+    # Corroboration rule: QUARANTINE/BLOCK needs >=2 independent evidence families or one hard indicator.
+    # A single model score, however confident, can at most FLAG a message for a human.
+    if not hard_known_bad and not strong_brand:
+        cap = 40.0 if families == 0 else 55.0 if families == 1 else None
+        if cap is not None and final > cap:
+            final = cap
+            overrides.append(f'only {families} independent evidence famil{"y" if families == 1 else "ies"} (cap {int(cap)}): needs corroboration to quarantine')
+    if trust and not hard_known_bad and not strong_brand:
+        final *= 0.6
+        overrides.append('verified sender: ' + '; '.join(trust[:2]) + ' (x0.6)')
     conflict, detail = False, None
     if ti is not None and ti_clean_votes and (graph or 0) >= 60:
         conflict, detail = True, 'threat-intel sources report the indicators as clean, but the graph links them to suspicious infrastructure'

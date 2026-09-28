@@ -116,7 +116,7 @@ class Connector:
             if ioc_type not in self.supports:
                 return self._res(ioc_type, value, 'not_supported')
         ck = f'ti:{self.name}:{ioc_type}:{hashlib.sha256(value.encode()).hexdigest()[:24]}'
-        hit = get_cache().get(ck)
+        hit = get_cache().get(ck) if self.ttl > 0 else None
         if hit:
             r = TIResult(**hit)
             r.cached = True
@@ -134,7 +134,7 @@ class Connector:
                 r.latency_ms = int((time.monotonic() - t0) * 1000)
                 self.latency_ms_total += r.latency_ms
                 self.breaker.ok()
-                if r.status == 'ok':
+                if r.status == 'ok' and self.ttl > 0:
                     get_cache().set(ck, r.to_dict(), self.ttl)
                 return r
             except httpx.HTTPStatusError as e:

@@ -15,7 +15,8 @@ class Settings(BaseSettings):
     # --- storage (each has a zero-dependency local fallback) ---
     database_url: str = f"sqlite:///{ROOT / 'data' / 'phishgraph.db'}"
     redis_url: str = ''  # empty -> in-process cache/queue
-    neo4j_uri: str = ''  # empty -> NetworkX graph persisted to data/graph.json
+    neo4j_uri: str = ''  # empty -> NetworkX graph persisted to GRAPH_PATH
+    graph_path: str = ''  # default data/graph.json
     neo4j_user: str = 'neo4j'
     neo4j_password: str = ''
 

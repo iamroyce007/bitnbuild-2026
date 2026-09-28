@@ -34,8 +34,9 @@ def _infra(seeds: list[str]) -> set[str]:
 
 
 def _campaign_infra(cid: str) -> set[str]:
-    g = get_graph_store().subgraph([f'campaign:{cid}'], depth=3, limit=600)
-    return {n for n, d in g.nodes(data=True) if d.get('type') in ('ip', 'cert', 'ns', 'domain')}
+    # campaign -> email -> url -> domain -> ip/ns/cert is 5 hops
+    g = get_graph_store().subgraph([f'campaign:{cid}'], depth=5, limit=1500)
+    return {n for n, d in g.nodes(data=True) if d.get('type') in ('ip', 'cert', 'ns', 'domain') and (d.get('type') == 'domain' or _specificity(g, n) >= 0.3)}
 
 
 def match(embedding: np.ndarray | None, seeds: list[str], brands: list[str]) -> tuple[dict | None, float]:
@@ -108,7 +109,7 @@ def assign(detection_id: str, embedding: np.ndarray | None, seeds: list[str], br
 
 
 def refresh_stats(cid: str) -> dict:
-    g = get_graph_store().subgraph([f'campaign:{cid}'], depth=4, limit=1500)
+    g = get_graph_store().subgraph([f'campaign:{cid}'], depth=5, limit=2000)
     types: dict[str, set] = {}
     for n, d in g.nodes(data=True):
         types.setdefault(d.get('type'), set()).add(n)
