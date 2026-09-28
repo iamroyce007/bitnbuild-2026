@@ -1,0 +1,87 @@
+[
+ {
+  "name": "tranco-top-1m",
+  "kind": "reference",
+  "url": "https://tranco-list.eu/top-1m.csv.zip",
+  "license": "Tranco list, free for research and commercial use (see tranco-list.eu)",
+  "file": "data/raw/top-1m.csv",
+  "sha256": "149006591ee64a90c97e75cf7becf8c1a2f400ceaabca118e7bb0cd92651b771",
+  "bytes": 22614656,
+  "downloaded": "2026-09-28",
+  "lines": 1000000
+ },
+ {
+  "name": "public-suffix-list",
+  "kind": "reference",
+  "url": "https://raw.githubusercontent.com/publicsuffix/list/main/public_suffix_list.dat",
+  "license": "MPL-2.0",
+  "file": "data/raw/public_suffix_list.dat",
+  "sha256": "7333192f818588d9d0044d27d67210c782acd6d87cf71f54a00dfa20a561cfc9",
+  "bytes": 334697,
+  "downloaded": "2026-09-28",
+  "lines": 16498
+ },
+ {
+  "name": "unicode-confusables",
+  "kind": "reference",
+  "url": "https://www.unicode.org/Public/security/latest/confusables.txt",
+  "license": "Unicode License v3",
+  "file": "data/raw/confusables.txt",
+  "sha256": "6ed3ee967c9dfdf6677d563c9985182fbc50a2efb7d6059cd57b2e2ce18f5b92",
+  "bytes": 763128,
+  "downloaded": "2026-09-28",
+  "lines": 9862
+ },
+ {
+  "name": "ealvaradob-phishing-texts",
+  "kind": "training",
+  "url": "https://huggingface.co/datasets/ealvaradob/phishing-dataset/resolve/main/texts.json",
+  "license": "Apache-2.0",
+  "file": "data/raw/texts.json",
+  "sha256": "2479fdb94abb59332cc747f7b823a1651921b9828240c5dad0ffdba66ab02581",
+  "bytes": 52079789,
+  "downloaded": "2026-09-28",
+  "rows": 20137,
+  "labels": {
+   "0": 12465,
+   "1": 7672
+  }
+ },
+ {
+  "name": "ealvaradob-phishing-urls",
+  "kind": "training",
+  "url": "https://huggingface.co/datasets/ealvaradob/phishing-dataset/resolve/main/urls.json",
+  "license": "Apache-2.0",
+  "file": "data/raw/urls.json",
+  "sha256": "32cfba42892c915b041a3f0ca6ffd0f484b2590c4c2ca91b13d3ea1330b2c9bd",
+  "bytes": 73157496,
+  "downloaded": "2026-09-28",
+  "rows": 835697,
+  "labels": {
+   "1": 390764,
+   "0": 444933
+  }
+ },
+ {
+  "name": "phiusiil-url",
+  "kind": "training",
+  "url": "https://archive.ics.uci.edu/static/public/967/phiusiil+phishing+url+dataset.zip",
+  "license": "CC BY 4.0 (UCI ML Repository #967)",
+  "file": "data/raw/PhiUSIIL_Phishing_URL_Dataset.csv",
+  "sha256": "a236549cd369cd80bd478ff8e1779cbf44c58d5c3f79f7a51a1adbed7d06d1c6",
+  "bytes": 56854345,
+  "downloaded": "2026-09-28",
+  "lines": 235796
+ },
+ {
+  "name": "zefang-phishing-email",
+  "kind": "training",
+  "url": "https://huggingface.co/datasets/zefang-liu/phishing-email-dataset/resolve/main/Phishing_Email.csv",
+  "license": "LGPL-3.0",
+  "file": "data/raw/phishing_email.csv",
+  "sha256": "18ef4fff1acb8986f0ab01e83ede6025420c829656af5a377560fce17e153b97",
+  "bytes": 52034604,
+  "downloaded": "2026-09-28",
+  "lines": 175088
+ }
+]
