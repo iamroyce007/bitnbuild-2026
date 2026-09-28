@@ -1,12 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "fastapi",
-  "buildCommand": "cd frontend && npm ci --no-audit --no-fund && npx vite build --outDir ../public --emptyOutDir",
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 60,
-      "memory": 2048,
-      "excludeFiles": "{frontend/**,extension/**,data/raw/**,data/processed/**,models/all-MiniLM-L6-v2/**,backend/tests/**,**/__pycache__/**}"
-    }
-  }
+  "builds": [
+    { "src": "api/index.py", "use": "@vercel/python", "config": { "maxLambdaSize": "250mb" } }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "api/index.py" }
+  ]
 }
