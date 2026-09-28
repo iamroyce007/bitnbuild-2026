@@ -175,16 +175,26 @@ def statistics(hours: int = 24, who: str = Depends(require_key)):
         camps = s.execute(select(func.count()).select_from(Campaign)).scalar() or 0
         fb = dict(s.execute(select(Feedback.label, func.count()).group_by(Feedback.label)).all())
         rows = s.execute(select(Detection.created_at, Detection.decision, Detection.risk_score).where(Detection.created_at >= since)).all()
+    # continuous buckets (empty hours included) so the chart's time axis is honest
+    step = timedelta(hours=1) if hours <= 48 else timedelta(days=1)
+    fmt = '%H:00' if hours <= 48 else '%m-%d'
+    start = since.replace(minute=0, second=0, microsecond=0)
     buckets: dict[str, dict] = {}
+    t = start
+    while t <= datetime.now(timezone.utc):
+        k = t.strftime(fmt)
+        buckets[k] = {'t': k, 'ALLOW': 0, 'FLAG': 0, 'QUARANTINE': 0, 'BLOCK': 0}
+        t += step
     for at, dec, _ in rows:
-        k = at.strftime('%H:00') if hours <= 48 else at.strftime('%m-%d')
-        b = buckets.setdefault(k, {'t': k, 'ALLOW': 0, 'FLAG': 0, 'QUARANTINE': 0, 'BLOCK': 0})
-        b[dec] += 1
+        at = at if at.tzinfo else at.replace(tzinfo=timezone.utc)
+        k = at.strftime(fmt)
+        if k in buckets:
+            buckets[k][dec] += 1
     hist = [0] * 10
     for _, _, r in rows:
         hist[min(9, int(r // 10))] += 1
     return {'total_detections': total, 'window_hours': hours, 'by_decision': dict(window), 'avg_latency_ms': round(lat or 0), 'campaigns': camps,
-            'feedback': fb, 'timeseries': sorted(buckets.values(), key=lambda b: b['t']), 'risk_histogram': hist, 'graph': get_graph_store().stats(),
+            'feedback': fb, 'timeseries': list(buckets.values()), 'risk_histogram': hist, 'graph': get_graph_store().stats(),
             'threat_feed_size': get_intel_store().size()}
 
 
