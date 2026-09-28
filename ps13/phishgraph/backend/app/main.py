@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 import time
 from contextlib import asynccontextmanager
 
@@ -40,9 +41,13 @@ def _warm() -> None:
 async def lifespan(app: FastAPI):
     init_db()
     await asyncio.to_thread(_warm)
+    tasks = []
+    if os.environ.get('SERVERLESS'):  # no background work survives a serverless response: jobs run inline instead
+        STATE['ready'] = True
+        yield
+        return
     from .workers.queue import get_queue
     get_queue().start()
-    tasks = []
     from .workers.feed_collector import scheduler
     tasks.append(asyncio.create_task(scheduler()))
     from .connectors.mailboxes import configured_sources, mailbox_loop

@@ -54,6 +54,20 @@ class JobQueue:
             job['status'] = 'no-worker'
         return jid
 
+    @property
+    def has_worker(self) -> bool:
+        return self.q is not None or self.redis is not None
+
+    async def submit_or_run(self, kind: str, payload: dict) -> str:
+        """Queue the job, or run it inline when no worker exists (serverless deployments)."""
+        if self.has_worker:
+            return self.submit(kind, payload)
+        jid = str(uuid.uuid4())
+        job = {'id': jid, 'kind': kind, 'payload': payload, 'status': 'queued', 'created': time.time(), 'result': None, 'error': None}
+        self.jobs[jid] = job
+        await run_job(job, self)
+        return jid
+
     def status(self, jid: str) -> dict | None:
         return self.jobs.get(jid) or get_cache().get(f'job:{jid}')
 

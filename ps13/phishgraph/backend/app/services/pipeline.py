@@ -156,7 +156,8 @@ async def analyze(pm: ParsedMessage, *, source: str = 'api', deep: bool = False,
                                       'at': datetime.now(timezone.utc).isoformat(timespec='seconds')})
         if not deep and s.enable_active_enrichment and any(not (u.trusted and not u.rules) for u in url_results):
             from ..workers.queue import get_queue
-            get_queue().submit('deepen', {'detection_id': det_id})
+            if get_queue().has_worker:  # serverless has no background workers: use ?deep=true there instead
+                get_queue().submit('deepen', {'detection_id': det_id})
     return report
 
 

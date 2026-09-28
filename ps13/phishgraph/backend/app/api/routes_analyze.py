@@ -60,7 +60,7 @@ async def investigate(body: InvestigateIn, request: Request, who: str = Depends(
     if why:
         audit(who, 'investigate.refused', body.url, {'reason': why}, request.client.host if request.client else '')
         raise HTTPException(400, f'refused by SSRF protection: {why}')
-    jid = get_queue().submit('investigate', {'url': p.normalized})
+    jid = await get_queue().submit_or_run('investigate', {'url': p.normalized})
     audit(who, 'investigate.submit', p.normalized, {'job': jid}, request.client.host if request.client else '')
     return JSONResponse({'job_id': jid, 'status': 'queued', 'poll': f'/api/v1/jobs/{jid}'}, status_code=202)
 
