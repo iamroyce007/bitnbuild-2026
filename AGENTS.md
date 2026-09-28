@@ -156,6 +156,7 @@ python3 -m venv ../.venv && ../.venv/bin/pip install -r requirements-dev.txt [-r
 ../.venv/bin/python scripts/train_all.py                             # retrain + re-evaluate (needs data/raw)
 (cd frontend && npm ci && npm run build)                             # typecheck + build → served by the API
 docker compose up --build                                            # full stack (not verified on the dev machine)
+./scripts/deploy_vercel.sh                                           # Vercel: needs `npx vercel login` and .vercel-api-key
 ```
 
 ## 8. Testing expectations for changes
@@ -174,6 +175,9 @@ docker compose up --build                                            # full stac
 - Text model over-flags transactional notices on its own; add the collected hard negatives and retrain.
 - Local graph is single-process; multi-worker deployments should use Neo4j.
 - Docker Compose has not been executed yet; first run may need adjustments (e.g. Neo4j memory).
+- Vercel deploys must go through `scripts/deploy_vercel.sh`: `vercel.json` uses an explicit `@vercel/python` build (framework
+  auto-detection and rewrites broke routing), the dashboard is bundled as `static/`, and uploads are git-free because Vercel
+  blocks deploys whose commit author is not a verified team member (`TEAM_ACCESS_REQUIRED`).
 - Ideas: landing-page screenshot similarity, certificate-transparency monitoring, learned fusion weights, Outlook add-in.
 
 ## 10. Commit conventions
