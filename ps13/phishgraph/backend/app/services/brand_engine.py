@@ -288,6 +288,18 @@ class BrandEngine:
         v.findings = found
         return v
 
+    def _claim_patterns(self) -> list:
+        """Compiled once: one alternation per brand name/keyword covering its plain and skeleton spellings."""
+        if getattr(self, '_claims', None) is None:
+            pats = []
+            for b in self.brands:
+                for n in sorted({n for n in {b.name.split(' /')[0].casefold(), *b.keywords} if len(n) >= 3}):
+                    forms = sorted({n, skeleton(n), skeleton(n.upper()), skeleton(n.title())}, key=len, reverse=True)
+                    alt = '|'.join(re.escape(f) for f in forms)
+                    pats.append((b, n, re.compile(rf'(?<![a-z0-9])(?:{alt})(?![a-z0-9])')))
+            self._claims = pats
+        return self._claims
+
     def claimed_brands(self, text: str) -> list[Brand]:
         """Brands a message *claims* to be from (name or keyword mentioned in text).
 
@@ -297,16 +309,14 @@ class BrandEngine:
         plain = unicodedata.normalize('NFKC', text).casefold()
         skel = skeleton(text)
         out = []
-        for b in self.brands:
-            names = {n for n in {b.name.split(' /')[0].casefold(), *b.keywords} if len(n) >= 3}
-            for n in names:
-                forms = {n, skeleton(n), skeleton(n.upper()), skeleton(n.title())}
-                hit = any(re.search(rf'(?<![a-z0-9]){re.escape(f)}(?![a-z0-9])', plain) or re.search(rf'(?<![a-z0-9]){re.escape(f)}(?![a-z0-9])', skel) for f in forms)
-                if hit and n in COMMON_WORD_KEYWORDS and not re.search(rf'\b(?:{re.escape(n.title())}|{re.escape(n.upper())})\b', text):
-                    hit = False
-                if hit:
-                    out.append(b)
-                    break
+        for b, n, pat in self._claim_patterns():
+            if b in out:
+                continue
+            if not (pat.search(plain) or pat.search(skel)):
+                continue
+            if n in COMMON_WORD_KEYWORDS and not re.search(rf'\b(?:{re.escape(n.title())}|{re.escape(n.upper())})\b', text):
+                continue
+            out.append(b)
         return out[:5]
 
 
