@@ -90,3 +90,14 @@ def test_ssrf_guard_blocks_internal_targets(host):
 
 def test_ssrf_guard_allows_public_hosts():
     assert ssrf_block_reason('example.com') is None and ssrf_block_reason('8.8.8.8') is None
+
+
+def test_permutation_squat_gitbuh():
+    # reported miss: letters of "github" shuffled two apart (2 edits, so the typo index did not see it)
+    from app.services.brand_engine import get_brand_engine
+    be = get_brand_engine()
+    for h in ('hyeonseok067.gitbuh.io', 'gitbuh.io'):
+        f = be.analyze(h).findings
+        assert f and f[0].kind == 'permutation' and f[0].brand == 'GitHub', h
+    assert not be.analyze('hyeonseok067.github.io').findings      # genuine GitHub Pages site
+    assert not be.analyze('listen.com').findings                   # anagrams of non-protected words are ignored

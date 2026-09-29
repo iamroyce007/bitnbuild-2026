@@ -2,12 +2,13 @@
  "real_domains": {
   "source": "Tranco ranks 100,001-150,000",
   "n": 50000,
-  "flagged": 96,
-  "rate": 0.00192,
+  "flagged": 95,
+  "rate": 0.0019,
   "by_kind": {
-   "combosquat": 48,
-   "tld_swap": 18,
-   "typosquat": 30
+   "combosquat": 41,
+   "tld_swap": 19,
+   "typosquat": 30,
+   "permutation": 5
   },
   "sample": [
    [
@@ -24,6 +25,11 @@
     "citicbank.cn",
     "typosquat",
     "citibank.com"
+   ],
+   [
+    "coinw.com",
+    "permutation",
+    "cowin.gov.in"
    ],
    [
     "mwstatic.com",
@@ -56,9 +62,9 @@
     "icloud.com"
    ],
    [
-    "opensource.google",
-    "combosquat",
-    "google.com"
+    "papaly.com",
+    "permutation",
+    "paypal.com"
    ],
    [
     "airtel.africa",
@@ -74,11 +80,6 @@
     "vodafone.om",
     "combosquat",
     "myvi.in"
-   ],
-   [
-    "cloudskillsboost.google",
-    "combosquat",
-    "google.com"
    ],
    [
     "paypay-sec.co.jp",
@@ -141,11 +142,6 @@
     "zomato.com"
    ],
    [
-    "nic.amazon",
-    "combosquat",
-    "amazon.com"
-   ],
-   [
     "vodafonenet.ro",
     "combosquat",
     "myvi.in"
@@ -154,6 +150,11 @@
     "icloudv6.com",
     "combosquat",
     "apple.com"
+   ],
+   [
+    "glami.si",
+    "permutation",
+    "gmail.com"
    ],
    [
     "telegram-store.com",
@@ -186,6 +187,11 @@
     "zomato.com"
    ],
    [
+    "glami.bg",
+    "permutation",
+    "gmail.com"
+   ],
+   [
     "slack.dev",
     "tld_swap",
     "slack.com"
@@ -204,18 +210,13 @@
     "booking.page",
     "tld_swap",
     "booking.com"
-   ],
-   [
-    "ssl-images-amazon.cn",
-    "combosquat",
-    "amazon.com"
    ]
   ]
  },
  "generated_attacks": {
   "n": 8354,
   "curated_strong_recall": 0.87352,
-  "any_signal_rate": 0.8232,
+  "any_signal_rate": 0.83852,
   "by_group": {
    "brand homoglyph": {
     "strong": 106,
@@ -253,28 +254,28 @@
     "n": 112
    },
    "popular homoglyph": {
-    "strong": 824,
-    "weak": 367,
+    "strong": 821,
+    "weak": 366,
     "n": 1309
    },
    "popular omission": {
-    "strong": 10,
-    "weak": 886,
+    "strong": 7,
+    "weak": 885,
     "n": 1292
    },
    "popular repetition": {
-    "strong": 10,
+    "strong": 7,
     "weak": 895,
     "n": 1310
    },
    "popular transposition": {
-    "strong": 9,
-    "weak": 852,
+    "strong": 6,
+    "weak": 998,
     "n": 1097
    },
    "popular keyboard": {
-    "strong": 9,
-    "weak": 987,
+    "strong": 6,
+    "weak": 986,
     "n": 1275
    },
    "popular subdomain": {
@@ -287,5 +288,5 @@
  "official_domains": {
   "flagged": []
  },
- "throughput_domains_per_s": 5520
+ "throughput_domains_per_s": 5712
 }

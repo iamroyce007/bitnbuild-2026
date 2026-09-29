@@ -236,6 +236,27 @@ class BrandEngine:
                     conf = 0.62  # generic popular site: weak evidence on its own, fused with other signals
                 found.append(Finding('typosquat', dom, brand, conf,
                                      f'"{label}" is {dist} keystroke{"s" if dist > 1 else ""} away from "{lab}" ({dom})'))
+        # (b2) permutation squat: the same letters as a protected name in a different order (gitbuh / github,
+        # gogole / google, amzaon / amazon). Swaps two apart are 2 edits, which (b) deliberately does not allow for
+        # short names; an exact anagram with the same first letter is far more specific than "any 2 edits".
+        if not found and len(tk) >= 5:
+            if getattr(self, '_anagrams', None) is None:
+                idx: dict[str, list[str]] = {}
+                for lab, (dom, brand, prio) in self.protected.items():
+                    t = tkey(lab)
+                    if len(t) >= 5 and (brand or len(t) >= 6):
+                        idx.setdefault(''.join(sorted(t)), []).append(lab)
+                self._anagrams = idx
+            for lab in self._anagrams.get(''.join(sorted(tk)), []):
+                sl = tkey(lab)
+                moved = sum(1 for x, y in zip(tk, sl) if x != y)
+                if tk != sl and tk[0] == sl[0] and moved <= 4:
+                    dom, brand = self._describe(lab)
+                    same_tld = dom.split('.', 1)[-1] == suf
+                    conf = (0.88 if same_tld else 0.84) if brand else 0.62
+                    found.append(Finding('permutation', dom, brand, conf,
+                                         f'"{label}" uses the letters of "{lab}" in a different order ({dom})'))
+                    break
         # (c) subdomain spoof: a protected domain appears as leading labels, e.g. google.com.verify.xyz
         if sub:
             parts = to_unicode(sub).split('.')
