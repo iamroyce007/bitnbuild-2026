@@ -3,7 +3,7 @@
   {
    "name": "email",
    "version": 1,
-   "status": "active",
+   "status": "archived",
    "trained_at": "2026-09-28T20:42:04",
    "artifact": "email/email_model.joblib",
    "sha256_16": "57e3211978f5076a",
@@ -163,7 +163,7 @@
   {
    "name": "url",
    "version": 1,
-   "status": "active",
+   "status": "archived",
    "trained_at": "2026-09-28T20:42:11",
    "artifact": "url/url_model.joblib",
    "sha256_16": "9bbc60cf88ca7a68",
@@ -426,6 +426,1458 @@
     },
     "deployed": "blend(char_ngram_lr, lexical_hgb) + isotonic calibration, trained on domain-grouped split",
     "seconds": 498
+   }
+  },
+  {
+   "name": "url",
+   "version": 2,
+   "status": "archived",
+   "trained_at": "2026-09-29T20:14:34",
+   "artifact": "url/url_model.joblib",
+   "sha256_16": "c768c09742c53cd9",
+   "report": {
+    "data": {
+     "n": 420000,
+     "by_source": {
+      "ealvaradob": 326291,
+      "phiusiil": 93709
+     },
+     "phishing_ratio": 0.4459
+    },
+    "splits": {
+     "random_stratified": {
+      "char_ngram_lr": {
+       "precision": 0.9155,
+       "recall": 0.8937,
+       "f1": 0.9044,
+       "roc_auc": 0.9768,
+       "pr_auc": 0.9745,
+       "confusion": {
+        "tn": 43456,
+        "fp": 3091,
+        "fn": 3983,
+        "tp": 33470
+       },
+       "n": 84000
+      },
+      "lexical_hgb": {
+       "precision": 0.883,
+       "recall": 0.9259,
+       "f1": 0.9039,
+       "roc_auc": 0.9746,
+       "pr_auc": 0.9704,
+       "confusion": {
+        "tn": 41953,
+        "fp": 4594,
+        "fn": 2777,
+        "tp": 34676
+       },
+       "n": 84000
+      },
+      "lexical_rf": {
+       "precision": 0.887,
+       "recall": 0.906,
+       "f1": 0.8964,
+       "roc_auc": 0.971,
+       "pr_auc": 0.9651,
+       "confusion": {
+        "tn": 42223,
+        "fp": 4324,
+        "fn": 3520,
+        "tp": 33933
+       },
+       "n": 84000
+      },
+      "blend_mean": {
+       "precision": 0.955,
+       "recall": 0.9353,
+       "f1": 0.945,
+       "roc_auc": 0.9908,
+       "pr_auc": 0.9893,
+       "confusion": {
+        "tn": 44896,
+        "fp": 1651,
+        "fn": 2423,
+        "tp": 35030
+       },
+       "n": 84000
+      }
+     },
+     "domain_grouped": {
+      "char_ngram_lr": {
+       "precision": 0.9048,
+       "recall": 0.88,
+       "f1": 0.8922,
+       "roc_auc": 0.9699,
+       "pr_auc": 0.9676,
+       "confusion": {
+        "tn": 42002,
+        "fp": 3363,
+        "fn": 4355,
+        "tp": 31945
+       },
+       "n": 81665
+      },
+      "lexical_hgb": {
+       "precision": 0.8675,
+       "recall": 0.9208,
+       "f1": 0.8933,
+       "roc_auc": 0.9685,
+       "pr_auc": 0.9631,
+       "confusion": {
+        "tn": 40258,
+        "fp": 5107,
+        "fn": 2874,
+        "tp": 33426
+       },
+       "n": 81665
+      },
+      "lexical_rf": {
+       "precision": 0.8741,
+       "recall": 0.8972,
+       "f1": 0.8855,
+       "roc_auc": 0.9642,
+       "pr_auc": 0.9566,
+       "confusion": {
+        "tn": 40676,
+        "fp": 4689,
+        "fn": 3732,
+        "tp": 32568
+       },
+       "n": 81665
+      },
+      "blend_mean": {
+       "precision": 0.9466,
+       "recall": 0.9282,
+       "f1": 0.9373,
+       "roc_auc": 0.9883,
+       "pr_auc": 0.9861,
+       "confusion": {
+        "tn": 43463,
+        "fp": 1902,
+        "fn": 2605,
+        "tp": 33695
+       },
+       "n": 81665
+      }
+     },
+     "cross_source_ealvaradob_to_phiusiil": {
+      "char_ngram_lr": {
+       "precision": 0.5143,
+       "recall": 0.9318,
+       "f1": 0.6628,
+       "roc_auc": 0.8306,
+       "pr_auc": 0.7992,
+       "confusion": {
+        "tn": 12858,
+        "fp": 22066,
+        "fn": 1709,
+        "tp": 23367
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.4292,
+       "recall": 0.9191,
+       "f1": 0.5851,
+       "roc_auc": 0.7903,
+       "pr_auc": 0.8089,
+       "confusion": {
+        "tn": 4269,
+        "fp": 30655,
+        "fn": 2028,
+        "tp": 23048
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.5086,
+       "recall": 0.8725,
+       "f1": 0.6426,
+       "roc_auc": 0.7836,
+       "pr_auc": 0.7604,
+       "confusion": {
+        "tn": 13782,
+        "fp": 21142,
+        "fn": 3197,
+        "tp": 21879
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.4863,
+       "recall": 0.954,
+       "f1": 0.6442,
+       "roc_auc": 0.8489,
+       "pr_auc": 0.8428,
+       "confusion": {
+        "tn": 9651,
+        "fp": 25273,
+        "fn": 1154,
+        "tp": 23922
+       },
+       "n": 60000
+      }
+     },
+     "cross_source_phiusiil_to_ealvaradob": {
+      "char_ngram_lr": {
+       "precision": 0.4436,
+       "recall": 0.8306,
+       "f1": 0.5783,
+       "roc_auc": 0.4845,
+       "pr_auc": 0.4768,
+       "confusion": {
+        "tn": 4696,
+        "fp": 28221,
+        "fn": 4587,
+        "tp": 22496
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.4444,
+       "recall": 0.9675,
+       "f1": 0.609,
+       "roc_auc": 0.3249,
+       "pr_auc": 0.3769,
+       "confusion": {
+        "tn": 155,
+        "fp": 32762,
+        "fn": 881,
+        "tp": 26202
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.4461,
+       "recall": 0.9716,
+       "f1": 0.6114,
+       "roc_auc": 0.2597,
+       "pr_auc": 0.3329,
+       "confusion": {
+        "tn": 243,
+        "fp": 32674,
+        "fn": 769,
+        "tp": 26314
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.4466,
+       "recall": 0.9758,
+       "f1": 0.6128,
+       "roc_auc": 0.4713,
+       "pr_auc": 0.4714,
+       "confusion": {
+        "tn": 172,
+        "fp": 32745,
+        "fn": 656,
+        "tp": 26427
+       },
+       "n": 60000
+      }
+     }
+    },
+    "calibration_fold": {
+     "precision": 0.9426,
+     "recall": 0.9283,
+     "f1": 0.9354,
+     "roc_auc": 0.9849,
+     "pr_auc": 0.9838,
+     "confusion": {
+      "tn": 27865,
+      "fp": 1559,
+      "fn": 1975,
+      "tp": 25580
+     },
+     "n": 56979
+    },
+    "deployed": "blend(char_ngram_lr, lexical_hgb) + isotonic calibration, trained on domain-grouped split",
+    "seconds": 377
+   }
+  },
+  {
+   "name": "email",
+   "version": 2,
+   "status": "archived",
+   "trained_at": "2026-09-29T20:17:46",
+   "artifact": "email/email_model.joblib",
+   "sha256_16": "57e3211978f5076a",
+   "report": {
+    "data": {
+     "n": 19855,
+     "by_source": {
+      "ealvaradob": 19855
+     },
+     "phishing_ratio": 0.3758,
+     "by_channel": {
+      "sms": 5403,
+      "email": 14452
+     }
+    },
+    "splits": {
+     "random_stratified": {
+      "tfidf_lr": {
+       "precision": 0.969,
+       "recall": 0.9625,
+       "f1": 0.9657,
+       "roc_auc": 0.9959,
+       "pr_auc": 0.9941,
+       "confusion": {
+        "tn": 2433,
+        "fp": 46,
+        "fn": 56,
+        "tp": 1436
+       },
+       "n": 3971
+      },
+      "minilm_lr": {
+       "precision": 0.9036,
+       "recall": 0.9424,
+       "f1": 0.9226,
+       "roc_auc": 0.9853,
+       "pr_auc": 0.979,
+       "confusion": {
+        "tn": 2329,
+        "fp": 150,
+        "fn": 86,
+        "tp": 1406
+       },
+       "n": 3971
+      },
+      "blend": {
+       "precision": 0.9587,
+       "recall": 0.9638,
+       "f1": 0.9612,
+       "roc_auc": 0.9965,
+       "pr_auc": 0.9948,
+       "confusion": {
+        "tn": 2417,
+        "fp": 62,
+        "fn": 54,
+        "tp": 1438
+       },
+       "n": 3971
+      }
+     },
+     "cross_channel_email_to_sms": {
+      "tfidf_lr": {
+       "precision": 0.6593,
+       "recall": 0.9511,
+       "f1": 0.7788,
+       "roc_auc": 0.927,
+       "pr_auc": 0.8983,
+       "confusion": {
+        "tn": 2138,
+        "fp": 1076,
+        "fn": 107,
+        "tp": 2082
+       },
+       "n": 5403
+      },
+      "minilm_lr": {
+       "precision": 0.6629,
+       "recall": 0.9333,
+       "f1": 0.7752,
+       "roc_auc": 0.8949,
+       "pr_auc": 0.8358,
+       "confusion": {
+        "tn": 2175,
+        "fp": 1039,
+        "fn": 146,
+        "tp": 2043
+       },
+       "n": 5403
+      },
+      "blend": {
+       "precision": 0.6752,
+       "recall": 0.9584,
+       "f1": 0.7923,
+       "roc_auc": 0.935,
+       "pr_auc": 0.9095,
+       "confusion": {
+        "tn": 2205,
+        "fp": 1009,
+        "fn": 91,
+        "tp": 2098
+       },
+       "n": 5403
+      }
+     },
+     "cross_channel_sms_to_email": {
+      "tfidf_lr": {
+       "precision": 0.9237,
+       "recall": 0.7603,
+       "f1": 0.8341,
+       "roc_auc": 0.9669,
+       "pr_auc": 0.9428,
+       "confusion": {
+        "tn": 8848,
+        "fp": 331,
+        "fn": 1264,
+        "tp": 4009
+       },
+       "n": 14452
+      },
+      "minilm_lr": {
+       "precision": 0.8151,
+       "recall": 0.9014,
+       "f1": 0.8561,
+       "roc_auc": 0.958,
+       "pr_auc": 0.9385,
+       "confusion": {
+        "tn": 8101,
+        "fp": 1078,
+        "fn": 520,
+        "tp": 4753
+       },
+       "n": 14452
+      },
+      "blend": {
+       "precision": 0.9103,
+       "recall": 0.8932,
+       "f1": 0.9017,
+       "roc_auc": 0.9774,
+       "pr_auc": 0.9639,
+       "confusion": {
+        "tn": 8715,
+        "fp": 464,
+        "fn": 563,
+        "tp": 4710
+       },
+       "n": 14452
+      }
+     }
+    },
+    "notes": [
+     "zefang-liu/phishing-email-dataset is fully contained in ealvaradob/phishing-dataset (exact duplicates after normalisation), so a cross-source split between them is not meaningful; cross-channel splits are reported instead."
+    ],
+    "deployed": "stage1 hashed TF-IDF LR + stage2 MiniLM-embedding LR, averaged; trained on all de-duplicated data",
+    "seconds": 190
+   }
+  },
+  {
+   "name": "url",
+   "version": 3,
+   "status": "archived",
+   "trained_at": "2026-09-29T20:26:20",
+   "artifact": "url/url_model.joblib",
+   "sha256_16": "9bbc60cf88ca7a68",
+   "report": {
+    "data": {
+     "n": 420000,
+     "by_source": {
+      "ealvaradob": 326291,
+      "phiusiil": 93709
+     },
+     "phishing_ratio": 0.4459
+    },
+    "splits": {
+     "random_stratified": {
+      "char_ngram_lr": {
+       "precision": 0.9155,
+       "recall": 0.8937,
+       "f1": 0.9044,
+       "roc_auc": 0.9768,
+       "pr_auc": 0.9745,
+       "confusion": {
+        "tn": 43456,
+        "fp": 3091,
+        "fn": 3983,
+        "tp": 33470
+       },
+       "n": 84000
+      },
+      "lexical_hgb": {
+       "precision": 0.883,
+       "recall": 0.9259,
+       "f1": 0.9039,
+       "roc_auc": 0.9746,
+       "pr_auc": 0.9704,
+       "confusion": {
+        "tn": 41953,
+        "fp": 4594,
+        "fn": 2777,
+        "tp": 34676
+       },
+       "n": 84000
+      },
+      "lexical_rf": {
+       "precision": 0.887,
+       "recall": 0.906,
+       "f1": 0.8964,
+       "roc_auc": 0.971,
+       "pr_auc": 0.9651,
+       "confusion": {
+        "tn": 42223,
+        "fp": 4324,
+        "fn": 3520,
+        "tp": 33933
+       },
+       "n": 84000
+      },
+      "blend_mean": {
+       "precision": 0.955,
+       "recall": 0.9353,
+       "f1": 0.945,
+       "roc_auc": 0.9908,
+       "pr_auc": 0.9893,
+       "confusion": {
+        "tn": 44896,
+        "fp": 1651,
+        "fn": 2423,
+        "tp": 35030
+       },
+       "n": 84000
+      }
+     },
+     "domain_grouped": {
+      "char_ngram_lr": {
+       "precision": 0.9048,
+       "recall": 0.88,
+       "f1": 0.8922,
+       "roc_auc": 0.9699,
+       "pr_auc": 0.9676,
+       "confusion": {
+        "tn": 42002,
+        "fp": 3363,
+        "fn": 4355,
+        "tp": 31945
+       },
+       "n": 81665
+      },
+      "lexical_hgb": {
+       "precision": 0.8675,
+       "recall": 0.9208,
+       "f1": 0.8933,
+       "roc_auc": 0.9685,
+       "pr_auc": 0.9631,
+       "confusion": {
+        "tn": 40258,
+        "fp": 5107,
+        "fn": 2874,
+        "tp": 33426
+       },
+       "n": 81665
+      },
+      "lexical_rf": {
+       "precision": 0.8741,
+       "recall": 0.8972,
+       "f1": 0.8855,
+       "roc_auc": 0.9642,
+       "pr_auc": 0.9566,
+       "confusion": {
+        "tn": 40676,
+        "fp": 4689,
+        "fn": 3732,
+        "tp": 32568
+       },
+       "n": 81665
+      },
+      "blend_mean": {
+       "precision": 0.9466,
+       "recall": 0.9282,
+       "f1": 0.9373,
+       "roc_auc": 0.9883,
+       "pr_auc": 0.9861,
+       "confusion": {
+        "tn": 43463,
+        "fp": 1902,
+        "fn": 2605,
+        "tp": 33695
+       },
+       "n": 81665
+      }
+     },
+     "cross_source_ealvaradob_to_phiusiil": {
+      "char_ngram_lr": {
+       "precision": 0.5143,
+       "recall": 0.9318,
+       "f1": 0.6628,
+       "roc_auc": 0.8306,
+       "pr_auc": 0.7992,
+       "confusion": {
+        "tn": 12858,
+        "fp": 22066,
+        "fn": 1709,
+        "tp": 23367
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.4292,
+       "recall": 0.9191,
+       "f1": 0.5851,
+       "roc_auc": 0.7903,
+       "pr_auc": 0.8089,
+       "confusion": {
+        "tn": 4269,
+        "fp": 30655,
+        "fn": 2028,
+        "tp": 23048
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.5086,
+       "recall": 0.8725,
+       "f1": 0.6426,
+       "roc_auc": 0.7836,
+       "pr_auc": 0.7604,
+       "confusion": {
+        "tn": 13782,
+        "fp": 21142,
+        "fn": 3197,
+        "tp": 21879
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.4863,
+       "recall": 0.954,
+       "f1": 0.6442,
+       "roc_auc": 0.8489,
+       "pr_auc": 0.8428,
+       "confusion": {
+        "tn": 9651,
+        "fp": 25273,
+        "fn": 1154,
+        "tp": 23922
+       },
+       "n": 60000
+      }
+     },
+     "cross_source_phiusiil_to_ealvaradob": {
+      "char_ngram_lr": {
+       "precision": 0.4436,
+       "recall": 0.8306,
+       "f1": 0.5783,
+       "roc_auc": 0.4845,
+       "pr_auc": 0.4768,
+       "confusion": {
+        "tn": 4696,
+        "fp": 28221,
+        "fn": 4587,
+        "tp": 22496
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.4444,
+       "recall": 0.9675,
+       "f1": 0.609,
+       "roc_auc": 0.3249,
+       "pr_auc": 0.3769,
+       "confusion": {
+        "tn": 155,
+        "fp": 32762,
+        "fn": 881,
+        "tp": 26202
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.4461,
+       "recall": 0.9716,
+       "f1": 0.6114,
+       "roc_auc": 0.2597,
+       "pr_auc": 0.3329,
+       "confusion": {
+        "tn": 243,
+        "fp": 32674,
+        "fn": 769,
+        "tp": 26314
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.4466,
+       "recall": 0.9758,
+       "f1": 0.6128,
+       "roc_auc": 0.4713,
+       "pr_auc": 0.4714,
+       "confusion": {
+        "tn": 172,
+        "fp": 32745,
+        "fn": 656,
+        "tp": 26427
+       },
+       "n": 60000
+      }
+     }
+    },
+    "calibration_fold": {
+     "precision": 0.9426,
+     "recall": 0.9283,
+     "f1": 0.9354,
+     "roc_auc": 0.9849,
+     "pr_auc": 0.9838,
+     "confusion": {
+      "tn": 27865,
+      "fp": 1559,
+      "fn": 1975,
+      "tp": 25580
+     },
+     "n": 56979
+    },
+    "fresh_feed": {
+     "status": "too_few",
+     "n_phishing": 0
+    },
+    "deployed": "blend(char_ngram_lr, lexical_hgb) + isotonic calibration, trained on domain-grouped split",
+    "seconds": 363
+   }
+  },
+  {
+   "name": "email",
+   "version": 3,
+   "status": "active",
+   "trained_at": "2026-09-29T20:29:25",
+   "artifact": "email/email_model.joblib",
+   "sha256_16": "684fa38fa0f840a3",
+   "report": {
+    "data": {
+     "n": 19855,
+     "by_source": {
+      "ealvaradob": 19855
+     },
+     "phishing_ratio": 0.3758,
+     "by_channel": {
+      "sms": 5403,
+      "email": 14452
+     },
+     "feedback": {
+      "read": 13,
+      "skipped_demo": 0,
+      "skipped_duplicate": 11,
+      "skipped_short": 0,
+      "used": 2,
+      "used_phishing": 2,
+      "used_hard_negatives": 0
+     }
+    },
+    "splits": {
+     "random_stratified": {
+      "tfidf_lr": {
+       "precision": 0.969,
+       "recall": 0.9625,
+       "f1": 0.9657,
+       "roc_auc": 0.9959,
+       "pr_auc": 0.9941,
+       "confusion": {
+        "tn": 2433,
+        "fp": 46,
+        "fn": 56,
+        "tp": 1436
+       },
+       "n": 3971
+      },
+      "minilm_lr": {
+       "precision": 0.9036,
+       "recall": 0.9424,
+       "f1": 0.9226,
+       "roc_auc": 0.9853,
+       "pr_auc": 0.979,
+       "confusion": {
+        "tn": 2329,
+        "fp": 150,
+        "fn": 86,
+        "tp": 1406
+       },
+       "n": 3971
+      },
+      "blend": {
+       "precision": 0.9587,
+       "recall": 0.9638,
+       "f1": 0.9612,
+       "roc_auc": 0.9965,
+       "pr_auc": 0.9948,
+       "confusion": {
+        "tn": 2417,
+        "fp": 62,
+        "fn": 54,
+        "tp": 1438
+       },
+       "n": 3971
+      }
+     },
+     "cross_channel_email_to_sms": {
+      "tfidf_lr": {
+       "precision": 0.6593,
+       "recall": 0.9511,
+       "f1": 0.7788,
+       "roc_auc": 0.927,
+       "pr_auc": 0.8983,
+       "confusion": {
+        "tn": 2138,
+        "fp": 1076,
+        "fn": 107,
+        "tp": 2082
+       },
+       "n": 5403
+      },
+      "minilm_lr": {
+       "precision": 0.6629,
+       "recall": 0.9333,
+       "f1": 0.7752,
+       "roc_auc": 0.8949,
+       "pr_auc": 0.8358,
+       "confusion": {
+        "tn": 2175,
+        "fp": 1039,
+        "fn": 146,
+        "tp": 2043
+       },
+       "n": 5403
+      },
+      "blend": {
+       "precision": 0.6752,
+       "recall": 0.9584,
+       "f1": 0.7923,
+       "roc_auc": 0.935,
+       "pr_auc": 0.9095,
+       "confusion": {
+        "tn": 2205,
+        "fp": 1009,
+        "fn": 91,
+        "tp": 2098
+       },
+       "n": 5403
+      }
+     },
+     "cross_channel_sms_to_email": {
+      "tfidf_lr": {
+       "precision": 0.9237,
+       "recall": 0.7603,
+       "f1": 0.8341,
+       "roc_auc": 0.9669,
+       "pr_auc": 0.9428,
+       "confusion": {
+        "tn": 8848,
+        "fp": 331,
+        "fn": 1264,
+        "tp": 4009
+       },
+       "n": 14452
+      },
+      "minilm_lr": {
+       "precision": 0.8151,
+       "recall": 0.9014,
+       "f1": 0.8561,
+       "roc_auc": 0.958,
+       "pr_auc": 0.9385,
+       "confusion": {
+        "tn": 8101,
+        "fp": 1078,
+        "fn": 520,
+        "tp": 4753
+       },
+       "n": 14452
+      },
+      "blend": {
+       "precision": 0.9103,
+       "recall": 0.8932,
+       "f1": 0.9017,
+       "roc_auc": 0.9774,
+       "pr_auc": 0.9639,
+       "confusion": {
+        "tn": 8715,
+        "fp": 464,
+        "fn": 563,
+        "tp": 4710
+       },
+       "n": 14452
+      }
+     }
+    },
+    "notes": [
+     "zefang-liu/phishing-email-dataset is fully contained in ealvaradob/phishing-dataset (exact duplicates after normalisation), so a cross-source split between them is not meaningful; cross-channel splits are reported instead."
+    ],
+    "deployed": "stage1 hashed TF-IDF LR + stage2 MiniLM-embedding LR, averaged; trained on all de-duplicated data plus reviewed analyst feedback",
+    "seconds": 182
+   }
+  },
+  {
+   "name": "url",
+   "version": 4,
+   "status": "archived",
+   "trained_at": "2026-09-29T20:39:09",
+   "artifact": "url/url_model.joblib",
+   "sha256_16": "b34d8fbe251e0d37",
+   "report": {
+    "data": {
+     "n": 420000,
+     "by_source": {
+      "ealvaradob": 326291,
+      "phiusiil": 93709
+     },
+     "phishing_ratio": 0.4459
+    },
+    "splits": {
+     "random_stratified": {
+      "char_ngram_lr": {
+       "precision": 0.9155,
+       "recall": 0.8937,
+       "f1": 0.9044,
+       "roc_auc": 0.9768,
+       "pr_auc": 0.9745,
+       "confusion": {
+        "tn": 43456,
+        "fp": 3091,
+        "fn": 3983,
+        "tp": 33470
+       },
+       "n": 84000
+      },
+      "lexical_hgb": {
+       "precision": 0.8832,
+       "recall": 0.8097,
+       "f1": 0.8448,
+       "roc_auc": 0.9454,
+       "pr_auc": 0.9427,
+       "confusion": {
+        "tn": 42535,
+        "fp": 4012,
+        "fn": 7128,
+        "tp": 30325
+       },
+       "n": 84000
+      },
+      "lexical_rf": {
+       "precision": 0.8822,
+       "recall": 0.7979,
+       "f1": 0.8379,
+       "roc_auc": 0.9403,
+       "pr_auc": 0.9369,
+       "confusion": {
+        "tn": 42556,
+        "fp": 3991,
+        "fn": 7570,
+        "tp": 29883
+       },
+       "n": 84000
+      },
+      "blend_mean": {
+       "precision": 0.9364,
+       "recall": 0.8777,
+       "f1": 0.9061,
+       "roc_auc": 0.977,
+       "pr_auc": 0.975,
+       "confusion": {
+        "tn": 44313,
+        "fp": 2234,
+        "fn": 4582,
+        "tp": 32871
+       },
+       "n": 84000
+      }
+     },
+     "domain_grouped": {
+      "char_ngram_lr": {
+       "precision": 0.9048,
+       "recall": 0.88,
+       "f1": 0.8922,
+       "roc_auc": 0.9699,
+       "pr_auc": 0.9676,
+       "confusion": {
+        "tn": 42002,
+        "fp": 3363,
+        "fn": 4355,
+        "tp": 31945
+       },
+       "n": 81665
+      },
+      "lexical_hgb": {
+       "precision": 0.8672,
+       "recall": 0.8033,
+       "f1": 0.834,
+       "roc_auc": 0.9362,
+       "pr_auc": 0.9332,
+       "confusion": {
+        "tn": 40899,
+        "fp": 4466,
+        "fn": 7139,
+        "tp": 29161
+       },
+       "n": 81665
+      },
+      "lexical_rf": {
+       "precision": 0.8712,
+       "recall": 0.789,
+       "f1": 0.8281,
+       "roc_auc": 0.9278,
+       "pr_auc": 0.9251,
+       "confusion": {
+        "tn": 41132,
+        "fp": 4233,
+        "fn": 7660,
+        "tp": 28640
+       },
+       "n": 81665
+      },
+      "blend_mean": {
+       "precision": 0.9263,
+       "recall": 0.8736,
+       "f1": 0.8992,
+       "roc_auc": 0.973,
+       "pr_auc": 0.9705,
+       "confusion": {
+        "tn": 42841,
+        "fp": 2524,
+        "fn": 4587,
+        "tp": 31713
+       },
+       "n": 81665
+      }
+     },
+     "cross_source_ealvaradob_to_phiusiil": {
+      "char_ngram_lr": {
+       "precision": 0.5143,
+       "recall": 0.9318,
+       "f1": 0.6628,
+       "roc_auc": 0.8306,
+       "pr_auc": 0.7992,
+       "confusion": {
+        "tn": 12858,
+        "fp": 22066,
+        "fn": 1709,
+        "tp": 23367
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.4451,
+       "recall": 0.9021,
+       "f1": 0.5961,
+       "roc_auc": 0.753,
+       "pr_auc": 0.773,
+       "confusion": {
+        "tn": 6725,
+        "fp": 28199,
+        "fn": 2456,
+        "tp": 22620
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.4391,
+       "recall": 0.8954,
+       "f1": 0.5892,
+       "roc_auc": 0.6996,
+       "pr_auc": 0.6902,
+       "confusion": {
+        "tn": 6240,
+        "fp": 28684,
+        "fn": 2622,
+        "tp": 22454
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.482,
+       "recall": 0.9505,
+       "f1": 0.6396,
+       "roc_auc": 0.8207,
+       "pr_auc": 0.8068,
+       "confusion": {
+        "tn": 9310,
+        "fp": 25614,
+        "fn": 1242,
+        "tp": 23834
+       },
+       "n": 60000
+      }
+     },
+     "cross_source_phiusiil_to_ealvaradob": {
+      "char_ngram_lr": {
+       "precision": 0.4436,
+       "recall": 0.8306,
+       "f1": 0.5783,
+       "roc_auc": 0.4845,
+       "pr_auc": 0.4768,
+       "confusion": {
+        "tn": 4696,
+        "fp": 28221,
+        "fn": 4587,
+        "tp": 22496
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.4298,
+       "recall": 0.839,
+       "f1": 0.5684,
+       "roc_auc": 0.3327,
+       "pr_auc": 0.4024,
+       "confusion": {
+        "tn": 2766,
+        "fp": 30151,
+        "fn": 4360,
+        "tp": 22723
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.4294,
+       "recall": 0.8378,
+       "f1": 0.5678,
+       "roc_auc": 0.2994,
+       "pr_auc": 0.3453,
+       "confusion": {
+        "tn": 2764,
+        "fp": 30153,
+        "fn": 4393,
+        "tp": 22690
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.4328,
+       "recall": 0.8455,
+       "f1": 0.5725,
+       "roc_auc": 0.4541,
+       "pr_auc": 0.4614,
+       "confusion": {
+        "tn": 2906,
+        "fp": 30011,
+        "fn": 4184,
+        "tp": 22899
+       },
+       "n": 60000
+      }
+     }
+    },
+    "calibration_fold": {
+     "precision": 0.9311,
+     "recall": 0.8627,
+     "f1": 0.8956,
+     "roc_auc": 0.9667,
+     "pr_auc": 0.9673,
+     "confusion": {
+      "tn": 27664,
+      "fp": 1760,
+      "fn": 3784,
+      "tp": 23771
+     },
+     "n": 56979
+    },
+    "fresh_feed": {
+     "status": "ok",
+     "at": "2026-09-29T20:39:09",
+     "phishing_source": "openphish.com/feed.txt (live)",
+     "benign_source": "Tranco ranks 20,001-23,000 homepages",
+     "n_phishing": 300,
+     "n_benign": 2639,
+     "recall_at_0.5": 0.95,
+     "fp_rate_at_0.5": 0.3729,
+     "precision": 0.2246,
+     "recall": 0.95,
+     "f1": 0.3633,
+     "roc_auc": 0.9133,
+     "pr_auc": 0.5382,
+     "confusion": {
+      "tn": 1655,
+      "fp": 984,
+      "fn": 15,
+      "tp": 285
+     },
+     "n": 2939,
+     "caveat": "benign side is real sites but homepages only; phishing side is live and unseen. The URL model is one signal of six and never decides alone."
+    },
+    "deployed": "blend(char_ngram_lr, lexical_hgb) + isotonic calibration, trained on domain-grouped split",
+    "seconds": 482
+   }
+  },
+  {
+   "name": "url",
+   "version": 5,
+   "status": "active",
+   "trained_at": "2026-09-29T20:45:46",
+   "artifact": "url/url_model.joblib",
+   "sha256_16": "bca390d90d95ebb2",
+   "report": {
+    "data": {
+     "n": 420000,
+     "by_source": {
+      "ealvaradob": 308952,
+      "phiusiil": 88771,
+      "tranco": 22277
+     },
+     "phishing_ratio": 0.4232
+    },
+    "splits": {
+     "random_stratified": {
+      "char_ngram_lr": {
+       "precision": 0.9302,
+       "recall": 0.8729,
+       "f1": 0.9006,
+       "roc_auc": 0.9757,
+       "pr_auc": 0.9737,
+       "confusion": {
+        "tn": 41706,
+        "fp": 2328,
+        "fn": 4520,
+        "tp": 31030
+       },
+       "n": 79584
+      },
+      "lexical_hgb": {
+       "precision": 0.8995,
+       "recall": 0.7936,
+       "f1": 0.8433,
+       "roc_auc": 0.9441,
+       "pr_auc": 0.9415,
+       "confusion": {
+        "tn": 40881,
+        "fp": 3153,
+        "fn": 7336,
+        "tp": 28214
+       },
+       "n": 79584
+      },
+      "lexical_rf": {
+       "precision": 0.8941,
+       "recall": 0.7855,
+       "f1": 0.8363,
+       "roc_auc": 0.9376,
+       "pr_auc": 0.9348,
+       "confusion": {
+        "tn": 40727,
+        "fp": 3307,
+        "fn": 7625,
+        "tp": 27925
+       },
+       "n": 79584
+      },
+      "blend_mean": {
+       "precision": 0.9532,
+       "recall": 0.8563,
+       "f1": 0.9021,
+       "roc_auc": 0.9759,
+       "pr_auc": 0.9743,
+       "confusion": {
+        "tn": 42539,
+        "fp": 1495,
+        "fn": 5110,
+        "tp": 30440
+       },
+       "n": 79584
+      }
+     },
+     "domain_grouped": {
+      "char_ngram_lr": {
+       "precision": 0.8608,
+       "recall": 0.857,
+       "f1": 0.8589,
+       "roc_auc": 0.9586,
+       "pr_auc": 0.9482,
+       "confusion": {
+        "tn": 48958,
+        "fp": 5183,
+        "fn": 5348,
+        "tp": 32040
+       },
+       "n": 91529
+      },
+      "lexical_hgb": {
+       "precision": 0.8743,
+       "recall": 0.793,
+       "f1": 0.8316,
+       "roc_auc": 0.9423,
+       "pr_auc": 0.9311,
+       "confusion": {
+        "tn": 49879,
+        "fp": 4262,
+        "fn": 7741,
+        "tp": 29647
+       },
+       "n": 91529
+      },
+      "lexical_rf": {
+       "precision": 0.8725,
+       "recall": 0.7851,
+       "f1": 0.8265,
+       "roc_auc": 0.9349,
+       "pr_auc": 0.9235,
+       "confusion": {
+        "tn": 49852,
+        "fp": 4289,
+        "fn": 8036,
+        "tp": 29352
+       },
+       "n": 91529
+      },
+      "blend_mean": {
+       "precision": 0.9286,
+       "recall": 0.8535,
+       "f1": 0.8895,
+       "roc_auc": 0.9703,
+       "pr_auc": 0.9637,
+       "confusion": {
+        "tn": 51687,
+        "fp": 2454,
+        "fn": 5478,
+        "tp": 31910
+       },
+       "n": 91529
+      }
+     },
+     "cross_source_ealvaradob_to_phiusiil": {
+      "char_ngram_lr": {
+       "precision": 0.5173,
+       "recall": 0.9348,
+       "f1": 0.666,
+       "roc_auc": 0.8306,
+       "pr_auc": 0.8008,
+       "confusion": {
+        "tn": 12462,
+        "fp": 22148,
+        "fn": 1655,
+        "tp": 23735
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.4508,
+       "recall": 0.8972,
+       "f1": 0.6001,
+       "roc_auc": 0.7562,
+       "pr_auc": 0.7809,
+       "confusion": {
+        "tn": 6857,
+        "fp": 27753,
+        "fn": 2610,
+        "tp": 22780
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.44,
+       "recall": 0.8924,
+       "f1": 0.5894,
+       "roc_auc": 0.6991,
+       "pr_auc": 0.6947,
+       "confusion": {
+        "tn": 5775,
+        "fp": 28835,
+        "fn": 2732,
+        "tp": 22658
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.4865,
+       "recall": 0.9505,
+       "f1": 0.6436,
+       "roc_auc": 0.8221,
+       "pr_auc": 0.8141,
+       "confusion": {
+        "tn": 9141,
+        "fp": 25469,
+        "fn": 1256,
+        "tp": 24134
+       },
+       "n": 60000
+      }
+     },
+     "cross_source_phiusiil_to_ealvaradob": {
+      "char_ngram_lr": {
+       "precision": 0.4509,
+       "recall": 0.8263,
+       "f1": 0.5835,
+       "roc_auc": 0.4913,
+       "pr_auc": 0.4872,
+       "confusion": {
+        "tn": 4894,
+        "fp": 27636,
+        "fn": 4772,
+        "tp": 22698
+       },
+       "n": 60000
+      },
+      "lexical_hgb": {
+       "precision": 0.436,
+       "recall": 0.8367,
+       "f1": 0.5732,
+       "roc_auc": 0.3295,
+       "pr_auc": 0.3761,
+       "confusion": {
+        "tn": 2793,
+        "fp": 29737,
+        "fn": 4486,
+        "tp": 22984
+       },
+       "n": 60000
+      },
+      "lexical_rf": {
+       "precision": 0.4368,
+       "recall": 0.8401,
+       "f1": 0.5747,
+       "roc_auc": 0.2879,
+       "pr_auc": 0.3457,
+       "confusion": {
+        "tn": 2770,
+        "fp": 29760,
+        "fn": 4392,
+        "tp": 23078
+       },
+       "n": 60000
+      },
+      "blend_mean": {
+       "precision": 0.439,
+       "recall": 0.8434,
+       "f1": 0.5775,
+       "roc_auc": 0.4577,
+       "pr_auc": 0.4684,
+       "confusion": {
+        "tn": 2929,
+        "fp": 29601,
+        "fn": 4302,
+        "tp": 23168
+       },
+       "n": 60000
+      }
+     }
+    },
+    "calibration_fold": {
+     "precision": 0.9082,
+     "recall": 0.8374,
+     "f1": 0.8714,
+     "roc_auc": 0.9591,
+     "pr_auc": 0.9491,
+     "confusion": {
+      "tn": 36586,
+      "fp": 2243,
+      "fn": 4311,
+      "tp": 22196
+     },
+     "n": 65336
+    },
+    "fresh_feed": {
+     "status": "ok",
+     "at": "2026-09-29T20:45:45",
+     "phishing_source": "openphish.com/feed.txt (live)",
+     "benign_source": "Tranco ranks 20,001-23,000 homepages",
+     "n_phishing": 300,
+     "n_benign": 2639,
+     "recall_at_0.5": 0.96,
+     "fp_rate_at_0.5": 0.1633,
+     "precision": 0.4006,
+     "recall": 0.96,
+     "f1": 0.5653,
+     "roc_auc": 0.9597,
+     "pr_auc": 0.794,
+     "confusion": {
+      "tn": 2208,
+      "fp": 431,
+      "fn": 12,
+      "tp": 288
+     },
+     "n": 2939,
+     "caveat": "benign side is real sites but homepages only; phishing side is live and unseen. The URL model is one signal of six and never decides alone."
+    },
+    "deployed": "blend(char_ngram_lr, lexical_hgb) + isotonic calibration, trained on domain-grouped split",
+    "seconds": 340
    }
   }
  ]

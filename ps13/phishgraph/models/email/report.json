@@ -8,6 +8,15 @@
   "by_channel": {
    "sms": 5403,
    "email": 14452
+  },
+  "feedback": {
+   "read": 13,
+   "skipped_demo": 0,
+   "skipped_duplicate": 11,
+   "skipped_short": 0,
+   "used": 2,
+   "used_phishing": 2,
+   "used_hard_negatives": 0
   }
  },
  "splits": {
@@ -147,6 +156,6 @@
  "notes": [
   "zefang-liu/phishing-email-dataset is fully contained in ealvaradob/phishing-dataset (exact duplicates after normalisation), so a cross-source split between them is not meaningful; cross-channel splits are reported instead."
  ],
- "deployed": "stage1 hashed TF-IDF LR + stage2 MiniLM-embedding LR, averaged; trained on all de-duplicated data",
- "seconds": 193
+ "deployed": "stage1 hashed TF-IDF LR + stage2 MiniLM-embedding LR, averaged; trained on all de-duplicated data plus reviewed analyst feedback",
+ "seconds": 182
 }
