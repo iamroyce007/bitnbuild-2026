@@ -29,6 +29,7 @@ def apply(detection_id: str, label: str, analyst: str = 'analyst', note: str = '
         if not d:
             raise KeyError(detection_id)
         rep = d.report or {}
+        is_demo = bool(getattr(d, 'demo', False) or rep.get('demo'))
         d.status = {'confirmed_phishing': 'confirmed', 'false_positive': 'false_positive', 'unsure': 'unsure'}[label]
         s.add(Feedback(detection_id=detection_id, label=label, analyst=analyst, note=note[:2000]))
         s.add(AuditLog(actor=analyst, action=f'feedback.{label}', target=detection_id, detail={'note': note[:200]}))
@@ -49,7 +50,8 @@ def apply(detection_id: str, label: str, analyst: str = 'analyst', note: str = '
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, 'a', encoding='utf-8') as f:
             f.write(json.dumps({'detection_id': detection_id, 'label': 1 if label == 'confirmed_phishing' else 0, 'subject': msg.get('subject'),
-                                'text': msg.get('text', '')[:8000], 'urls': [u['url'] for u in urls], 'at': datetime.now(timezone.utc).isoformat()}) + '\n')
+                                'text': msg.get('text', '')[:8000], 'urls': [u['url'] for u in urls], 'channel': msg.get('channel'),
+                                'demo': is_demo, 'at': datetime.now(timezone.utc).isoformat()}) + '\n')
         out['queued_for_training'] = path.name
     from .events import bus
     bus.publish('feedback', {'detection_id': detection_id, 'label': label, 'iocs_added': out['iocs_added']})

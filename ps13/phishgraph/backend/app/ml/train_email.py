@@ -62,6 +62,49 @@ def load() -> pd.DataFrame:
     return df.reset_index(drop=True)
 
 
+def feedback_rows(corpus_hashes: set[str]) -> tuple[pd.DataFrame, dict]:
+    """Analyst feedback queued by feedback_engine: confirmed phishing (label 1) and false positives (label 0, the hard
+    negatives). Used only to fit the deployed model, never in an evaluation split. Sample/demo detections are skipped
+    (they would teach the model our own demo text), and texts already in the corpus or repeated are dropped."""
+    rows, stats = [], {'read': 0, 'skipped_demo': 0, 'skipped_duplicate': 0, 'skipped_short': 0}
+    demo_ids: set[str] = set()
+    try:  # older records lack the demo flag: look the detection up
+        from ..database import session_scope
+        from ..models.database_models import Detection
+        with session_scope() as ses:
+            demo_ids = {r[0] for r in ses.query(Detection.id).filter(Detection.demo.is_(True)).all()}
+    except Exception:
+        pass
+    seen = set(corpus_hashes)
+    for name in ('confirmed_phishing.jsonl', 'hard_negatives.jsonl'):
+        path = S.data_dir / 'processed' / name
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding='utf-8').splitlines():
+            try:
+                rec = json.loads(line)
+            except ValueError:
+                continue
+            stats['read'] += 1
+            text = str(rec.get('text') or '')
+            if rec.get('demo') or rec.get('detection_id') in demo_ids or 'DEMO DATA' in text:
+                stats['skipped_demo'] += 1
+                continue
+            if len(text) <= 20:
+                stats['skipped_short'] += 1
+                continue
+            h = hashlib.md5(re.sub(r'\W+', ' ', text.lower()).strip()[:2000].encode()).hexdigest()
+            if h in seen:
+                stats['skipped_duplicate'] += 1
+                continue
+            seen.add(h)
+            rows.append((text, int(rec.get('label', 1)), 'feedback'))
+    stats['used'] = len(rows)
+    stats['used_phishing'] = sum(1 for r in rows if r[1] == 1)
+    stats['used_hard_negatives'] = sum(1 for r in rows if r[1] == 0)
+    return pd.DataFrame(rows, columns=['text', 'label', 'source']), stats
+
+
 def tfidf_lr():
     return make_pipeline(HashingVectorizer(analyzer=word_features, n_features=N_FEATURES, alternate_sign=False, norm=None),
                          TfidfTransformer(sublinear_tf=True), LogisticRegression(C=8.0, max_iter=1000, solver='liblinear', class_weight='balanced'))
@@ -115,9 +158,17 @@ def main() -> None:
         if len(np.unique(y[tr_i])) == 2 and len(np.unique(y[te_i])) == 2:
             report['splits'][f'cross_channel_{a}_to_{b}'] = run(f'{a}->{b}', tr_i, te_i)
 
-    # deployed: both stages on all data
-    stage1 = tfidf_lr().fit(X, y)
-    stage2 = LogisticRegression(C=4.0, max_iter=2000, class_weight='balanced').fit(E, y)
+    # deployed: both stages on all data plus reviewed analyst feedback (feedback never enters an evaluation split)
+    fb, fb_stats = feedback_rows(set(df['h']))
+    report['data']['feedback'] = fb_stats
+    print('analyst feedback:', fb_stats)
+    if len(fb):
+        X_all, y_all = X + fb['text'].tolist(), np.concatenate([y, fb['label'].to_numpy()])
+        E_all = np.vstack([E, embed(fb['text'].tolist())])
+    else:
+        X_all, y_all, E_all = X, y, E
+    stage1 = tfidf_lr().fit(X_all, y_all)
+    stage2 = LogisticRegression(C=4.0, max_iter=2000, class_weight='balanced').fit(E_all, y_all)
     out = S.models_dir / 'email'
     out.mkdir(parents=True, exist_ok=True)
     joblib.dump({'stage1': stage1, 'stage2': stage2}, out / 'email_model.joblib', compress=3)
@@ -126,7 +177,7 @@ def main() -> None:
     ph = E[y == 1]
     km = MiniBatchKMeans(n_clusters=64, random_state=7, n_init=3).fit(ph)
     np.save(out / 'phish_centroids.npy', km.cluster_centers_ / np.linalg.norm(km.cluster_centers_, axis=1, keepdims=True))
-    report['deployed'] = 'stage1 hashed TF-IDF LR + stage2 MiniLM-embedding LR, averaged; trained on all de-duplicated data'
+    report['deployed'] = 'stage1 hashed TF-IDF LR + stage2 MiniLM-embedding LR, averaged; trained on all de-duplicated data plus reviewed analyst feedback'
     report['seconds'] = round(time.time() - t0)
     (out / 'report.json').write_text(json.dumps(report, indent=1))
     register('email', report, out / 'email_model.joblib')

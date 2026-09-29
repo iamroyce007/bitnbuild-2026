@@ -81,9 +81,35 @@ def feats(urls) -> np.ndarray:
     return np.array([feature_vector(u) for u in urls], dtype=np.float32)
 
 
+def fresh_feed_eval(predict, seen_keys: set[str]) -> dict:
+    """Today's live phishing (OpenPhish public feed) against real sites (Tranco ranks 20,001-23,000), none of them in the
+    training data. This is the closest thing to "how does it do on phishing it has never seen, right now".
+    Caveat, recorded in the result: the benign side is homepages only, because no public list of deep links on
+    ordinary sites exists, so its false-positive rate is optimistic."""
+    import httpx
+    key = lambda u: u.lower().split('://', 1)[-1].removeprefix('www.').rstrip('/')
+    try:
+        feed = httpx.get('https://openphish.com/feed.txt', timeout=20, headers={'User-Agent': 'PhishGraph-training/1.0'}).text.split()
+    except Exception as e:  # offline: report it, do not invent a number
+        return {'status': 'unavailable', 'error': str(e)[:200]}
+    phish = sorted({u.strip() for u in feed if u.startswith('http') and key(u) not in seen_keys})
+    tranco = [line.split(',', 1)[1].strip() for line in (RAW / 'top-1m.csv').read_text().splitlines()[20_000:23_000] if ',' in line]
+    benign = [f'https://{d}/' for d in tranco if key(d) not in seen_keys]
+    if len(phish) < 20:
+        return {'status': 'too_few', 'n_phishing': len(phish)}
+    pp, pb = predict(phish), predict(benign)
+    yt = np.r_[np.ones(len(pp)), np.zeros(len(pb))]
+    m = metrics(yt, np.r_[pp, pb])
+    return {'status': 'ok', 'at': time.strftime('%Y-%m-%dT%H:%M:%S'), 'phishing_source': 'openphish.com/feed.txt (live)',
+            'benign_source': 'Tranco ranks 20,001-23,000 homepages', 'n_phishing': len(phish), 'n_benign': len(benign),
+            'recall_at_0.5': round(float((pp >= 0.5).mean()), 4), 'fp_rate_at_0.5': round(float((pb >= 0.5).mean()), 4), **m,
+            'caveat': 'benign side is homepages only, so the false-positive rate is optimistic; the recall is the meaningful number'}
+
+
 def main() -> None:
     t0 = time.time()
     df = load()
+    seen_keys = set(df['key'])
     df = df.sample(n=min(len(df), 420_000), random_state=7).reset_index(drop=True)
     print('computing registrable domains + lexical features...')
     df['reg'] = [registrable_of(u) for u in df['url']]
@@ -139,6 +165,11 @@ def main() -> None:
     from sklearn.isotonic import IsotonicRegression
     iso = IsotonicRegression(out_of_bounds='clip').fit(p_cal, y[cal])
     report['calibration_fold'] = metrics(y[cal], iso.predict(p_cal))
+
+    def predict(us: list[str]) -> np.ndarray:  # exactly the deployed scoring path: blend -> isotonic
+        return iso.predict((lr.predict_proba(hv.transform(us))[:, 1] + hgb.predict_proba(feats(us))[:, 1]) / 2)
+    report['fresh_feed'] = fresh_feed_eval(predict, seen_keys)
+    print('fresh feed:', {k: v for k, v in report['fresh_feed'].items() if k not in ('confusion',)})
     out = S.models_dir / 'url'
     out.mkdir(parents=True, exist_ok=True)
     joblib.dump({'n_features': N_FEATURES, 'lr': lr, 'hgb': hgb, 'iso': iso, 'feature_names': FEATURE_NAMES}, out / 'url_model.joblib', compress=3)
