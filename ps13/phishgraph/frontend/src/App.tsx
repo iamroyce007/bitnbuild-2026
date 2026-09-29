@@ -1,6 +1,8 @@
-import { createContext, lazy, Suspense, useContext, useState } from 'react';
+import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react';
 import { NavLink, Navigate, Route, Routes } from 'react-router-dom';
 import { Icon, Loading } from './components/ui';
+import Welcome from './components/Welcome';
+import { api, getKey } from './lib/api';
 import { type LinkState, useEvents } from './lib/events';
 import type { LiveEvent } from './lib/types';
 
@@ -18,13 +20,19 @@ const Models = lazy(() => import('./pages/Models'));
 const Review = lazy(() => import('./pages/Review'));
 const Health = lazy(() => import('./pages/Health'));
 const Settings = lazy(() => import('./pages/Settings'));
+const Setup = lazy(() => import('./pages/Setup'));
 
 type Live = { state: LinkState; events: LiveEvent[]; paused: boolean; setPaused: (p: boolean) => void };
 const LiveCtx = createContext<Live>({ state: 'offline', events: [], paused: false, setPaused: () => {} });
 export const useLive = () => useContext(LiveCtx);
 
+type Sample = { loaded: boolean; count: number; busy: boolean; load: () => void; clear: () => void };
+const SampleCtx = createContext<Sample>({ loaded: false, count: 0, busy: false, load: () => {}, clear: () => {} });
+export const useSample = () => useContext(SampleCtx);
+
 const NAV: [string, string, string][] = [
   ['/', 'overview', 'Overview'],
+  ['/setup', 'settings', 'Setup'],
   ['/feed', 'feed', 'Live detections'],
   ['/analyze', 'analyze', 'Analyze message'],
   ['/investigate', 'investigate', 'Investigate URL'],
@@ -60,7 +68,41 @@ function NavItems({ onPick }: { onPick?: () => void }) {
   );
 }
 
+function SampleBanner() {
+  const s = useSample();
+  if (!s.loaded) return null;
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#4a3a0e] bg-[#e0a1060d] px-5 py-2 text-[13px]" role="status">
+      <span><span className="font-mono text-[11px] font-medium text-flag">SAMPLE DATA</span> <span className="text-muted">{s.count} example messages and fictional infrastructure are loaded, marked DEMO DATA.</span></span>
+      <button className="btn h-8 text-[12px]" onClick={s.clear} disabled={s.busy}>{s.busy ? 'Removing…' : 'Remove sample data'}</button>
+    </div>
+  );
+}
+
 export default function App() {
+  const [auth, setAuth] = useState<'checking' | 'ok' | 'needed'>(getKey() ? 'checking' : 'needed');
+  const [sample, setSample] = useState({ loaded: false, count: 0, busy: false });
+  const refreshSample = useCallback(async () => {
+    try {
+      const st = await api.sampleStatus();
+      setSample((x) => ({ ...x, loaded: st.loaded, count: st.sample_detections }));
+      setAuth('ok');
+    } catch (e) {
+      setAuth(e instanceof Error && /401|key/i.test(e.message) ? 'needed' : 'ok');
+    }
+  }, []);
+  useEffect(() => { if (auth === 'checking') refreshSample(); }, [auth, refreshSample]);
+  const sampleCtx: Sample = {
+    ...sample,
+    load: async () => { setSample((x) => ({ ...x, busy: true })); try { await api.loadSample(); } finally { await refreshSample(); setSample((x) => ({ ...x, busy: false })); window.dispatchEvent(new Event('phishgraph:data-changed')); } },
+    clear: async () => { setSample((x) => ({ ...x, busy: true })); try { await api.clearSample(); } finally { await refreshSample(); setSample((x) => ({ ...x, busy: false })); window.dispatchEvent(new Event('phishgraph:data-changed')); } },
+  };
+  if (auth === 'needed') return <Welcome onConnected={() => setAuth('checking')} />;
+  if (auth === 'checking') return <Loading label="Connecting" />;
+  return <SampleCtx.Provider value={sampleCtx}><Shell /></SampleCtx.Provider>;
+}
+
+function Shell() {
   const [paused, setPaused] = useState(false);
   const live = useEvents();
   const [menu, setMenu] = useState(false);
@@ -86,6 +128,7 @@ export default function App() {
             <span className="hidden text-[12px] text-muted lg:block">NLP · URL model · brand look-alikes · threat intelligence · infrastructure graph</span>
             <LinkBadge state={live.state} />
           </header>
+          <SampleBanner />
           {menu && (
             <nav id="mobile-nav" className="space-y-0.5 border-b border-line bg-[#0a0d11] p-2.5 lg:hidden" aria-label="Main">
               <NavItems onPick={() => setMenu(false)} />
@@ -110,6 +153,7 @@ export default function App() {
                 <Route path="/models" element={<Models />} />
                 <Route path="/health" element={<Health />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/setup" element={<Setup />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Suspense>

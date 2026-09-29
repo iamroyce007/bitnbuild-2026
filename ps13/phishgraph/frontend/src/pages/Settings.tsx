@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PageTitle, Section } from '../components/ui';
-import { api, getKey, setKey } from '../lib/api';
+import { Link } from 'react-router-dom';
+import { api, clearKey, getKey, setKey } from '../lib/api';
 
 export default function Settings() {
   const [key, setK] = useState(getKey());
@@ -29,7 +30,11 @@ export default function Settings() {
           </form>
         </Section>
         <Section title="Chrome extension">
-          <p className="text-[13px] text-muted">Load <code className="font-mono text-ink">extension/</code> via chrome://extensions → Developer mode → Load unpacked, then enter this server's URL and your API key in its options.</p>
+          <p className="text-[13px] text-muted">Download, install and connect it in three steps on the <Link to="/setup" className="text-accent hover:underline">Setup</Link> page.</p>
+        </Section>
+        <Section title="Disconnect this browser">
+          <p className="mb-3 text-[13px] text-muted">Removes the stored key from this browser only.</p>
+          <button className="btn" onClick={() => { clearKey(); window.location.href = '/'; }}>Disconnect</button>
         </Section>
       </div>
     </>

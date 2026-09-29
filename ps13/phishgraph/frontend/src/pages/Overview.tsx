@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSample } from '../App';
 import { Link } from 'react-router-dom';
 import { useLive } from '../App';
 import { Histogram, StackedBars } from '../components/charts';
@@ -12,6 +13,13 @@ export default function Overview() {
   const recent = useApi(() => api.detections('?limit=8'));
   const camps = useApi(() => api.campaigns());
   const { events, paused } = useLive();
+  const sample = useSample();
+  useEffect(() => {
+    const f = () => { stats.reload(); recent.reload(); camps.reload(); };
+    window.addEventListener('phishgraph:data-changed', f);
+    return () => window.removeEventListener('phishgraph:data-changed', f);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!paused && events[0]?.event === 'new_detection') {
@@ -28,7 +36,17 @@ export default function Overview() {
   return (
     <>
       <PageTitle title="Overview" sub="Last 24 hours of analysed messages and links" right={<Link to="/analyze" className="btn btn-primary">Analyze a message</Link>} />
-      {!s ? <Loading /> : (
+      {s && s.total_detections === 0 ? (
+        <section className="card max-w-3xl p-6">
+          <h2 className="text-[16px] font-semibold">Nothing analysed yet</h2>
+          <p className="mt-1 text-[13px] text-muted">PhishGraph is running and already pulling real phishing indicators from the public OpenPhish feed. Give it something to look at:</p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <Link to="/analyze" className="card block p-4 hover:border-line-strong"><div className="font-medium">Analyze a message</div><div className="mt-1 text-[12px] text-muted">Paste an email, SMS or WhatsApp text, or a link.</div></Link>
+            <Link to="/setup" className="card block p-4 hover:border-line-strong"><div className="font-medium">Install the extension</div><div className="mt-1 text-[12px] text-muted">Checks pages and Gmail messages as you browse.</div></Link>
+            <button onClick={sample.load} disabled={sample.busy} className="card block p-4 text-left hover:border-line-strong"><div className="font-medium">{sample.busy ? 'Loading…' : 'Load sample data'}</div><div className="mt-1 text-[12px] text-muted">27 labelled examples to explore every page. Removable.</div></button>
+          </div>
+        </section>
+      ) : !s ? <Loading /> : (
         <div className="space-y-5">
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
             <Stat label="Analysed (24 h)" value={total24} sub={`${s.total_detections} all time`} />
