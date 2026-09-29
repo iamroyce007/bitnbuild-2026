@@ -3,8 +3,20 @@
 import type { Analysis, CampaignDetail, CampaignSummary, DetectionDetail, DetectionSummary, GraphData, ModelsInfo, ProvidersInfo, Statistics, ThreatFeed } from './types';
 
 const KEY = 'phishgraph.apiKey';
-export const getKey = () => localStorage.getItem(KEY) || import.meta.env.VITE_API_KEY || 'dev-local-key';
+const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+export const getKey = () => localStorage.getItem(KEY) || (isLocal ? 'dev-local-key' : '');
 export const setKey = (k: string) => localStorage.setItem(KEY, k);
+export const clearKey = () => localStorage.removeItem(KEY);
+
+// One-click setup links: https://host/#key=...  (the fragment never reaches any server; removed from the URL at once)
+(() => {
+  const m = window.location.hash.match(/key=([^&]+)/);
+  if (m) {
+    setKey(decodeURIComponent(m[1]));
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+})();
+export const setupLink = () => `${window.location.origin}/#key=${encodeURIComponent(getKey())}`;
 export const apiBase = () => (import.meta.env.VITE_API_BASE as string | undefined) || '';
 
 export class ApiError extends Error {
@@ -54,5 +66,9 @@ export const api = {
   providers: () => req<ProvidersInfo>('/api/v1/providers'),
   models: () => req<ModelsInfo>('/api/v1/models'),
   ready: () => req<Record<string, unknown>>('/ready'),
+  sampleStatus: () => req<{ loaded: boolean; sample_detections: number; real_detections: number }>('/api/v1/sample-data'),
+  loadSample: () => post<{ sample_detections: number; benign_allowed?: number; phishing_caught?: number }>('/api/v1/sample-data', {}),
+  clearSample: () => req<{ sample_detections: number }>('/api/v1/sample-data', { method: 'DELETE' }),
+  refreshFeeds: () => post<Record<string, Record<string, unknown>>>('/api/v1/feeds/refresh', {}),
   metrics: async () => (await fetch(`${apiBase()}/metrics`)).text(),
 };
