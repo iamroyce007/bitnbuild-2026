@@ -37,6 +37,14 @@ class IntelStore:
         rank = be.rank.get(reg)
         return (rank is not None and rank <= be.established_top) or any(reg == h or reg.endswith('.' + h) for h in FREE_HOSTING) or bool(be.official_brand(reg))
 
+    def _shared_root(self, d: str) -> bool:
+        """Exactly a shared service (not a subdomain of one): a top-100k site, an official brand domain, or a hosting
+        platform root. Checked by exact name because suffixes like github.io make every page its own "registrable"."""
+        from .brand_engine import get_brand_engine
+        be = get_brand_engine()
+        rank = be.rank.get(d)
+        return (rank is not None and rank <= be.established_top) or d in FREE_HOSTING or d in be.official
+
     def _index(self, t: str, v: str, meta: dict) -> None:
         if t == 'url':
             p = parse_url(v)
@@ -47,7 +55,12 @@ class IntelStore:
             if p.registrable and not self._shared(p.registrable):
                 self.url_regs.setdefault(p.registrable, []).append(meta)
         elif t == 'domain':
-            self.domains.setdefault(v.lower(), []).append(meta)
+            d = v.lower()
+            # a feed listing a whole top-100k site, an official brand domain or a hosting-platform root (e.g. a link
+            # shortener) would block every link through it; only specific hosts are indexed (abc.github.io is fine)
+            if self._shared_root(d):
+                return
+            self.domains.setdefault(d, []).append(meta)
         elif t == 'ip':
             self.ips.setdefault(v, []).append(meta)
         elif t == 'hash':
@@ -60,6 +73,22 @@ class IntelStore:
                 for r in s.execute(select(IOC.ioc_type, IOC.value, IOC.source, IOC.demo, IOC.tags, IOC.first_seen).where(IOC.active.is_(True))):
                     self._index(r[0], r[1], {'source': r[2], 'demo': r[3], 'tags': r[4], 'first_seen': r[5].isoformat() if r[5] else None})
             self.loaded = True
+
+    def load_domain_list(self, path, source: str, tags: list[str] | None = None, at: str | None = None) -> int:
+        """Index a (gzipped) domain list from the deploy-time snapshot straight into memory, without database rows:
+        100k+ domains in about a second on a serverless cold start. Returns the number indexed."""
+        import gzip
+        if not self.loaded:
+            self.load()
+        meta = {'source': source, 'demo': False, 'tags': tags or ['phishing'], 'first_seen': at}
+        n = 0
+        with gzip.open(path, 'rt', encoding='utf-8') as f, self._lock:
+            for line in f:
+                d = line.strip()
+                if d:
+                    self._index('domain', d, meta)
+                    n += 1
+        return n
 
     def size(self) -> int:
         return len(self.urls) + len(self.domains) + len(self.ips) + len(self.hashes)

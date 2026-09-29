@@ -172,3 +172,15 @@ def test_private_indicators_never_sent(monkeypatch):
     monkeypatch.setattr(get_settings(), 'enable_external_ti', True)
     assert asyncio.run(VirusTotal().lookup('domain', '10.1.2.3')).status == 'skipped_private'
     assert ti_base.safe_indicator('url', 'https://evil.xyz/reset?email=alice@corp.com') == ('domain', 'evil.xyz')
+
+
+def test_feed_domains_never_taint_shared_services():
+    # public blocklists sometimes list whole shorteners or platforms; those roots must not become "known bad"
+    from app.services.intel_store import IntelStore
+    st = IntelStore()
+    st.loaded = True
+    for d in ('dub.sh', 'github.io', 'google.com', 'abc123-phish.github.io', 'evil-login-kyc.site'):
+        st._index('domain', d, {'source': 'test'})
+    assert not st.match('url', 'https://dub.sh/abc') and not st.match('url', 'https://google.com/')
+    assert not st.match('url', 'https://someone-else.github.io/')
+    assert st.match('url', 'https://abc123-phish.github.io/login') and st.match('url', 'https://evil-login-kyc.site/x')
