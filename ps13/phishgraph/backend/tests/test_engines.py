@@ -207,3 +207,10 @@ def test_user_content_hosts_never_inherit_platform_trust():
     r = ue.analyze('https://hasanshahid32h-source.github.io/facebook-login/')
     assert any(x['id'] == 'brand_on_user_content' for x in r.rules)
     assert ue.analyze('https://github.com/login').trusted and ue.analyze('https://www.weebly.com/').trusted
+
+
+def test_user_content_is_neutral_without_concrete_evidence():
+    from app.services.url_engine import get_url_engine
+    ue = get_url_engine()
+    assert ue.analyze('https://hyeonseok067.github.io/').score <= 55          # personal page: at most FLAG, never quarantined
+    assert ue.analyze('https://online-secured.github.io/facebook-login/').score >= 30  # brand named on it

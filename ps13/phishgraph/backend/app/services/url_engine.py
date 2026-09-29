@@ -152,8 +152,15 @@ class URLEngine:
         ml = prob if prob is not None else 0.0
         # URL ML generalises poorly across data sources (cross-source F1 ~0.6), so on its own it is only
         # moderate evidence; corroborating rules or brand findings let it count fully.
-        ml_weight = 0.8 if rules else 0.45
+        # on a user-content host "free hosting" is a fact about the platform, not evidence against this page:
+        # only concrete rules (brand named, look-alike, sign-in keywords ...) corroborate the model there
+        concrete = [r for r in rules if r['id'] != 'free_hosting'] if user_content else rules
+        ml_weight = 0.8 if concrete else 0.45
         combined = 1 - (1 - rule_risk) * (1 - ml_weight * ml)
+        if user_content and not concrete:
+            # measured trade-off (scripts/real_world_check.py): phishing on free hosting is very common, so the model may
+            # still FLAG such a page for verification, but never quarantine/block it without concrete evidence
+            combined = min(combined, 0.55)
         if trusted:
             # an official or top-100k site: ML n-gram noise alone must not flag it; hard rules still can
             combined = min(combined, max(rule_risk * 0.6, 0.02))
