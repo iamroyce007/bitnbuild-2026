@@ -1,692 +1,727 @@
 {
  "summary": {
-  "base": "https://phishgraph.vercel.app",
-  "checks": 97,
-  "passed": 97,
-  "urls_scored": 43,
+  "base": "http://localhost:8000",
+  "checks": 102,
+  "passed": 102,
+  "urls_scored": 42,
   "false_positives": [],
   "false_negatives": [],
-  "ran_at": "2026-09-29T21:26:28"
+  "ran_at": "2026-09-29T23:12:32"
  },
  "rows": [
   {
    "area": "service",
    "check": "GET /health",
    "ok": true,
-   "detail": "{\"status\":\"ok\",\"uptime_s\":15}",
-   "ms": 633
+   "detail": "{\"status\":\"ok\",\"uptime_s\":51}",
+   "ms": 12
   },
   {
    "area": "service",
    "check": "GET /ready",
    "ok": true,
    "detail": "",
-   "ms": 248
+   "ms": 2
   },
   {
    "area": "service",
    "check": "GET /metrics (Prometheus)",
    "ok": true,
    "detail": "",
-   "ms": 368
+   "ms": 2
   },
   {
    "area": "dashboard",
    "check": "GET / serves the app",
    "ok": true,
    "detail": "",
-   "ms": 240
+   "ms": 4
+  },
+  {
+   "area": "dashboard",
+   "check": "GET /overview serves the app",
+   "ok": true,
+   "detail": "",
+   "ms": 1
+  },
+  {
+   "area": "dashboard",
+   "check": "GET /investigate serves the app",
+   "ok": true,
+   "detail": "",
+   "ms": 1
   },
   {
    "area": "dashboard",
    "check": "GET /analyze serves the app",
    "ok": true,
    "detail": "",
-   "ms": 332
+   "ms": 1
   },
   {
    "area": "dashboard",
    "check": "GET /feed serves the app",
    "ok": true,
    "detail": "",
-   "ms": 488
+   "ms": 1
   },
   {
    "area": "dashboard",
    "check": "GET /system serves the app",
    "ok": true,
    "detail": "",
-   "ms": 251
+   "ms": 1
   },
   {
    "area": "dashboard",
    "check": "GET /setup serves the app",
    "ok": true,
    "detail": "",
-   "ms": 330
+   "ms": 1
   },
   {
    "area": "dashboard",
    "check": "GET /graph serves the app",
    "ok": true,
    "detail": "",
-   "ms": 406
+   "ms": 2
   },
   {
    "area": "dashboard",
-   "check": "GET /manifest.webmanifest",
+   "check": "GET /documentation serves the app",
    "ok": true,
    "detail": "",
-   "ms": 269
-  },
-  {
-   "area": "dashboard",
-   "check": "GET /apple-touch-icon.png",
-   "ok": true,
-   "detail": "",
-   "ms": 345
-  },
-  {
-   "area": "dashboard",
-   "check": "GET /favicon.svg",
-   "ok": true,
-   "detail": "",
-   "ms": 262
-  },
-  {
-   "area": "extension",
-   "check": "extension zip download",
-   "ok": true,
-   "detail": "111 KB",
-   "ms": 809
-  },
-  {
-   "area": "url",
-   "check": "https://www.google.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 362
-  },
-  {
-   "area": "url",
-   "check": "https://accounts.google.com/signin",
-   "ok": true,
-   "detail": "ALLOW 4 [brand] URL contains several login/verification keywords",
-   "ms": 258
-  },
-  {
-   "area": "url",
-   "check": "https://pay.google.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 253
-  },
-  {
-   "area": "url",
-   "check": "https://opensource.google/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand-tld] ",
-   "ms": 279
-  },
-  {
-   "area": "url",
-   "check": "https://github.com/login",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 334
-  },
-  {
-   "area": "url",
-   "check": "https://www.paypal.com/signin",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 265
-  },
-  {
-   "area": "url",
-   "check": "https://www.microsoft.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 255
-  },
-  {
-   "area": "url",
-   "check": "https://login.microsoftonline.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 298
-  },
-  {
-   "area": "url",
-   "check": "https://www.apple.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 310
-  },
-  {
-   "area": "url",
-   "check": "https://www.amazon.in/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 268
-  },
-  {
-   "area": "url",
-   "check": "https://www.onlinesbi.sbi/",
-   "ok": true,
-   "detail": "ALLOW 1 [bank] ",
-   "ms": 358
-  },
-  {
-   "area": "url",
-   "check": "https://www.hdfcbank.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [bank] ",
-   "ms": 271
-  },
-  {
-   "area": "url",
-   "check": "https://www.icicibank.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [bank] ",
-   "ms": 255
-  },
-  {
-   "area": "url",
-   "check": "https://www.netflix.com/in/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 264
-  },
-  {
-   "area": "url",
-   "check": "https://en.wikipedia.org/wiki/Phishing",
-   "ok": true,
-   "detail": "ALLOW 0 [everyday] ",
-   "ms": 278
-  },
-  {
-   "area": "url",
-   "check": "https://www.irctc.co.in/",
-   "ok": true,
-   "detail": "ALLOW 1 [gov-ish] ",
-   "ms": 351
-  },
-  {
-   "area": "url",
-   "check": "https://www.incometax.gov.in/",
-   "ok": true,
-   "detail": "ALLOW 1 [gov] ",
-   "ms": 254
-  },
-  {
-   "area": "url",
-   "check": "https://web.whatsapp.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [brand] ",
-   "ms": 271
-  },
-  {
-   "area": "url",
-   "check": "https://www.appleseedfoundation.org/",
-   "ok": true,
-   "detail": "ALLOW 16 [common-word] ",
-   "ms": 276
-  },
-  {
-   "area": "url",
-   "check": "https://www.bbc.co.uk/news",
-   "ok": true,
-   "detail": "ALLOW 1 [everyday] ",
-   "ms": 429
-  },
-  {
-   "area": "url",
-   "check": "https://g00gle.com/login",
-   "ok": true,
-   "detail": "QUARANTINE 83 [digit-swap] \"g00gle\" imitates \"google\" by swapping look-alike characters (\"00\"→\"oo\")",
-   "ms": 261
-  },
-  {
-   "area": "url",
-   "check": "https://paypa1.com/signin",
-   "ok": true,
-   "detail": "QUARANTINE 84 [digit-swap] \"paypa1\" imitates \"paypal\" by swapping look-alike characters (\"1\"→\"l\")",
-   "ms": 260
-  },
-  {
-   "area": "url",
-   "check": "https://rnicrosoft.com/account",
-   "ok": true,
-   "detail": "QUARANTINE 82 [rn-m] \"rnicrosoft\" imitates \"microsoft\" by swapping look-alike characters (\"rn\"→\"m\")",
-   "ms": 398
-  },
-  {
-   "area": "url",
-   "check": "https://arnazon.in/orders",
-   "ok": true,
-   "detail": "QUARANTINE 84 [rn-m] \"arnazon\" imitates \"amazon\" by swapping look-alike characters (\"rn\"→\"m\")",
-   "ms": 259
-  },
-  {
-   "area": "url",
-   "check": "https://xn--ggle-docs-02ha.com/",
-   "ok": true,
-   "detail": "QUARANTINE 83 [punycode] gооgle-docs.com → https://xn--ggle-docs-02ha.com/file/d/salary  (1 hop to a known-bad url)",
-   "ms": 359
-  },
-  {
-   "area": "url",
-   "check": "https://gооgle.com/",
-   "ok": true,
-   "detail": "QUARANTINE 84 [cyrillic] \"gооgle\" renders like \"google\" using look-alike characters о (U+043E)",
-   "ms": 280
-  },
-  {
-   "area": "url",
-   "check": "https://faceb00k-login.top/",
-   "ok": true,
-   "detail": "QUARANTINE 83 [combo] uses the brand name \"faceb00k\" (Meta) but the domain belongs to faceb00k-login.top",
-   "ms": 258
-  },
-  {
-   "area": "url",
-   "check": "https://apple-id-verify.xyz/",
-   "ok": true,
-   "detail": "QUARANTINE 83 [combo] uses the brand name \"apple\" (Apple) but the domain belongs to apple-id-verify.xyz",
-   "ms": 329
-  },
-  {
-   "area": "url",
-   "check": "https://microsoft-login-security.xyz/verify",
-   "ok": true,
-   "detail": "QUARANTINE 83 [combo] uses the brand name \"microsoft\" (Microsoft) but the domain belongs to microsoft-login-security.xyz",
-   "ms": 273
-  },
-  {
-   "area": "url",
-   "check": "https://netflix-billing-update.com/pay",
-   "ok": true,
-   "detail": "QUARANTINE 83 [combo] uses the brand name \"netflix\" (Netflix) but the domain belongs to netflix-billing-update.com",
-   "ms": 287
-  },
-  {
-   "area": "url",
-   "check": "https://sbi-kyc-update.site/kyc",
-   "ok": true,
-   "detail": "QUARANTINE 83 [bank-combo] uses the brand name \"sbi\" (State Bank of India) but the domain belongs to sbi-kyc-update.site",
-   "ms": 281
-  },
-  {
-   "area": "url",
-   "check": "https://hdfc-netbanking-verify.in/login",
-   "ok": true,
-   "detail": "QUARANTINE 83 [bank-combo] uses the brand name \"hdfc\" (HDFC Bank) but the domain belongs to hdfc-netbanking-verify.in",
-   "ms": 393
-  },
-  {
-   "area": "url",
-   "check": "https://whatsapp-web-verify.online/",
-   "ok": true,
-   "detail": "QUARANTINE 83 [combo] uses the brand name \"whatsapp\" (Meta) but the domain belongs to whatsapp-web-verify.online",
-   "ms": 348
-  },
-  {
-   "area": "url",
-   "check": "https://paypal.com.secure-login.info/",
-   "ok": true,
-   "detail": "QUARANTINE 84 [subdomain-trick] \"paypal.com\" is only a subdomain here; the real site is secure-login.info",
-   "ms": 281
-  },
-  {
-   "area": "url",
-   "check": "https://www.google.com@evil-login.xyz/",
-   "ok": true,
-   "detail": "FLAG 55 [userinfo-trick] URL model: 100% structural similarity to phishing URLs (evil-login.xyz)",
-   "ms": 412
-  },
-  {
-   "area": "url",
-   "check": "http://192.0.2.10/paypal/login.php",
-   "ok": true,
-   "detail": "FLAG 55 [ip-host] Uses a raw IP address instead of a domain name",
-   "ms": 330
-  },
-  {
-   "area": "url",
-   "check": "https://amaz0n-refund.shop/claim",
-   "ok": true,
-   "detail": "QUARANTINE 83 [digit-combo] uses the brand name \"amaz0n\" (Amazon) but the domain belongs to amaz0n-refund.shop",
-   "ms": 279
-  },
-  {
-   "area": "url",
-   "check": "https://icici-rewards-points.top/redeem",
-   "ok": true,
-   "detail": "QUARANTINE 83 [bank-combo] uses the brand name \"icici\" (ICICI Bank) but the domain belongs to icici-rewards-points.top",
-   "ms": 335
-  },
-  {
-   "area": "url",
-   "check": "https://incometax-refund-gov.in/refund",
-   "ok": true,
-   "detail": "QUARANTINE 82 [gov-combo] uses the brand name \"incometax\" (Income Tax Department) but the domain belongs to incometax-refund-gov.in",
-   "ms": 264
-  },
-  {
-   "area": "url",
-   "check": "https://dhl-parcel-track.info/pay",
-   "ok": true,
-   "detail": "QUARANTINE 83 [courier] uses the brand name \"dhl\" (DHL) but the domain belongs to dhl-parcel-track.info",
-   "ms": 418
-  },
-  {
-   "area": "url",
-   "check": "https://hyeonseok067.gitbuh.io/",
-   "ok": true,
-   "detail": "QUARANTINE 82 [permutation] \"gitbuh\" uses the letters of \"github\" in a different order (github.com)",
-   "ms": 338
-  },
-  {
-   "area": "url",
-   "check": "https://gogole.com/accounts",
-   "ok": true,
-   "detail": "QUARANTINE 76 [permutation] \"gogole\" is 1 keystroke away from \"google\" (google.com)",
-   "ms": 296
-  },
-  {
-   "area": "url",
-   "check": "https://hyeonseok067.github.io/",
-   "ok": true,
-   "detail": "ALLOW 8 [brand-pages] Hosted on a free/throw-away platform (hyeonseok067.github.io)",
-   "ms": 363
-  },
-  {
-   "area": "url",
-   "check": "https://bit.ly/3xYz12a",
-   "ok": true,
-   "detail": "ALLOW 6 [shortener] Link shortener (bit.ly) hides the real destination",
-   "ms": 267
-  },
-  {
-   "area": "url",
-   "check": "https://example.com/",
-   "ok": true,
-   "detail": "ALLOW 1 [reserved] ",
-   "ms": 270
-  },
-  {
-   "area": "message",
-   "check": "email: We noticed unusual activity. Confirm you",
-   "ok": true,
-   "detail": "BLOCK 85",
-   "ms": 339
-  },
-  {
-   "area": "message",
-   "check": "email: The password for your GitHub account was",
-   "ok": true,
-   "detail": "ALLOW 11",
-   "ms": 271
-  },
-  {
-   "area": "message",
-   "check": "email: Hey, are we still on for lunch on Friday",
-   "ok": true,
-   "detail": "ALLOW 0",
-   "ms": 418
-  },
-  {
-   "area": "message",
-   "check": "sms: Dear SBI customer, your YONO account wil",
-   "ok": true,
-   "detail": "BLOCK 85",
-   "ms": 334
-  },
-  {
-   "area": "message",
-   "check": "sms: Rs 2,500.00 debited from a/c **1234 on 2",
-   "ok": true,
-   "detail": "ALLOW 24",
-   "ms": 277
-  },
-  {
-   "area": "message",
-   "check": "sms: प्रिय ग्राहक, आपका बिजली कनेक्शन आज रात ",
-   "ok": true,
-   "detail": "FLAG 55",
-   "ms": 336
-  },
-  {
-   "area": "message",
-   "check": "sms: அன்புள்ள நுகர்வோரே, உங்கள் மின் இணைப்பு ",
-   "ok": true,
-   "detail": "BLOCK 92",
-   "ms": 283
-  },
-  {
-   "area": "message",
-   "check": "whatsapp: Hi, I'm in a meeting. Need you to buy 4 ",
-   "ok": true,
-   "detail": "FLAG 55",
-   "ms": 345
-  },
-  {
-   "area": "guarantee",
-   "check": "impersonation: SBI: your account needs attention",
-   "ok": true,
-   "detail": "QUARANTINE 73 guard=yes",
-   "ms": 295
-  },
-  {
-   "area": "guarantee",
-   "check": "impersonation: Netflix: update your payment",
-   "ok": true,
-   "detail": "QUARANTINE 82 guard=yes",
-   "ms": 283
-  },
-  {
-   "area": "guarantee",
-   "check": "impersonation: HDFC Bank: KYC pending, account will be ",
-   "ok": true,
-   "detail": "BLOCK 85 guard=yes",
-   "ms": 296
-  },
-  {
-   "area": "guarantee",
-   "check": "genuine: Amazon: order shipped",
-   "ok": true,
-   "detail": "ALLOW 10 guard=no",
-   "ms": 296
-  },
-  {
-   "area": "screenshot",
-   "check": "layout: iphone-sms",
-   "ok": true,
-   "detail": "sms | AX-HDFCBK | ",
-   "ms": 400
-  },
-  {
-   "area": "screenshot",
-   "check": "layout: android-sms",
-   "ok": true,
-   "detail": "sms | VM-SBIINB | ",
-   "ms": 359
-  },
-  {
-   "area": "screenshot",
-   "check": "layout: whatsapp",
-   "ok": true,
-   "detail": "whatsapp | Rahul Boss | ",
-   "ms": 255
-  },
-  {
-   "area": "screenshot",
-   "check": "layout: gmail-app",
-   "ok": true,
-   "detail": "email | Microsoft Security | Action required: verify your M",
-   "ms": 432
-  },
-  {
-   "area": "screenshot",
-   "check": "layout: gmail-web",
-   "ok": true,
-   "detail": "email | Accounts Team <billing@invoice-portal.top> | Invoice INV-20931 overdue",
-   "ms": 335
-  },
-  {
-   "area": "screenshot",
-   "check": "layout: outlook",
-   "ok": true,
-   "detail": "email | DHL Express <noreply@dhl-parcel-track.info> | Your parcel is on hold",
-   "ms": 257
-  },
-  {
-   "area": "investigate",
-   "check": "async investigation completes (full chain)",
-   "ok": true,
-   "detail": "BLOCK 92.0",
-   "ms": 871
-  },
-  {
-   "area": "ssrf",
-   "check": "refuses http://localhost/admin",
-   "ok": true,
-   "detail": "HTTP 400",
-   "ms": 259
-  },
-  {
-   "area": "ssrf",
-   "check": "refuses http://169.254.169.254/latest/meta-data",
-   "ok": true,
-   "detail": "HTTP 400",
-   "ms": 372
-  },
-  {
-   "area": "ssrf",
-   "check": "refuses http://10.0.0.5/",
-   "ok": true,
-   "detail": "HTTP 400",
-   "ms": 289
-  },
-  {
-   "area": "ssrf",
-   "check": "refuses http://[::1]/",
-   "ok": true,
-   "detail": "HTTP 400",
-   "ms": 241
-  },
-  {
-   "area": "data",
-   "check": "list detections",
-   "ok": true,
-   "detail": "20 rows",
-   "ms": 375
-  },
-  {
-   "area": "data",
-   "check": "detection report (explainable)",
-   "ok": true,
-   "detail": "17 reasons",
-   "ms": 250
-  },
-  {
-   "area": "graph",
-   "check": "detection neighbourhood",
-   "ok": true,
-   "detail": "9 nodes",
-   "ms": 260
-  },
-  {
-   "area": "graph",
-   "check": "domain neighbourhood",
-   "ok": true,
-   "detail": "11 nodes",
-   "ms": 260
-  },
-  {
-   "area": "graph",
-   "check": "overview graph",
-   "ok": true,
-   "detail": "220 nodes",
-   "ms": 459
-  },
-  {
-   "area": "intel",
-   "check": "domain profile",
-   "ok": true,
-   "detail": "",
-   "ms": 301
-  },
-  {
-   "area": "campaigns",
-   "check": "list campaigns",
-   "ok": true,
-   "detail": "40 campaigns",
-   "ms": 276
-  },
-  {
-   "area": "campaigns",
-   "check": "campaign detail",
-   "ok": true,
-   "detail": "CAMPAIGN-2026-0040",
-   "ms": 340
-  },
-  {
-   "area": "intel",
-   "check": "threat feed",
-   "ok": true,
-   "detail": "? indicators",
-   "ms": 358
-  },
-  {
-   "area": "intel",
-   "check": "providers status",
-   "ok": true,
-   "detail": "",
-   "ms": 259
-  },
-  {
-   "area": "models",
-   "check": "model registry",
-   "ok": true,
-   "detail": "",
-   "ms": 302
-  },
-  {
-   "area": "data",
-   "check": "statistics",
-   "ok": true,
-   "detail": "",
-   "ms": 279
-  },
-  {
-   "area": "data",
-   "check": "sample data status",
-   "ok": true,
-   "detail": "{\"loaded\": true, \"sample_detections\": 27, \"real_detections\":",
-   "ms": 335
-  },
-  {
-   "area": "live",
-   "check": "event stream (polling fallback)",
-   "ok": true,
-   "detail": "",
-   "ms": 243
-  },
-  {
-   "area": "history",
-   "check": "training & validation history",
-   "ok": true,
-   "detail": "8 model versions, 14 runs",
-   "ms": 472
+   "ms": 2
   },
   {
    "area": "dashboard",
    "check": "GET /validation serves the app",
    "ok": true,
    "detail": "",
-   "ms": 302
+   "ms": 1
+  },
+  {
+   "area": "dashboard",
+   "check": "GET /manifest.webmanifest",
+   "ok": true,
+   "detail": "",
+   "ms": 2
+  },
+  {
+   "area": "dashboard",
+   "check": "GET /apple-touch-icon.png",
+   "ok": true,
+   "detail": "",
+   "ms": 2
+  },
+  {
+   "area": "dashboard",
+   "check": "GET /favicon.svg",
+   "ok": true,
+   "detail": "",
+   "ms": 1
+  },
+  {
+   "area": "extension",
+   "check": "extension zip download",
+   "ok": true,
+   "detail": "110 KB",
+   "ms": 10
+  },
+  {
+   "area": "url",
+   "check": "https://www.google.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 145
+  },
+  {
+   "area": "url",
+   "check": "https://accounts.google.com/signin",
+   "ok": true,
+   "detail": "ALLOW 3 [brand] URL contains several login/verification keywords",
+   "ms": 175
+  },
+  {
+   "area": "url",
+   "check": "https://pay.google.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 91
+  },
+  {
+   "area": "url",
+   "check": "https://opensource.google/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand-tld] ",
+   "ms": 39
+  },
+  {
+   "area": "url",
+   "check": "https://github.com/login",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 43
+  },
+  {
+   "area": "url",
+   "check": "https://www.paypal.com/signin",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 37
+  },
+  {
+   "area": "url",
+   "check": "https://www.microsoft.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 33
+  },
+  {
+   "area": "url",
+   "check": "https://login.microsoftonline.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 38
+  },
+  {
+   "area": "url",
+   "check": "https://www.apple.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 29
+  },
+  {
+   "area": "url",
+   "check": "https://www.amazon.in/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 46
+  },
+  {
+   "area": "url",
+   "check": "https://www.onlinesbi.sbi/",
+   "ok": true,
+   "detail": "ALLOW 1 [bank] ",
+   "ms": 41
+  },
+  {
+   "area": "url",
+   "check": "https://www.hdfcbank.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [bank] ",
+   "ms": 33
+  },
+  {
+   "area": "url",
+   "check": "https://www.icicibank.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [bank] ",
+   "ms": 35
+  },
+  {
+   "area": "url",
+   "check": "https://www.netflix.com/in/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 30
+  },
+  {
+   "area": "url",
+   "check": "https://en.wikipedia.org/wiki/Phishing",
+   "ok": true,
+   "detail": "ALLOW 0 [everyday] ",
+   "ms": 44
+  },
+  {
+   "area": "url",
+   "check": "https://www.irctc.co.in/",
+   "ok": true,
+   "detail": "ALLOW 1 [gov-ish] ",
+   "ms": 64
+  },
+  {
+   "area": "url",
+   "check": "https://www.incometax.gov.in/",
+   "ok": true,
+   "detail": "ALLOW 1 [gov] ",
+   "ms": 53
+  },
+  {
+   "area": "url",
+   "check": "https://web.whatsapp.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [brand] ",
+   "ms": 47
+  },
+  {
+   "area": "url",
+   "check": "https://www.appleseedfoundation.org/",
+   "ok": true,
+   "detail": "ALLOW 12 [common-word] ",
+   "ms": 63
+  },
+  {
+   "area": "url",
+   "check": "https://www.bbc.co.uk/news",
+   "ok": true,
+   "detail": "ALLOW 1 [everyday] ",
+   "ms": 39
+  },
+  {
+   "area": "url",
+   "check": "https://g00gle.com/login",
+   "ok": true,
+   "detail": "QUARANTINE 83 [digit-swap] https://g00gle.com/login → message  (1 hop to a known-bad email)",
+   "ms": 105
+  },
+  {
+   "area": "url",
+   "check": "https://paypa1.com/signin",
+   "ok": true,
+   "detail": "QUARANTINE 84 [digit-swap] https://paypa1.com/signin → message  (1 hop to a known-bad email)",
+   "ms": 224
+  },
+  {
+   "area": "url",
+   "check": "https://rnicrosoft.com/account",
+   "ok": true,
+   "detail": "QUARANTINE 82 [rn-m] https://rnicrosoft.com/account → message  (1 hop to a known-bad email)",
+   "ms": 137
+  },
+  {
+   "area": "url",
+   "check": "https://arnazon.in/orders",
+   "ok": true,
+   "detail": "QUARANTINE 84 [rn-m] https://arnazon.in/orders → message  (1 hop to a known-bad email)",
+   "ms": 72
+  },
+  {
+   "area": "url",
+   "check": "https://xn--ggle-docs-02ha.com/",
+   "ok": true,
+   "detail": "QUARANTINE 83 [punycode] https://xn--ggle-docs-02ha.com/ → message  (1 hop to a known-bad email)",
+   "ms": 173
+  },
+  {
+   "area": "url",
+   "check": "https://gооgle.com/",
+   "ok": true,
+   "detail": "QUARANTINE 84 [cyrillic] https://xn--ggle-55da.com/ → message  (1 hop to a known-bad email)",
+   "ms": 152
+  },
+  {
+   "area": "url",
+   "check": "https://faceb00k-login.top/",
+   "ok": true,
+   "detail": "QUARANTINE 83 [combo] https://faceb00k-login.top/ → message  (1 hop to a known-bad email)",
+   "ms": 86
+  },
+  {
+   "area": "url",
+   "check": "https://apple-id-verify.xyz/",
+   "ok": true,
+   "detail": "QUARANTINE 83 [combo] https://apple-id-verify.xyz/ → message  (1 hop to a known-bad email)",
+   "ms": 116
+  },
+  {
+   "area": "url",
+   "check": "https://microsoft-login-security.xyz/verify",
+   "ok": true,
+   "detail": "QUARANTINE 83 [combo] https://microsoft-login-security.xyz/verify → message  (1 hop to a known-bad email)",
+   "ms": 34
+  },
+  {
+   "area": "url",
+   "check": "https://netflix-billing-update.com/pay",
+   "ok": true,
+   "detail": "QUARANTINE 83 [combo] https://netflix-billing-update.com/pay → message  (1 hop to a known-bad email)",
+   "ms": 34
+  },
+  {
+   "area": "url",
+   "check": "https://sbi-kyc-update.site/kyc",
+   "ok": true,
+   "detail": "QUARANTINE 83 [bank-combo] https://sbi-kyc-update.site/kyc is itself a known-malicious indicator",
+   "ms": 60
+  },
+  {
+   "area": "url",
+   "check": "https://hdfc-netbanking-verify.in/login",
+   "ok": true,
+   "detail": "QUARANTINE 83 [bank-combo] https://hdfc-netbanking-verify.in/login → message  (1 hop to a known-bad email)",
+   "ms": 58
+  },
+  {
+   "area": "url",
+   "check": "https://whatsapp-web-verify.online/",
+   "ok": true,
+   "detail": "QUARANTINE 83 [combo] https://whatsapp-web-verify.online/ → message  (1 hop to a known-bad email)",
+   "ms": 40
+  },
+  {
+   "area": "url",
+   "check": "https://paypal.com.secure-login.info/",
+   "ok": true,
+   "detail": "QUARANTINE 84 [subdomain-trick] https://paypal.com.secure-login.info/ → message  (1 hop to a known-bad email)",
+   "ms": 31
+  },
+  {
+   "area": "url",
+   "check": "https://www.google.com@evil-login.xyz/",
+   "ok": true,
+   "detail": "FLAG 55 [userinfo-trick] URL model: 100% structural similarity to phishing URLs (evil-login.xyz)",
+   "ms": 22
+  },
+  {
+   "area": "url",
+   "check": "http://192.0.2.10/paypal/login.php",
+   "ok": true,
+   "detail": "FLAG 55 [ip-host] Uses a raw IP address instead of a domain name",
+   "ms": 136
+  },
+  {
+   "area": "url",
+   "check": "https://amaz0n-refund.shop/claim",
+   "ok": true,
+   "detail": "QUARANTINE 83 [digit-combo] https://amaz0n-refund.shop/claim → message  (1 hop to a known-bad email)",
+   "ms": 251
+  },
+  {
+   "area": "url",
+   "check": "https://icici-rewards-points.top/redeem",
+   "ok": true,
+   "detail": "QUARANTINE 83 [bank-combo] https://icici-rewards-points.top/redeem → message  (1 hop to a known-bad email)",
+   "ms": 67
+  },
+  {
+   "area": "url",
+   "check": "https://incometax-refund-gov.in/refund",
+   "ok": true,
+   "detail": "QUARANTINE 82 [gov-combo] https://incometax-refund-gov.in/refund → message  (1 hop to a known-bad email)",
+   "ms": 104
+  },
+  {
+   "area": "url",
+   "check": "https://dhl-parcel-track.info/pay",
+   "ok": true,
+   "detail": "QUARANTINE 83 [courier] https://dhl-parcel-track.info/pay → message  (1 hop to a known-bad email)",
+   "ms": 52
+  },
+  {
+   "area": "url",
+   "check": "https://hyeonseok067.gitbuh.io/",
+   "ok": true,
+   "detail": "QUARANTINE 82 [permutation] https://hyeonseok067.gitbuh.io/ → message  (1 hop to a known-bad email)",
+   "ms": 310
+  },
+  {
+   "area": "url",
+   "check": "https://gogole.com/accounts",
+   "ok": true,
+   "detail": "QUARANTINE 76 [permutation] https://gogole.com/accounts → message  (1 hop to a known-bad email)",
+   "ms": 699
+  },
+  {
+   "area": "url",
+   "check": "https://hyeonseok067.github.io/",
+   "ok": true,
+   "detail": "ALLOW 27 [user-content (FLAG by policy, never quarantined)] URL model: 99% structural similarity to phishing URLs (hyeonseok067.github.io)",
+   "ms": 337
+  },
+  {
+   "area": "url",
+   "check": "https://bit.ly/3xYz12a",
+   "ok": true,
+   "detail": "ALLOW 5 [shortener] Link shortener (bit.ly) hides the real destination",
+   "ms": 72
+  },
+  {
+   "area": "url",
+   "check": "https://example.com/",
+   "ok": true,
+   "detail": "ALLOW 1 [reserved] ",
+   "ms": 91
+  },
+  {
+   "area": "message",
+   "check": "email: We noticed unusual activity. Confirm you",
+   "ok": true,
+   "detail": "BLOCK 85",
+   "ms": 1777
+  },
+  {
+   "area": "message",
+   "check": "email: The password for your GitHub account was",
+   "ok": true,
+   "detail": "ALLOW 6",
+   "ms": 1131
+  },
+  {
+   "area": "message",
+   "check": "email: Hey, are we still on for lunch on Friday",
+   "ok": true,
+   "detail": "ALLOW 0",
+   "ms": 516
+  },
+  {
+   "area": "message",
+   "check": "sms: Dear SBI customer, your YONO account wil",
+   "ok": true,
+   "detail": "BLOCK 92",
+   "ms": 327
+  },
+  {
+   "area": "message",
+   "check": "sms: Rs 2,500.00 debited from a/c **1234 on 2",
+   "ok": true,
+   "detail": "ALLOW 24",
+   "ms": 320
+  },
+  {
+   "area": "message",
+   "check": "sms: प्रिय ग्राहक, आपका बिजली कनेक्शन आज रात ",
+   "ok": true,
+   "detail": "FLAG 55",
+   "ms": 248
+  },
+  {
+   "area": "message",
+   "check": "sms: அன்புள்ள நுகர்வோரே, உங்கள் மின் இணைப்பு ",
+   "ok": true,
+   "detail": "BLOCK 85",
+   "ms": 295
+  },
+  {
+   "area": "message",
+   "check": "whatsapp: Hi, I'm in a meeting. Need you to buy 4 ",
+   "ok": true,
+   "detail": "FLAG 55",
+   "ms": 318
+  },
+  {
+   "area": "guarantee",
+   "check": "impersonation: SBI: your account needs attention",
+   "ok": true,
+   "detail": "BLOCK 92 guard=yes",
+   "ms": 1271
+  },
+  {
+   "area": "guarantee",
+   "check": "impersonation: Netflix: update your payment",
+   "ok": true,
+   "detail": "QUARANTINE 82 guard=yes",
+   "ms": 435
+  },
+  {
+   "area": "guarantee",
+   "check": "impersonation: HDFC Bank: KYC pending, account will be ",
+   "ok": true,
+   "detail": "BLOCK 85 guard=yes",
+   "ms": 215
+  },
+  {
+   "area": "guarantee",
+   "check": "genuine: Amazon: order shipped",
+   "ok": true,
+   "detail": "ALLOW 6 guard=no",
+   "ms": 103
+  },
+  {
+   "area": "screenshot",
+   "check": "layout: iphone-sms",
+   "ok": true,
+   "detail": "sms | AX-HDFCBK | ",
+   "ms": 6
+  },
+  {
+   "area": "screenshot",
+   "check": "layout: android-sms",
+   "ok": true,
+   "detail": "sms | VM-SBIINB | ",
+   "ms": 2
+  },
+  {
+   "area": "screenshot",
+   "check": "layout: whatsapp",
+   "ok": true,
+   "detail": "whatsapp | Rahul Boss | ",
+   "ms": 2
+  },
+  {
+   "area": "screenshot",
+   "check": "layout: gmail-app",
+   "ok": true,
+   "detail": "email | Microsoft Security | Action required: verify your M",
+   "ms": 2
+  },
+  {
+   "area": "screenshot",
+   "check": "layout: gmail-web",
+   "ok": true,
+   "detail": "email | Accounts Team <billing@invoice-portal.top> | Invoice INV-20931 overdue",
+   "ms": 2
+  },
+  {
+   "area": "screenshot",
+   "check": "layout: outlook",
+   "ok": true,
+   "detail": "email | DHL Express <noreply@dhl-parcel-track.info> | Your parcel is on hold",
+   "ms": 2
+  },
+  {
+   "area": "investigate",
+   "check": "async investigation completes (full chain)",
+   "ok": true,
+   "detail": "QUARANTINE 82.8",
+   "ms": 587
+  },
+  {
+   "area": "ssrf",
+   "check": "refuses http://localhost/admin",
+   "ok": true,
+   "detail": "HTTP 400",
+   "ms": 2
+  },
+  {
+   "area": "ssrf",
+   "check": "refuses http://169.254.169.254/latest/meta-data",
+   "ok": true,
+   "detail": "HTTP 400",
+   "ms": 2
+  },
+  {
+   "area": "ssrf",
+   "check": "refuses http://10.0.0.5/",
+   "ok": true,
+   "detail": "HTTP 400",
+   "ms": 2
+  },
+  {
+   "area": "ssrf",
+   "check": "refuses http://[::1]/",
+   "ok": true,
+   "detail": "HTTP 400",
+   "ms": 2
+  },
+  {
+   "area": "data",
+   "check": "list detections",
+   "ok": true,
+   "detail": "20 rows",
+   "ms": 8
+  },
+  {
+   "area": "data",
+   "check": "detection report (explainable)",
+   "ok": true,
+   "detail": "15 reasons",
+   "ms": 5
+  },
+  {
+   "area": "graph",
+   "check": "detection neighbourhood",
+   "ok": true,
+   "detail": "121 nodes",
+   "ms": 7
+  },
+  {
+   "area": "feedback",
+   "check": "confirm phishing -> indicators",
+   "ok": true,
+   "detail": "{\"detection_id\": \"8f83620d-f0c6-4d18-951a-f49aa24b122d\", \"la",
+   "ms": 8
+  },
+  {
+   "area": "graph",
+   "check": "domain neighbourhood",
+   "ok": true,
+   "detail": "239 nodes",
+   "ms": 10
+  },
+  {
+   "area": "graph",
+   "check": "overview graph",
+   "ok": true,
+   "detail": "220 nodes",
+   "ms": 18
+  },
+  {
+   "area": "intel",
+   "check": "domain profile",
+   "ok": true,
+   "detail": "",
+   "ms": 117
+  },
+  {
+   "area": "campaigns",
+   "check": "list campaigns",
+   "ok": true,
+   "detail": "50 campaigns",
+   "ms": 6
+  },
+  {
+   "area": "campaigns",
+   "check": "campaign detail",
+   "ok": true,
+   "detail": "CAMPAIGN-2026-0885",
+   "ms": 6
+  },
+  {
+   "area": "intel",
+   "check": "threat feed",
+   "ok": true,
+   "detail": "? indicators",
+   "ms": 191
+  },
+  {
+   "area": "intel",
+   "check": "providers status",
+   "ok": true,
+   "detail": "",
+   "ms": 1
+  },
+  {
+   "area": "models",
+   "check": "model registry",
+   "ok": true,
+   "detail": "",
+   "ms": 354
+  },
+  {
+   "area": "data",
+   "check": "statistics",
+   "ok": true,
+   "detail": "",
+   "ms": 14
+  },
+  {
+   "area": "data",
+   "check": "sample data status",
+   "ok": true,
+   "detail": "{\"loaded\": true, \"sample_detections\": 27, \"real_detections\":",
+   "ms": 5
+  },
+  {
+   "area": "live",
+   "check": "event stream (polling fallback)",
+   "ok": true,
+   "detail": "",
+   "ms": 2
+  },
+  {
+   "area": "history",
+   "check": "training & validation history",
+   "ok": true,
+   "detail": "8 model versions, 26 runs",
+   "ms": 29
+  },
+  {
+   "area": "dashboard",
+   "check": "GET /validation serves the app",
+   "ok": true,
+   "detail": "",
+   "ms": 2
   }
  ],
  "urls": [
@@ -695,7 +730,7 @@
    "kind": "brand",
    "expect": "allow",
    "decision": "ALLOW",
-   "risk": 1.4,
+   "risk": 1.1,
    "ok": true
   },
   {
@@ -703,7 +738,7 @@
    "kind": "brand",
    "expect": "allow",
    "decision": "ALLOW",
-   "risk": 4.3,
+   "risk": 3.1,
    "ok": true
   },
   {
@@ -711,7 +746,7 @@
    "kind": "brand",
    "expect": "allow",
    "decision": "ALLOW",
-   "risk": 1.4,
+   "risk": 1.1,
    "ok": true
   },
   {
@@ -839,7 +874,7 @@
    "kind": "common-word",
    "expect": "allow",
    "decision": "ALLOW",
-   "risk": 16.5,
+   "risk": 11.7,
    "ok": true
   },
   {
@@ -879,7 +914,7 @@
    "kind": "rn-m",
    "expect": "flag",
    "decision": "QUARANTINE",
-   "risk": 84.1,
+   "risk": 83.9,
    "ok": true
   },
   {
@@ -1028,10 +1063,10 @@
   },
   {
    "url": "https://hyeonseok067.github.io/",
-   "kind": "brand-pages",
-   "expect": "allow",
+   "kind": "user-content (FLAG by policy, never quarantined)",
+   "expect": "any",
    "decision": "ALLOW",
-   "risk": 7.7,
+   "risk": 27.4,
    "ok": true
   },
   {
@@ -1039,7 +1074,7 @@
    "kind": "shortener",
    "expect": "any",
    "decision": "ALLOW",
-   "risk": 6.4,
+   "risk": 4.7,
    "ok": true
   },
   {

@@ -4,13 +4,13 @@
   "n_phishing": 200,
   "n_longtail": 200,
   "n_top": 60,
-  "phishing_flagged": 0.42,
+  "phishing_flagged": 0.415,
   "phishing_quarantine_or_block": 0.005,
   "longtail_false_alarm": 0.08,
   "longtail_quarantine_or_block": 0.0,
   "top_false_alarm": 0.0,
   "feeds": "off (engines only)",
-  "seconds": 10.7,
+  "seconds": 10.2,
   "seed": 20260929
  },
  "results": {
@@ -24,7 +24,7 @@
    {
     "url": "https://online-secured.github.io/Wells/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 39.2,
     "reason": "URL model: 100% structural similarity to phishing URLs (online-secured.github.io)"
    },
    {
@@ -60,7 +60,7 @@
    {
     "url": "https://hispeed-websrv.weebly.com/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.8,
     "reason": "URL model: 98% structural similarity to phishing URLs (hispeed-websrv.weebly.com)"
    },
    {
@@ -108,7 +108,7 @@
    {
     "url": "https://sp31ct-tureva-biz-zemko-nadup.pages.dev/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 37.3,
     "reason": "URL model: 93% structural similarity to phishing URLs (sp31ct-tureva-biz-zemko-nadup.pages.dev)"
    },
    {
@@ -168,7 +168,7 @@
    {
     "url": "http://pancakeswapfinances.pages.dev/s.**%402*.webp/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 37.3,
     "reason": "URL model: 93% structural similarity to phishing URLs (pancakeswapfinances.pages.dev)"
    },
    {
@@ -186,8 +186,8 @@
    {
     "url": "http://xfinitymail01.weebly.com/",
     "decision": "FLAG",
-    "risk": 44.7,
-    "reason": "xfinitymail01.weebly.com \u2192 weebly.com \u2192 hispeed-websrv.weebly.com  (2 hops to a known-bad domain)"
+    "risk": 39.0,
+    "reason": "URL model: 99% structural similarity to phishing URLs (xfinitymail01.weebly.com)"
    },
    {
     "url": "https://api-v1.evergreenfin.ltd/",
@@ -252,7 +252,7 @@
    {
     "url": "https://shopeejkt46.blogspot.com/",
     "decision": "FLAG",
-    "risk": 54.9,
+    "risk": 36.5,
     "reason": "URL model: 90% structural similarity to phishing URLs (shopeejkt46.blogspot.com)"
    },
    {
@@ -336,7 +336,7 @@
    {
     "url": "https://fedf81-hbk27.vercel.app/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 39.0,
     "reason": "URL model: 99% structural similarity to phishing URLs (fedf81-hbk27.vercel.app)"
    },
    {
@@ -348,7 +348,7 @@
    {
     "url": "http://usweb01zoom.pages.dev/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 37.6,
     "reason": "URL model: 94% structural similarity to phishing URLs (usweb01zoom.pages.dev)"
    },
    {
@@ -360,7 +360,7 @@
    {
     "url": "http://moonpay-commerce-868w0wpy4-heliofi.vercel.app/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.8,
     "reason": "URL model: 98% structural similarity to phishing URLs (moonpay-commerce-868w0wpy4-heliofi.vercel.app)"
    },
    {
@@ -510,7 +510,7 @@
    {
     "url": "https://verication-casefb386308.vercel.app/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.4,
     "reason": "URL model: 97% structural similarity to phishing URLs (verication-casefb386308.vercel.app)"
    },
    {
@@ -546,13 +546,13 @@
    {
     "url": "https://n8o2-gg7f-efoz.alter-quintavious-dropoffs-org-s-account.workers.dev/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 39.2,
     "reason": "URL model: 100% structural similarity to phishing URLs (n8o2-gg7f-efoz.alter-quintavious-dropoffs-org-s-account.workers.dev)"
    },
    {
     "url": "https://eclauth.pages.dev/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 39.0,
     "reason": "URL model: 99% structural similarity to phishing URLs (eclauth.pages.dev)"
    },
    {
@@ -570,8 +570,8 @@
    {
     "url": "http://service-xinfinity.weebly.com/xinfinty.html",
     "decision": "FLAG",
-    "risk": 45.6,
-    "reason": "service-xinfinity.weebly.com \u2192 weebly.com \u2192 xfinitymail01.weebly.com  (2 hops to a known-bad domain)"
+    "risk": 37.3,
+    "reason": "URL model: 93% structural similarity to phishing URLs (service-xinfinity.weebly.com)"
    },
    {
     "url": "https://secure.blueeyegroup.com/images/svbjmru/cdn/cdn",
@@ -595,7 +595,7 @@
     "url": "https://employees.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 21.0,
-    "reason": "employees.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "employees.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://docs.courrierar24.co/",
@@ -613,7 +613,7 @@
     "url": "https://node.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.7,
-    "reason": "node.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "node.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://site-e9tfr124f.godaddysites.com/",
@@ -624,25 +624,25 @@
    {
     "url": "https://drift-calm.pages.dev/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 37.3,
     "reason": "URL model: 93% structural similarity to phishing URLs (drift-calm.pages.dev)"
    },
    {
     "url": "https://portal.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.1,
-    "reason": "portal.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "portal.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://melon.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.1,
-    "reason": "melon.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "melon.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://pub-7c4d7b0b3eda4ab180fcf978a483d9a6.r2.dev/OCN-System.html",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.8,
     "reason": "URL model: 98% structural similarity to phishing URLs (pub-7c4d7b0b3eda4ab180fcf978a483d9a6.r2.dev)"
    },
    {
@@ -666,13 +666,13 @@
    {
     "url": "http://www.verication-casefb328-ten.vercel.app/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.8,
     "reason": "URL model: 98% structural similarity to phishing URLs (www.verication-casefb328-ten.vercel.app)"
    },
    {
     "url": "https://facebookhotysexyvideos.blogspot.com/",
-    "decision": "FLAG",
-    "risk": 33.4,
+    "decision": "ALLOW",
+    "risk": 24.4,
     "reason": "Hosted on a free/throw-away platform (facebookhotysexyvideos.blogspot.com)"
    },
    {
@@ -685,25 +685,25 @@
     "url": "https://ids.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.0,
-    "reason": "ids.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "ids.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://blue-leaf-5cd6.hgthpisoa-0f6.workers.dev/meta.help",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 39.2,
     "reason": "URL model: 100% structural similarity to phishing URLs (blue-leaf-5cd6.hgthpisoa-0f6.workers.dev)"
    },
    {
     "url": "http://zoominvite044.pages.dev/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 37.6,
     "reason": "URL model: 94% structural similarity to phishing URLs (zoominvite044.pages.dev)"
    },
    {
     "url": "https://www.backend-test.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.1,
-    "reason": "www.backend-test.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "www.backend-test.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://sunrisemail-ch.jimdofree.com/",
@@ -715,25 +715,25 @@
     "url": "https://authorization.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 26.4,
-    "reason": "authorization.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "authorization.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://zebcoindustrie-portal.vercel.app/",
     "decision": "FLAG",
-    "risk": 53.5,
+    "risk": 35.7,
     "reason": "URL model: 87% structural similarity to phishing URLs (zebcoindustrie-portal.vercel.app)"
    },
    {
     "url": "http://develop.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.1,
-    "reason": "develop.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "develop.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://id-sso.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 26.9,
-    "reason": "id-sso.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "id-sso.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://tokenim-sg-cdn.cfd/",
@@ -744,7 +744,7 @@
    {
     "url": "https://metamaskwallett.blogspot.com/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.4,
     "reason": "URL model: 97% structural similarity to phishing URLs (metamaskwallett.blogspot.com)"
    },
    {
@@ -757,7 +757,7 @@
     "url": "https://adm.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 26.4,
-    "reason": "adm.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "adm.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://mitoken.cv/download",
@@ -781,7 +781,7 @@
     "url": "https://auth.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 28.1,
-    "reason": "auth.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "auth.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://facebook.sioll.net/",
@@ -792,7 +792,7 @@
    {
     "url": "http://www.ofertadodiamaga.vercel.app/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 37.3,
     "reason": "URL model: 93% structural similarity to phishing URLs (www.ofertadodiamaga.vercel.app)"
    },
    {
@@ -811,7 +811,7 @@
     "url": "https://vpn.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.1,
-    "reason": "vpn.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "vpn.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://financiamientos-ecuador--pichincha2026.replit.app/",
@@ -829,7 +829,7 @@
     "url": "http://idpage.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.2,
-    "reason": "idpage.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "idpage.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://inscripcionsuv.solicitudesclientesonline.com/",
@@ -840,7 +840,7 @@
    {
     "url": "http://tetes-air.pages.dev/dp/B0D484S271?ref=MarsFS_VICC_blinkhk",
     "decision": "FLAG",
-    "risk": 47.7,
+    "risk": 32.5,
     "reason": "URL model: 74% structural similarity to phishing URLs (tetes-air.pages.dev)"
    },
    {
@@ -865,7 +865,7 @@
     "url": "https://admin.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 27.5,
-    "reason": "admin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "admin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://sonemosjuntos--pensandoenti.replit.app/",
@@ -877,13 +877,13 @@
     "url": "https://federate.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.2,
-    "reason": "federate.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "federate.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://employee-sso.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.2,
-    "reason": "employee-sso.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "employee-sso.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://sunriseemails.jimdofree.com/",
@@ -895,7 +895,7 @@
     "url": "https://pgsql.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 22.3,
-    "reason": "pgsql.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "pgsql.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://1url.at/www/roblox-users-358617852035-profile",
@@ -907,7 +907,7 @@
     "url": "https://https-login.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 28.9,
-    "reason": "https-login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "https-login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://www.surl.li/ovdaap/",
@@ -919,31 +919,31 @@
     "url": "https://builder.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.2,
-    "reason": "builder.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "builder.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://back.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.2,
-    "reason": "back.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "back.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://clientes.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 27.2,
-    "reason": "clientes.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "clientes.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://in.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 26.6,
-    "reason": "in.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "in.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://www.api-uat.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 27.1,
-    "reason": "www.api-uat.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "www.api-uat.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://sopports-net.us/icloud2022-esp.php/s3.php",
@@ -954,26 +954,26 @@
    {
     "url": "https://instagramsupportverify.blogspot.com/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.4,
     "reason": "URL model: 97% structural similarity to phishing URLs (instagramsupportverify.blogspot.com)"
    },
    {
     "url": "https://douyin.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 27.1,
-    "reason": "douyin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "douyin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://accounts.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 27.5,
-    "reason": "accounts.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "accounts.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://cas.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 23.1,
-    "reason": "cas.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "cas.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://baosteel.click/purchase.html?e=a.b%40c",
@@ -985,13 +985,13 @@
     "url": "https://login.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 28.5,
-    "reason": "login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://partner.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.1,
-    "reason": "partner.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "partner.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://security-server-landing-page-1--bensonthomans5.replit.app/#ksson",
@@ -1003,7 +1003,7 @@
     "url": "http://www.demo-api.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 27.1,
-    "reason": "www.demo-api.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "www.demo-api.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://hasanshahid32h-source.github.io/facebook-login/",
@@ -1021,13 +1021,13 @@
     "url": "https://compras.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 24.0,
-    "reason": "compras.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "compras.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://sandbox.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 26.6,
-    "reason": "sandbox.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "sandbox.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://webufexcv.vip/",
@@ -1038,25 +1038,25 @@
    {
     "url": "https://kamal11234.github.io/amozon/gift.html",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 39.2,
     "reason": "URL model: 100% structural similarity to phishing URLs (kamal11234.github.io)"
    },
    {
     "url": "http://www.metamaskwallett.blogspot.com/",
     "decision": "FLAG",
-    "risk": 47.5,
-    "reason": "www.metamaskwallett.blogspot.com \u2192 metamaskwallett.blogspot.com  (1 hop to a known-bad domain)"
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (www.metamaskwallett.blogspot.com)"
    },
    {
     "url": "https://devops.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 22.3,
-    "reason": "devops.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "devops.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://mi-solicitud-card-9194.andres457646.workers.dev/solicitud/formulario?origen=index%2F",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 39.2,
     "reason": "URL model: 100% structural similarity to phishing URLs (mi-solicitud-card-9194.andres457646.workers.dev)"
    },
    {
@@ -1081,7 +1081,7 @@
     "url": "https://membership.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 21.1,
-    "reason": "membership.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "membership.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://pakpharma.ci/CHASE/login.php",
@@ -1092,20 +1092,20 @@
    {
     "url": "https://xfinitymailid.weebly.com/",
     "decision": "FLAG",
-    "risk": 48.4,
-    "reason": "xfinitymailid.weebly.com \u2192 weebly.com \u2192 service-xinfinity.weebly.com  (2 hops to a known-bad domain)"
+    "risk": 38.4,
+    "reason": "URL model: 97% structural similarity to phishing URLs (xfinitymailid.weebly.com)"
    },
    {
     "url": "https://www.api-staging.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 26.6,
-    "reason": "www.api-staging.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "www.api-staging.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://iam.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 25.2,
-    "reason": "iam.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "iam.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://ehay-item.solaf.co/",
@@ -1123,18 +1123,18 @@
     "url": "https://adminlogin.evergreenfin.ltd/",
     "decision": "ALLOW",
     "risk": 28.5,
-    "reason": "adminlogin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "adminlogin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "http://idlogin.evergreenfin.ltd/",
     "decision": "FLAG",
     "risk": 46.8,
-    "reason": "idlogin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+    "reason": "idlogin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
    },
    {
     "url": "https://25fthr77.blogspot.com/",
     "decision": "FLAG",
-    "risk": 45.1,
+    "risk": 31.0,
     "reason": "Hosted on a free/throw-away platform (25fthr77.blogspot.com)"
    },
    {
@@ -1176,7 +1176,7 @@
    {
     "url": "https://cvtd56l-hbkl.vercel.app/",
     "decision": "FLAG",
-    "risk": 55.0,
+    "risk": 38.8,
     "reason": "URL model: 98% structural similarity to phishing URLs (cvtd56l-hbkl.vercel.app)"
    },
    {

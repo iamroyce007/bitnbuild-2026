@@ -47,7 +47,7 @@ URLS: list[tuple[str, str, str]] = [
     ('https://amaz0n-refund.shop/claim', 'flag', 'digit-combo'), ('https://icici-rewards-points.top/redeem', 'flag', 'bank-combo'),
     ('https://incometax-refund-gov.in/refund', 'flag', 'gov-combo'), ('https://dhl-parcel-track.info/pay', 'flag', 'courier'),
     ('https://hyeonseok067.gitbuh.io/', 'flag', 'permutation'), ('https://gogole.com/accounts', 'flag', 'permutation'),
-    ('https://hyeonseok067.github.io/', 'allow', 'brand-pages'),
+    ('https://hyeonseok067.github.io/', 'any', 'user-content (FLAG by policy, never quarantined)'),
     # ambiguous or special: recorded, not scored
     ('https://bit.ly/3xYz12a', 'any', 'shortener'), ('https://example.com/', 'any', 'reserved'),
 ]
@@ -112,7 +112,7 @@ def main() -> int:
     r, ms = call('GET', '/health'); ck.add('service', 'GET /health', r.status_code == 200, r.text[:60], ms)
     r, ms = call('GET', '/ready'); ck.add('service', 'GET /ready', r.status_code == 200 and r.json().get('ready') is True, '', ms)
     r, ms = call('GET', '/metrics'); ck.add('service', 'GET /metrics (Prometheus)', r.status_code == 200 and 'phishgraph_' in r.text, '', ms)
-    for path in ('/', '/analyze', '/feed', '/system', '/setup', '/graph'):
+    for path in ('/', '/overview', '/investigate', '/analyze', '/feed', '/system', '/setup', '/graph', '/documentation', '/validation'):
         r, ms = call('GET', path); ck.add('dashboard', f'GET {path} serves the app', r.status_code == 200 and '<div id="root">' in r.text, '', ms)
     for path in ('/manifest.webmanifest', '/apple-touch-icon.png', '/favicon.svg'):
         r, ms = call('GET', path); ck.add('dashboard', f'GET {path}', r.status_code == 200 and not r.text.startswith('<!doctype'), '', ms)
