@@ -110,7 +110,7 @@ export default function ReportView({ r, status }: { r: Report; status?: string }
                           <div className="break-all font-mono text-[13px]">{u.url}</div>
                           {u.display !== u.host && <div className="font-mono text-[12px] text-quarantine">displays as {u.display}</div>}
                         </div>
-                        <span className="font-mono text-[15px] font-medium" style={{ color: riskColor(u.score) }}>{Math.round(u.score)}</span>
+                        <span className="font-mono text-[15px] font-medium inline-flex items-center gap-2"><span className="h-3 w-[3px] rounded-full" style={{ background: riskColor(u.score) }} aria-hidden="true" />{Math.round(u.score)}</span>
                       </div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-muted">
                         {u.brand?.official && <span>official domain of <span className="text-ink">{u.brand.official}</span></span>}

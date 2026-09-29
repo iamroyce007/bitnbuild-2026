@@ -1,4 +1,5 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { Activity, BookOpen, Cpu, Database, FlaskConical, HeartPulse, House, Keyboard, LayoutDashboard, ListChecks, type LucideIcon, Menu, Moon, Network, Pause, Play, Puzzle, Radar, ScanText, Search, Settings, Sun, Target } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import type { Decision, Reason } from '../lib/types';
 
@@ -43,8 +44,8 @@ export function DecisionPill({ decision, large = false }: { decision: Decision |
   const c = DECISION_COLOR[decision] || 'var(--color-muted)';
   return (
     <span className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm border font-semibold tracking-wide ${large ? 'px-2.5 py-1 text-[13px]' : 'px-1.5 py-px text-[11px]'}`}
-      style={{ color: c, borderColor: tint(c, 35), background: tint(c, 8) }}>
-      <span aria-hidden="true">{DECISION_SHAPE[decision] || '·'}</span>
+      style={{ color: 'var(--color-ink)', borderColor: tint(c, 45), background: tint(c, 10) }}>
+      <span aria-hidden="true" style={{ color: c }}>{DECISION_SHAPE[decision] || '·'}</span>
       {decision}
     </span>
   );
@@ -74,7 +75,7 @@ export function RiskNumber({ value, decision }: { value: number; decision: Decis
         <path d={`M14 58 A${R} ${R} 0 0 1 106 58`} fill="none" stroke={DECISION_COLOR[decision]} strokeWidth="9" strokeLinecap="round"
           strokeDasharray={C} strokeDashoffset={C * (1 - v / 100)} />
         {[30, 60, 85].map((t) => { const [x, y] = at(t); const [x2, y2] = [60 + (x - 60) * 0.78, 58 + (y - 58) * 0.78]; return <line key={t} x1={x} y1={y} x2={x2} y2={y2} stroke="var(--color-faint)" strokeWidth="1" />; })}
-        <text x="60" y="56" textAnchor="middle" fontSize="28" fontWeight="600" fill={DECISION_COLOR[decision]} fontFamily="var(--font-sans)">{Math.round(v)}</text>
+        <text x="60" y="56" textAnchor="middle" fontSize="28" fontWeight="600" fill="var(--color-ink)" fontFamily="var(--font-sans)">{Math.round(v)}</text>
       </svg>
       <div>
         <div className="eyebrow">Risk / 100</div>
@@ -89,7 +90,7 @@ export function Stat({ label, value, sub, color }: { label: string; value: React
     <div className="card card-hover sheen relative overflow-hidden px-4 py-3.5">
       <span className="absolute inset-x-0 top-0 h-[2px] origin-left bar-grow" style={{ background: color ? `linear-gradient(90deg, ${color}, transparent)` : 'linear-gradient(90deg, var(--color-accent), transparent)', boxShadow: `0 0 14px ${color || 'var(--color-accent)'}` }} aria-hidden="true" />
       <div className="eyebrow">{label}</div>
-      <div className={`mt-2 text-[28px] font-semibold leading-none tracking-tight ${color ? '' : 'kpi-num'}`} style={{ color, textShadow: color ? `0 0 22px ${tint(color, 45)}` : undefined }}>{typeof value === 'number' ? <CountUp value={value} /> : value}</div>
+      <div className="kpi-num mt-2 text-[28px] font-semibold leading-none tracking-tight">{typeof value === 'number' ? <CountUp value={value} /> : value}</div>
       {sub && <div className="mt-1.5 text-[12px] text-faint">{sub}</div>}
     </div>
   );
@@ -109,10 +110,10 @@ export function Section({ title, right, children, className = '', flush = false 
 
 /** Where each page sits in the console; drives the breadcrumb and the sidebar groups (see App.tsx). */
 export const NAV_GROUPS: { group: string; items: [string, string, string][] }[] = [
-  { group: 'Monitor', items: [['/', 'overview', 'Overview'], ['/feed', 'feed', 'Live detections'], ['/review', 'review', 'Review queue']] },
-  { group: 'Investigate', items: [['/analyze', 'analyze', 'Analyze message'], ['/investigate', 'investigate', 'Investigate URL'], ['/graph', 'graph', 'Threat graph'], ['/campaigns', 'campaigns', 'Campaigns']] },
-  { group: 'Intelligence', items: [['/intel', 'intel', 'Threat intelligence'], ['/models', 'models', 'Model health'], ['/validation', 'check', 'Training & validation']] },
-  { group: 'Administration', items: [['/system', 'health', 'System health'], ['/setup', 'setup', 'Setup'], ['/settings', 'settings', 'Settings']] },
+  { group: 'Investigate', items: [['/investigate', 'investigate', 'New investigation'], ['/analyze', 'analyze', 'Analyze message']] },
+  { group: 'Workspace', items: [['/overview', 'overview', 'Overview'], ['/feed', 'feed', 'Live detections'], ['/review', 'review', 'Review queue']] },
+  { group: 'Intelligence', items: [['/graph', 'graph', 'Threat graph'], ['/campaigns', 'campaigns', 'Campaigns'], ['/intel', 'intel', 'Threat feeds & indicators'], ['/models', 'models', 'Model health'], ['/validation', 'check', 'Training & validation']] },
+  { group: 'System', items: [['/system', 'health', 'System health'], ['/setup', 'setup', 'Browser extension'], ['/documentation', 'docs', 'Documentation'], ['/settings', 'settings', 'Settings']] },
 ];
 
 function Crumbs({ title }: { title: string }) {
@@ -197,31 +198,13 @@ export function ago(iso?: string | null) {
   return `${Math.round(s / 86400)}d ago`;
 }
 
-const P: Record<string, string> = {
-  overview: 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z',
-  feed: 'M3 12h4l3-8 4 16 3-8h4',
-  analyze: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5',
-  investigate: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z',
-  graph: 'M6 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM18 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM12 16a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7 7.8l4 8.4M17 7.8l-4 8.4M8 6h8',
-  campaigns: 'M4 7l8-4 8 4-8 4zM4 12l8 4 8-4M4 17l8 4 8-4',
-  intel: 'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
-  models: 'M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3M6 6h12v12H6zM10 10h4v4h-4z',
-  review: 'M4 5h16v11H8l-4 4zM8 10h8',
-  health: 'M3 12h4l2-5 4 10 2-5h6',
-  settings: 'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM19.4 13a7.9 7.9 0 0 0 0-2l2-1.6-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3.4h-4l-.3 2.6a8 8 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.9 7.9 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a8 8 0 0 0 1.7 1l.3 2.6h4l.3-2.6a8 8 0 0 0 1.7-1l2.4 1 2-3.4z',
-  pause: 'M8 5v14M16 5v14',
-  check: 'M9 12l2 2 4-4M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z',
-  setup: 'M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9',
-  search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5',
-  sun: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
-  moon: 'M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z',
-  menu: 'M4 6h16M4 12h16M4 18h16',
-  play: 'M7 5l12 7-12 7z',
+// One icon system (Lucide), addressed by stable names so pages never import icons ad hoc.
+const ICONS: Record<string, LucideIcon> = {
+  overview: LayoutDashboard, feed: Activity, analyze: ScanText, investigate: Radar, graph: Network, campaigns: Target, intel: Database,
+  models: Cpu, review: ListChecks, health: HeartPulse, settings: Settings, pause: Pause, play: Play, setup: Puzzle, search: Search,
+  sun: Sun, moon: Moon, menu: Menu, check: FlaskConical, docs: BookOpen, keyboard: Keyboard, home: House,
 };
 export function Icon({ name, className = 'size-4' }: { name: string; className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d={P[name] || ''} />
-    </svg>
-  );
+  const I = ICONS[name] || Radar;
+  return <I className={className} strokeWidth={1.75} aria-hidden="true" />;
 }

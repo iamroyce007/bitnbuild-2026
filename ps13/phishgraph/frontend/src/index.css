@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 
-/* PhishGraph console (see DESIGN.md): dark-first enterprise security console. Deep navy-black, one electric accent
+/* Status colours are the dataviz skill's validated status palette (mode-invariant; >= 3:1 on the dark surface).
+   Rule: text wears ink tokens; severity colour lives in marks, dots and rules, always with a label.
+   PhishGraph console (see DESIGN.md): dark-first enterprise security console. Deep navy-black, one electric accent
    (sky -> blue) that glows, frosted-glass panels with gradient edges over a slow aurora and a fine grid.
    Severity colours are reserved for verdicts. Light theme available. Motion is CSS only and stops under
    prefers-reduced-motion. Glassmorphism per the ui-ux-pro-max style entry (blur 10-20px, 1px translucent border). */
@@ -23,10 +25,10 @@
   --color-chrome: #060a15;
   --color-chrome-2: #111a30;
   --color-chrome-ink: #e9eefc;
-  --color-allow: #34d399;
-  --color-flag: #fbbf24;
-  --color-quarantine: #fb923c;
-  --color-block: #fb4d6d;
+  --color-allow: #0ca30c;
+  --color-flag: #fab219;
+  --color-quarantine: #ec835a;
+  --color-block: #d03b3b;
   --color-neutral: #7c89a8;
   --color-campaign: #a78bfa;
   --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -41,7 +43,7 @@
   --color-bg: #eef2f8; --color-surface: #ffffff; --color-surface-2: #f3f6fb; --color-line: #e1e7f0; --color-line-strong: #c9d3e2;
   --color-ink: #0a1222; --color-muted: #44516a; --color-faint: #5f6d86; --color-accent: #0369a1; --color-accent-2: #2563eb;
   --color-on-accent: #ffffff; --color-primary: #0369a1; --color-on-primary: #ffffff; --color-mark: #0284c7; --color-on-mark: #ffffff;
-  --color-allow: #047857; --color-flag: #a16207; --color-quarantine: #c2410c; --color-block: #be123c; --color-neutral: #64748b; --color-campaign: #6d28d9;
+  --color-allow: #0ca30c; --color-flag: #fab219; --color-quarantine: #ec835a; --color-block: #d03b3b; --color-neutral: #64748b; --color-campaign: #6d28d9;
   --glass: rgba(255, 255, 255, 0.82); --edge: rgba(15, 40, 90, 0.10); --shadow: 0 14px 34px -24px rgba(15, 30, 60, 0.35);
   color-scheme: light;
 }
@@ -50,7 +52,7 @@
     --color-bg: #eef2f8; --color-surface: #ffffff; --color-surface-2: #f3f6fb; --color-line: #e1e7f0; --color-line-strong: #c9d3e2;
     --color-ink: #0a1222; --color-muted: #44516a; --color-faint: #5f6d86; --color-accent: #0369a1; --color-accent-2: #2563eb;
     --color-on-accent: #ffffff; --color-primary: #0369a1; --color-on-primary: #ffffff; --color-mark: #0284c7; --color-on-mark: #ffffff;
-    --color-allow: #047857; --color-flag: #a16207; --color-quarantine: #c2410c; --color-block: #be123c; --color-neutral: #64748b; --color-campaign: #6d28d9;
+    --color-allow: #0ca30c; --color-flag: #fab219; --color-quarantine: #ec835a; --color-block: #d03b3b; --color-neutral: #64748b; --color-campaign: #6d28d9;
     --glass: rgba(255, 255, 255, 0.82); --edge: rgba(15, 40, 90, 0.10); --shadow: 0 14px 34px -24px rgba(15, 30, 60, 0.35);
     color-scheme: light;
   }
@@ -84,10 +86,10 @@ body::before {
 @layer components {
   /* frosted glass with a gradient edge (padding-box / border-box trick keeps rounded corners) */
   .card {
-    border: 1px solid transparent; border-radius: 12px;
+    border: 1px solid transparent; border-radius: 8px;
     background:
       linear-gradient(var(--glass), var(--glass)) padding-box,
-      linear-gradient(140deg, color-mix(in srgb, var(--color-accent) 30%, transparent), var(--edge) 35%, var(--edge) 70%, color-mix(in srgb, var(--color-accent-2) 22%, transparent)) border-box;
+      linear-gradient(140deg, color-mix(in srgb, var(--color-accent) 18%, transparent), var(--edge) 30%, var(--edge) 75%, color-mix(in srgb, var(--color-accent-2) 12%, transparent)) border-box;
     -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%);
     box-shadow: var(--shadow);
   }
@@ -95,7 +97,7 @@ body::before {
   .card-hover:hover { transform: translateY(-2px); box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--color-accent) 35%, transparent), 0 14px 40px -14px color-mix(in srgb, var(--color-accent) 45%, transparent); }
   .label { @apply text-[12px] font-medium text-faint; }
   .eyebrow { @apply font-mono text-[10.5px] font-medium tracking-[0.14em] text-faint uppercase; }
-  .btn { @apply inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border border-line-strong bg-surface-2/70 px-3.5 text-[13px] font-medium text-ink transition-[background-color,border-color,transform,box-shadow] duration-150 hover:border-accent/50 hover:bg-surface-2 active:scale-[0.97] disabled:cursor-default disabled:opacity-50 disabled:active:scale-100; }
+  .btn { @apply inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border border-line-strong bg-surface-2/70 px-3.5 text-[13px] font-medium text-ink transition-[background-color,border-color,transform,box-shadow] duration-150 hover:border-accent/50 hover:bg-surface-2 active:scale-[0.97] disabled:cursor-default disabled:opacity-50 disabled:active:scale-100; }
   .btn-primary {
     @apply border-transparent font-semibold text-on-primary;
     background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
@@ -103,8 +105,8 @@ body::before {
   }
   .btn-primary:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 60%, transparent), 0 12px 32px -8px color-mix(in srgb, var(--color-accent) 85%, transparent); }
   .btn-ghost { @apply border-transparent bg-transparent text-muted hover:bg-surface-2 hover:text-ink; }
-  .input { @apply h-9 w-full rounded-lg border border-line-strong bg-surface-2/60 px-3 text-[13px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/15; }
-  .textarea { @apply w-full rounded-lg border border-line-strong bg-surface-2/60 px-3 py-2 font-mono text-[13px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/15; }
+  .input { @apply h-9 w-full rounded-md border border-line-strong bg-surface-2/60 px-3 text-[13px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/15; }
+  .textarea { @apply w-full rounded-md border border-line-strong bg-surface-2/60 px-3 py-2 font-mono text-[13px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/15; }
   .tbl { @apply w-full text-left text-[13px]; }
   .tbl th { @apply border-b border-line bg-surface-2/50 px-3 py-2.5 font-mono text-[10.5px] font-medium tracking-[0.12em] whitespace-nowrap text-faint uppercase; }
   .tbl td { @apply border-b border-line/70 px-3 py-2.5 align-top; }
@@ -116,10 +118,8 @@ body::before {
   .hl {
     background-image: linear-gradient(95deg, var(--color-accent), var(--color-accent-2) 70%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-accent) 45%, transparent));
-    animation: hl-glow 0.8s var(--ease-out) both;
+    animation: hl-glow 0.6s var(--ease-out) both;
   }
-  :root[data-theme='light'] .hl { filter: none; }
   .kpi-num { background-image: linear-gradient(180deg, var(--color-ink), color-mix(in srgb, var(--color-ink) 65%, var(--color-accent))); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
   /* numbered section titles: every Section heading on a page gets 01, 02, ... */
@@ -129,7 +129,7 @@ body::before {
   .topbar { position: relative; background: color-mix(in srgb, var(--color-chrome) 82%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
   .topbar::after { content: ''; position: absolute; inset: auto 0 0 0; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-accent) 70%, transparent), color-mix(in srgb, var(--color-accent-2) 60%, transparent), transparent); }
   .sidebar { background: color-mix(in srgb, var(--color-surface) 55%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
-  .nav-item { @apply relative mx-2 flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] text-muted transition-colors duration-150 hover:bg-surface-2/70 hover:text-ink; }
+  .nav-item { @apply relative mx-2 flex items-center gap-2.5 rounded-md px-3 py-[7px] text-[13px] text-muted transition-colors duration-150 hover:bg-surface-2/70 hover:text-ink; }
   .nav-active { @apply font-semibold text-ink; background: linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 85%); }
   .nav-active::before { content: ''; position: absolute; left: -8px; top: 20%; bottom: 20%; width: 3px; border-radius: 3px; background: var(--color-accent); box-shadow: 0 0 12px var(--color-accent); }
 }
@@ -138,7 +138,7 @@ main { counter-reset: sec; }
 /* ---- motion ---------------------------------------------------------------------------------------------- */
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes hl-glow { from { opacity: 0.4; filter: drop-shadow(0 0 0 transparent); } to { opacity: 1; } }
+@keyframes hl-glow { from { opacity: 0.4; } to { opacity: 1; } }
 @keyframes aurora { from { transform: translate3d(-3%, 0, 0) scale(1); } to { transform: translate3d(3%, 4%, 0) scale(1.08); } }
 @keyframes row-flash { 0% { background: color-mix(in srgb, var(--color-accent) 28%, transparent); } 100% { background: transparent; } }
 @keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
@@ -166,9 +166,35 @@ main { counter-reset: sec; }
 .pop { animation: pop 0.16s var(--ease-out) both; }
 .glow-accent { box-shadow: 0 0 18px -2px color-mix(in srgb, var(--color-accent) 70%, transparent); }
 
+/* ---- investigation / graph motion ---------------------------------------------------------------------- */
+@keyframes node-pulse { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(2.4); opacity: 0; } }
+@keyframes node-in { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+@keyframes edge-in { from { stroke-dashoffset: var(--len, 200); } to { stroke-dashoffset: 0; } }
+@keyframes drawer-in { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@keyframes sheet-in { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes blink { 50% { opacity: 0.35; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.node-pulse { transform-box: fill-box; transform-origin: center; animation: node-pulse 2.2s ease-out infinite; }
+.node-in { transform-box: fill-box; transform-origin: center; animation: node-in 0.35s var(--ease-spring) both; }
+.edge-in { stroke-dasharray: var(--len, 200); animation: edge-in 0.5s var(--ease-out) both; }
+.drawer-in { animation: drawer-in 0.24s var(--ease-out) both; }
+.sheet-in { animation: sheet-in 0.28s var(--ease-out) both; }
+.toast-in { animation: toast-in 0.2s var(--ease-out) both; }
+.blink { animation: blink 1.2s ease-in-out infinite; }
+.spin { animation: spin 0.9s linear infinite; }
+.discover > * { animation: rise 0.36s var(--ease-out) both; }
+.discover > *:nth-child(2) { animation-delay: 70ms; } .discover > *:nth-child(3) { animation-delay: 140ms; } .discover > *:nth-child(4) { animation-delay: 210ms; }
+.discover > *:nth-child(5) { animation-delay: 280ms; } .discover > *:nth-child(6) { animation-delay: 350ms; } .discover > *:nth-child(n+7) { animation-delay: 400ms; }
+/* status dot used for LIVE ANALYSIS and live connection */
+.status-dot { position: relative; display: inline-block; width: 7px; height: 7px; border-radius: 9999px; background: currentColor; }
+.status-dot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: currentColor; animation: node-pulse 1.8s ease-out infinite; }
+/* scanlines for active threat-analysis states (very faint) */
+.scanlines { background-image: repeating-linear-gradient(0deg, color-mix(in srgb, var(--color-accent) 5%, transparent) 0 1px, transparent 1px 4px); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; }
-  .scan-beam, .live-dot, body::before, .sheen::after { animation: none !important; }
+  .scan-beam, .live-dot, body::before, .sheen::after, .node-pulse, .status-dot::after, .blink, .spin { animation: none !important; }
 }
 
 /* ---- phones and tablets ---------------------------------------------------------------------------------- */

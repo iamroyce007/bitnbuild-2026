@@ -20,7 +20,7 @@ export default function DetectionTable({ rows, compact = false }: { rows: Detect
         <tbody>
           {rows.map((d) => (
             <tr key={d.detection_id} className={`clickable ${Date.now() - new Date(d.created_at).getTime() < 20_000 ? 'row-new' : ''}`} onClick={() => nav(`/detections/${d.detection_id}`)}>
-              <td className="font-mono font-medium" style={{ color: riskColor(d.risk_score) }}>{Math.round(d.risk_score)}</td>
+              <td className="font-mono font-medium"><span className="inline-flex items-center gap-2"><span className="h-3 w-[3px] rounded-full" style={{ background: riskColor(d.risk_score) }} aria-hidden="true" />{Math.round(d.risk_score)}</span></td>
               <td><DecisionPill decision={d.decision} /></td>
               <td className="max-w-0">
                 <a href={`/detections/${d.detection_id}`} onClick={(e) => { e.preventDefault(); nav(`/detections/${d.detection_id}`); }} className="block truncate text-ink hover:underline">

@@ -23,7 +23,7 @@ export default function Review() {
             <tbody>
               {data.map((d) => (
                 <tr key={d.detection_id}>
-                  <td className="font-mono" style={{ color: riskColor(d.risk_score) }}>{Math.round(d.risk_score)}</td>
+                  <td className="font-mono"><span className=" inline-flex items-center gap-2"><span className="h-3 w-[3px] rounded-full" style={{ background: riskColor(d.risk_score) }} aria-hidden="true" />{Math.round(d.risk_score)}</span></td>
                   <td><DecisionPill decision={d.decision} /></td>
                   <td className="max-w-0">
                     <Link to={`/detections/${d.detection_id}`} className="block truncate hover:underline">{d.title}</Link>

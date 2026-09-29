@@ -22,7 +22,7 @@ export default function Campaigns() {
                   </td>
                   <td className="text-[13px] text-muted">{c.brands.join(', ') || '—'}</td>
                   {(['emails', 'domains', 'ips', 'certificates'] as const).map((k) => <td key={k} className="text-right font-mono">{c.stats[k] ?? 0}</td>)}
-                  <td className="text-right font-mono" style={{ color: riskColor(c.risk) }}>{Math.round(c.risk)}</td>
+                  <td className="text-right font-mono"><span className=" inline-flex items-center gap-2"><span className="h-3 w-[3px] rounded-full" style={{ background: riskColor(c.risk) }} aria-hidden="true" />{Math.round(c.risk)}</span></td>
                   <td className="text-right font-mono text-[12px] text-faint">{ago(c.last_seen)}</td>
                 </tr>
               ))}
