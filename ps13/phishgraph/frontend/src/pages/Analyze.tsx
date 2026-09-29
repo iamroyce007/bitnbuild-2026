@@ -45,11 +45,11 @@ export default function Analyze() {
       <div className="grid gap-5 xl:grid-cols-[440px_minmax(0,1fr)]">
         <Section title="Input">
           <form onSubmit={run} className="space-y-3">
-            <div className="grid grid-cols-4 gap-1 rounded-md border border-line p-1" role="tablist" aria-label="Input type">
+            <div className="grid grid-cols-4 border-b border-line" role="tablist" aria-label="Input type">
               {(['email', 'sms', 'url', 'raw'] as Mode[]).map((m) => (
                 <button type="button" key={m} role="tab" aria-selected={mode === m} onClick={() => setMode(m)}
-                  className={`h-8 rounded font-mono text-[12px] ${mode === m ? 'bg-surface-2 text-ink' : 'text-muted hover:text-ink'}`}>
-                  {m === 'sms' ? 'SMS/WA' : m === 'raw' ? '.eml' : m.toUpperCase()}
+                  className={`-mb-px h-9 border-b-2 text-[13px] ${mode === m ? 'border-accent font-semibold text-ink' : 'border-transparent text-muted hover:text-ink'}`}>
+                  {m === 'sms' ? 'SMS / chat' : m === 'raw' ? 'Raw .eml' : m === 'url' ? 'Link' : 'Email'}
                 </button>
               ))}
             </div>

@@ -50,7 +50,7 @@ export default function Setup() {
 
   return (
     <>
-      <PageTitle title="Setup" sub="Three steps. Nothing to configure by hand." />
+      <PageTitle title="Setup" sub="Connect browsers and the Chrome extension. Nothing to configure by hand." />
       <ol className="max-w-3xl space-y-3">
         <Step n={1} title="This browser is connected" done>
           <p>To connect another browser or a teammate, send them the setup link. Anyone with it can use this server, so share it privately.</p>
