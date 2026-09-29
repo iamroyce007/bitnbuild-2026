@@ -9,9 +9,13 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$(mktemp -d)/phishgraph"
 KEY="$(cat "$ROOT/.vercel-api-key")"
 (cd "$ROOT/frontend" && npm ci --no-audit --no-fund >/dev/null && npm run build >/dev/null)
+# deploy-time data snapshot: real feeds + threat graph + labelled sample data (see scripts/build_snapshot.py)
+PY="${PYTHON:-$ROOT/../.venv/bin/python}"
+"$PY" "$ROOT/scripts/build_snapshot.py" | tail -1
 mkdir -p "$OUT"
 (cd "$ROOT" && git ls-files -z | rsync -a --from0 --files-from=- ./ "$OUT/")
 cp -R "$ROOT/frontend/dist" "$OUT/static"
+cp -R "$ROOT/snapshot" "$OUT/snapshot"
 [ -d "$ROOT/.vercel" ] && cp -R "$ROOT/.vercel" "$OUT/"
 cd "$OUT"
 npx --yes vercel@latest deploy --prod --yes -e API_KEYS="$KEY" -e PUBLIC_ACCESS=true -e DEMO_MODE=false -e ENABLE_EMBEDDINGS=false

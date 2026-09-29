@@ -1,22 +1,25 @@
 """Vercel serverless entry point.
 
-Serverless constraints handled here: no persistent disk (SQLite + graph in /tmp, rebuilt on each cold start), no
-background workers (jobs run inline), no WebSockets (the dashboard falls back to polling), no PyTorch (the semantic NLP
-stage is reported as unavailable). For persistence, set DATABASE_URL to a hosted Postgres.
+Serverless constraints handled here: no persistent disk (SQLite + graph in /tmp), several instances at once and frozen
+between requests (so nothing can be built up in the background), no background workers (jobs run inline), no WebSockets
+(the dashboard falls back to polling), no PyTorch (the semantic NLP stage is reported as unavailable).
 
-On a cold start with an empty database:
-  1. synchronously (<= 12 s): real, keyless threat feeds OpenPhish + URLhaus -> intel store and threat graph;
-  2. in a background thread that keeps going while requests are served: the large keyless domain feeds
-     (CERT Polska, Phishing Army, ~280k indicators) and, unless SAMPLE_DATA_ON_START=false, the labelled sample
-     data (27 messages marked DEMO DATA, removable from the dashboard) so every page has something to show.
+Every instance starts from the same deploy-time snapshot (scripts/build_snapshot.py, bundled by deploy_vercel.sh):
+real OpenPhish + URLhaus indicators and the threat graph they form, the labelled sample data (27 messages marked
+DEMO DATA, removable from the dashboard), and ~280k domains from CERT Polska and Phishing Army. On top of that the
+instance pulls OpenPhish and URLhaus live (<= 8 s), so the newest phishing is always included.
+Set DATABASE_URL to a hosted Postgres for data that persists across instances.
 """
 import asyncio
+import json
 import os
+import shutil
 import sys
-import threading
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+SNAP = ROOT / 'snapshot'
 os.environ.setdefault('SERVERLESS', '1')
 os.environ.setdefault('DATABASE_URL', 'sqlite:////tmp/phishgraph.db')
 os.environ.setdefault('GRAPH_PATH', '/tmp/phishgraph-graph.json')
@@ -24,40 +27,33 @@ os.environ.setdefault('ENABLE_EMBEDDINGS', 'false')
 os.environ.setdefault('REFERENCE_DIR', str(ROOT / 'data' / 'reference'))
 sys.path.insert(0, str(ROOT / 'backend'))
 
+manifest = {}
+if SNAP.exists() and os.environ['DATABASE_URL'] == 'sqlite:////tmp/phishgraph.db' and not Path('/tmp/phishgraph.db').exists():
+    shutil.copy(SNAP / 'phishgraph.db', '/tmp/phishgraph.db')
+    if (SNAP / 'graph.json').exists():
+        shutil.copy(SNAP / 'graph.json', os.environ['GRAPH_PATH'])
+    manifest = json.loads((SNAP / 'manifest.json').read_text())
+
 from app.database import init_db  # noqa: E402
 
 init_db()
 
 try:
     from app.services.intel_store import get_intel_store  # noqa: E402
-    from app.workers.feed_collector import run_one  # noqa: E402
-    fresh = get_intel_store().size() == 0
-    if fresh:
-        async def _small():
-            await asyncio.gather(run_one('openphish'), run_one('urlhaus'))
-        asyncio.run(asyncio.wait_for(_small(), timeout=12))
-except Exception as e:  # feed down or slow: start anyway, the Intel page shows each collector's status
-    fresh = False
-    print('feed ingestion skipped:', e)
+    from app.workers.feed_collector import STATUS, run_one  # noqa: E402
+    store = get_intel_store()
+    for name, info in (manifest.get('large_feeds') or {}).items():
+        path = SNAP / 'feeds' / f'{name}.txt.gz'
+        if info.get('status') == 'ok' and path.exists():
+            t = time.time()
+            n = store.load_domain_list(path, name, at=manifest.get('built_at'))
+            STATUS[name] = {'status': 'ok', 'mode': f'snapshot {manifest.get("built_at")}', 'fetched': n, 'at': t,
+                            'seconds': round(time.time() - t, 1)}
 
-
-def _background() -> None:
-    async def _large():
-        await asyncio.gather(run_one('cert_pl'), run_one('phishing_army'))
-    try:
-        asyncio.run(_large())
-    except Exception as e:
-        print('large feeds skipped:', e)
-    if os.getenv('SAMPLE_DATA_ON_START', 'true').lower() != 'false':
-        try:
-            from app.services import sample_data
-            if not sample_data.status()['loaded']:
-                asyncio.run(sample_data.load())
-        except Exception as e:
-            print('sample data skipped:', e)
-
-
-if fresh:
-    threading.Thread(target=_background, name='cold-start-data', daemon=True).start()
+    async def _live():
+        await asyncio.gather(run_one('openphish'), run_one('urlhaus'))
+    asyncio.run(asyncio.wait_for(_live(), timeout=8))
+except Exception as e:  # a feed being down or slow never blocks start-up; the Intel page shows each collector's status
+    print('live feed refresh skipped:', e)
 
 from app.main import app  # noqa: E402,F401
