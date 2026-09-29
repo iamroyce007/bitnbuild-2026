@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import ReportView from '../components/ReportView';
+import FillFromCapture from '../components/FillFromCapture';
 import ScreenshotInput from '../components/ScreenshotInput';
+import { extractFromText, looksStructured } from '../lib/capture';
+import type { Extraction } from '../lib/api';
 import { ErrorBox, Loading, PageTitle, Section } from '../components/ui';
 import { api } from '../lib/api';
 import type { Report } from '../lib/types';
@@ -22,6 +25,28 @@ export default function Analyze() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<unknown>(null);
   const [rep, setRep] = useState<Report | null>(null);
+  const [chat, setChat] = useState<'sms' | 'whatsapp'>('sms');
+  const [split, setSplit] = useState<{ before: typeof f; note: string } | null>(null);
+  // put an extraction into the right fields and switch to the Email or SMS tab it belongs to
+  const fill = (x: Extraction) => {
+    setF((cur) => ({ ...cur, sender: x.sender, subject: x.channel === 'email' ? x.subject : '', body: x.body }));
+    setMode(x.channel === 'email' ? 'email' : 'sms');
+    setChat(x.channel === 'whatsapp' ? 'whatsapp' : 'sms');
+    setRep(null);
+  };
+  // pasting a whole message (with From:/Subject:/sender-ID lines) into Message splits it into the fields
+  const smartPaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const text = e.clipboardData.getData('text/plain');
+    if (f.body.trim() || !looksStructured(text)) return;
+    e.preventDefault();
+    const before = f;
+    setF({ ...f, body: text });
+    try {
+      const x = await extractFromText(text, mode === 'email' ? 'email' : 'sms');
+      fill(x);
+      setSplit({ before: { ...before, body: text }, note: `Split into ${x.channel === 'email' ? 'From, Subject and Message' : 'Sender and Message'}.` });
+    } catch { /* keep the pasted text as is */ }
+  };
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setF({ ...f, [k]: e.target.value });
 
   const run = async (e?: React.FormEvent) => {
@@ -31,7 +56,7 @@ export default function Analyze() {
     try {
       const r = mode === 'url' ? await api.analyzeUrl(f.url.trim(), deep)
         : mode === 'raw' ? await api.analyzeEmail({ raw: f.raw, deep })
-        : await api.analyzeEmail({ subject: f.subject, sender: f.sender, body: f.body, channel: mode === 'sms' ? 'sms' : 'email', deep });
+        : await api.analyzeEmail({ subject: f.subject, sender: f.sender, body: f.body, channel: mode === 'sms' ? chat : 'email', deep });
       setRep(r.report);
     } catch (x) {
       setErr(x);
@@ -61,12 +86,12 @@ export default function Analyze() {
   return (
     <>
       <PageTitle title="Analyze message" sub="Upload a screenshot, or paste an email, SMS / WhatsApp message, a raw .eml, or a single link." />
-      <div className="grid gap-5 xl:grid-cols-[440px_minmax(0,1fr)]">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-[440px_minmax(0,1fr)]">
         <Section title="Input">
-          <div className="mb-3 grid grid-cols-5 border-b border-line" role="tablist" aria-label="Input type">
+          <div className="-mx-4 mb-3 flex overflow-x-auto border-b border-line px-4 [scrollbar-width:none]" role="tablist" aria-label="Input type">
               {(['image', 'email', 'sms', 'url', 'raw'] as Mode[]).map((m) => (
                 <button type="button" key={m} role="tab" aria-selected={mode === m} onClick={() => setMode(m)}
-                  className={`-mb-px h-9 border-b-2 text-[13px] ${mode === m ? 'border-accent font-semibold text-ink' : 'border-transparent text-muted hover:text-ink'}`}>
+                  className={`-mb-px h-10 shrink-0 grow basis-0 whitespace-nowrap border-b-2 px-3 text-[13px] ${mode === m ? 'border-accent font-semibold text-ink' : 'border-transparent text-muted hover:text-ink'}`}>
                   {m === 'image' ? 'Screenshot' : m === 'sms' ? 'SMS / chat' : m === 'raw' ? 'Raw .eml' : m === 'url' ? 'Link' : 'Email'}
                 </button>
               ))}
@@ -79,10 +104,13 @@ export default function Analyze() {
               <label className="block"><span className="label">Raw RFC 822 message</span><textarea className="textarea mt-1 h-72" value={f.raw} onChange={set('raw')} placeholder="Paste the full source (Show original in Gmail)" /></label>
             ) : (
               <>
+                <FillFromCapture hint={mode === 'email' ? 'email' : 'sms'} onFilled={(x) => { fill(x); setSplit(null); }} />
+                {split && <p className="pop text-[12px] text-muted" role="status">{split.note} <button type="button" className="text-accent underline" onClick={() => { setF(split.before); setSplit(null); }}>Undo</button></p>}
                 {mode === 'email' && <label className="block"><span className="label">Subject</span><input className="input mt-1" value={f.subject} onChange={set('subject')} /></label>}
-                <label className="block"><span className="label">{mode === 'sms' ? 'Sender number / ID' : 'From'}</span>
+                <label className="block"><span className="label">{mode === 'sms' ? `Sender number / ID${chat === 'whatsapp' ? ' (WhatsApp)' : ''}` : 'From'}</span>
                   <input className="input mt-1 font-mono" value={f.sender} onChange={set('sender')} placeholder={mode === 'sms' ? '+91… or VM-SBIINB' : 'Name <address@domain>'} /></label>
-                <label className="block"><span className="label">Message</span><textarea className="textarea mt-1 h-48 font-sans" value={f.body} onChange={set('body')} /></label>
+                <label className="block"><span className="label">Message</span><textarea className="textarea mt-1 h-48 font-sans" value={f.body} onChange={set('body')} onPaste={smartPaste}
+                  placeholder={mode === 'email' ? 'Paste the email. A copied header (From:, Subject:) is split into the fields.' : 'Paste the message text'} /></label>
               </>
             )}
             {deepBox}

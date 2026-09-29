@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { api, type Extraction } from '../lib/api';
-import { readScreenshot, type OcrLang, type OcrProgress } from '../lib/ocr';
+import { ClipboardUnavailable, extractFromImage, extractFromText, isTouch, pasteKeys, readClipboard, type Clip } from '../lib/capture';
+import { type OcrLang, type OcrProgress } from '../lib/ocr';
+import PasteTarget from './PasteTarget';
 import { CountUp, ErrorBox } from './ui';
 
 type Fields = Pick<Extraction, 'channel' | 'sender' | 'subject' | 'body'>;
@@ -42,43 +44,53 @@ export default function ScreenshotInput({ busy, onAnalyze }: { busy: boolean; on
   const [f, setF] = useState<Fields>({ channel: 'sms', sender: '', subject: '', body: '' });
   const [err, setErr] = useState<unknown>(null);
   const [drag, setDrag] = useState(false);
+  const [pasteBox, setPasteBox] = useState(false);
+  const touch = isTouch();
+  const camRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const edited = useRef(false);
 
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
+  const review = (x: Extraction) => {
+    setEx(x);
+    setF({ channel: x.channel, sender: x.sender, subject: x.subject, body: x.body });
+    edited.current = false;
+    setStage('review');
+  };
   const read = async (file: Blob) => {
-    if (!file.type.startsWith('image/')) { setErr(new Error('That file is not an image. Use a PNG, JPEG or WebP screenshot.')); return; }
-    if (file.size > 15_000_000) { setErr(new Error('That image is larger than 15 MB.')); return; }
-    setErr(null); setEx(null); setOcr(null);
+    setErr(null); setEx(null); setOcr(null); setPasteBox(false);
     setPreview(URL.createObjectURL(file));
     setStage('reading');
     try {
-      const r = await readScreenshot(file, langs, setProg);
+      const { ocr: r, ex: x } = await extractFromImage(file, hint, langs, setProg);
       setOcr(r);
-      setProg({ status: 'Extracting sender, links and other entities', progress: 1 });
-      const x = await api.extract(r.text, hint, r.confidence);
-      setEx(x);
-      setF({ channel: x.channel, sender: x.sender, subject: x.subject, body: x.body });
-      edited.current = false;
-      setStage('review');
+      review(x);
     } catch (e) {
       setErr(e);
       setStage('pick');
     }
   };
+  // copied text instead of an image: skip OCR and go straight to layout + entity extraction
+  const readText = async (text: string) => {
+    if (!text.trim()) { setErr(new Error('The clipboard is empty. Take a screenshot, or copy the message, first.')); return; }
+    setErr(null); setPasteBox(false); setPreview(null);
+    try { setOcr({ text, confidence: 100, inverted: false }); review(await extractFromText(text, hint)); } catch (e) { setErr(e); }
+  };
+  const useClip = (c: Clip) => (c.image ? read(c.image) : readText(c.text || ''));
 
   // paste a screenshot from the clipboard anywhere on the page
   useEffect(() => {
     const onPaste = (e: ClipboardEvent) => {
+      if (stage === 'reading' || pasteBox) return;
       const item = [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith('image/'));
       const file = item?.getAsFile();
-      if (file && stage !== 'reading') { e.preventDefault(); read(file); }
+      if (file) { e.preventDefault(); read(file); }
     };
     window.addEventListener('paste', onPaste);
     return () => window.removeEventListener('paste', onPaste);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stage, langs, hint]);
+  }, [stage, langs, hint, pasteBox]);
 
   // after the person corrects a field, re-extract entities from exactly what they typed
   useEffect(() => {
@@ -94,28 +106,16 @@ export default function ScreenshotInput({ busy, onAnalyze }: { busy: boolean; on
     edited.current = true;
     setF({ ...f, [k]: e.target.value } as Fields);
   };
-  // explicit button for people who do not know the keyboard shortcut (needs the async Clipboard API + permission)
-  const pasteFromClipboard = async () => {
+  // "Paste" button. readClipboard() is called first thing in the tap handler (iOS only allows it from a gesture);
+  // where the browser cannot read the clipboard, fall back to a paste box that takes a real paste.
+  const pasteFromClipboard = () => {
     setErr(null);
-    try {
-      if (!navigator.clipboard?.read) throw new Error('This browser cannot read images from the clipboard. Press Ctrl+V / ⌘V instead.');
-      for (const item of await navigator.clipboard.read()) {
-        const type = item.types.find((t) => t.startsWith('image/'));
-        if (type) { read(await item.getType(type)); return; }
-      }
-      const text = await navigator.clipboard.readText().catch(() => '');
-      if (text.trim()) { // copied text instead of an image: skip OCR and go straight to entity extraction
-        setOcr({ text, confidence: 100, inverted: false });
-        const x = await api.extract(text, hint);
-        setEx(x); setF({ channel: x.channel, sender: x.sender, subject: x.subject, body: x.body }); edited.current = false; setStage('review');
-        return;
-      }
-      throw new Error('The clipboard has no image or text. Take a screenshot (or copy the message) first.');
-    } catch (e) {
-      setErr(e instanceof DOMException ? new Error('Clipboard access was blocked. Allow it in the browser, or press Ctrl+V / ⌘V.') : e);
-    }
+    readClipboard().then(useClip, (e) => {
+      if (e instanceof ClipboardUnavailable) setPasteBox(true);
+      else setErr(e);
+    });
   };
-  const reset = () => { setStage('pick'); setPreview(null); setEx(null); setOcr(null); setErr(null); };
+  const reset = () => { setStage('pick'); setPreview(null); setEx(null); setOcr(null); setErr(null); setPasteBox(false); };
   const e = ex?.entities;
   const total = e ? e.urls.length + e.emails.length + e.phones.length + e.upi_ids.length + e.crypto_wallets.length + e.amounts.length + e.codes.length + e.deadlines.length + e.brands_claimed.length + (e.sender_header ? 1 : 0) : 0;
 
@@ -128,15 +128,22 @@ export default function ScreenshotInput({ busy, onAnalyze }: { busy: boolean; on
         <svg viewBox="0 0 48 48" className="mb-2 size-11 text-muted" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <rect x="13" y="4" width="22" height="40" rx="4" /><path d="M21 8h6M18 16h12M18 21h9M18 26h11" /><circle cx="33" cy="33" r="7" fill="var(--color-mark)" stroke="var(--color-ink)" /><path d="m38 38 4 4" stroke="var(--color-ink)" />
         </svg>
-        <p className="text-[15px] font-semibold">Drop a <span className="hl">screenshot</span> here</p>
-        <p className="mt-1 text-[12px] text-muted">SMS, WhatsApp, Gmail or Outlook. You can also paste it with Ctrl+V / ⌘V.</p>
-        <div className="mt-3 flex flex-wrap justify-center gap-2">
-          <button type="button" className="btn btn-primary" onClick={() => fileRef.current?.click()}>Choose image</button>
+        <p className="text-[15px] font-semibold">{touch ? <>Check a <span className="hl">screenshot</span></> : <>Drop a <span className="hl">screenshot</span> here</>}</p>
+        <p className="mt-1 max-w-sm text-[12px] text-muted">
+          {touch ? 'SMS, WhatsApp, Gmail or Outlook. Pick one from Photos, or copy a screenshot or message and tap Paste.'
+            : `SMS, WhatsApp, Gmail or Outlook. Choose a file, drag it here, or copy it and paste with ${pasteKeys()}.`}
+        </p>
+        <div className="mt-3 flex w-full flex-wrap justify-center gap-2 max-sm:flex-col">
+          <button type="button" className="btn btn-primary" onClick={() => fileRef.current?.click()}>{touch ? 'Choose from Photos' : 'Choose image'}</button>
           <button type="button" className="btn" onClick={pasteFromClipboard}>Paste from clipboard</button>
+          {touch && <button type="button" className="btn" onClick={() => camRef.current?.click()}>Photograph a screen</button>}
         </div>
-        <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" aria-label="Screenshot file"
+        <input ref={fileRef} type="file" accept="image/*" className="sr-only" aria-label="Screenshot file" tabIndex={-1}
+          onChange={(ev) => { const file = ev.target.files?.[0]; if (file) read(file); ev.target.value = ''; }} />
+        <input ref={camRef} type="file" accept="image/*" capture="environment" className="sr-only" aria-label="Photograph a screen" tabIndex={-1}
           onChange={(ev) => { const file = ev.target.files?.[0]; if (file) read(file); ev.target.value = ''; }} />
       </div>
+      {pasteBox && <PasteTarget onClip={useClip} onCancel={() => setPasteBox(false)} />}
       <fieldset className="grid gap-3 sm:grid-cols-2">
         <div>
           <legend className="label mb-1">Text in the screenshot</legend>
