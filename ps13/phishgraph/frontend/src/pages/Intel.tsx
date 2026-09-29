@@ -20,7 +20,7 @@ export default function Intel() {
   return (
     <>
       <PageTitle title="Threat intelligence" sub="External providers are optional and off until keys are set. Local feeds are ingested on a schedule, never queried per message." />
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
         <Section title="Providers" flush>
           {prov.error ? <div className="p-4"><ErrorBox error={prov.error} /></div> : !prov.data ? <Loading /> : (
             <table className="tbl">

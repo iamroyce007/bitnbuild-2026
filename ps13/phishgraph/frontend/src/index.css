@@ -162,3 +162,17 @@ main { counter-reset: sec; }
   *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; }
   .scan-beam, .live-dot { animation: none !important; }
 }
+
+/* ---- phones and tablets ---------------------------------------------------------------------------------- */
+/* touch screens: 44 px targets (Apple HIG / WCAG 2.5.5) and 16 px text in fields so iOS Safari does not zoom */
+@media (pointer: coarse) {
+  .btn { min-height: 44px; }
+  .input, select.input { min-height: 44px; font-size: 16px; }
+  .textarea { font-size: 16px; }
+  .tbl tbody tr.clickable td { padding-block: 12px; }
+}
+/* notch / home-indicator safe areas when installed to the home screen or in landscape */
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-x { padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+html { -webkit-text-size-adjust: 100%; }

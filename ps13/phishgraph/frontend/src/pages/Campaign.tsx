@@ -31,7 +31,7 @@ export default function Campaign() {
         <Stat label="Certificates" value={s.certificates ?? 0} />
         <Stat label="Targets" value={<span className="text-[15px]">{data.brands.join(', ') || '—'}</span>} />
       </div>
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
         <Section title="Campaign infrastructure">
           <GraphView data={data.graph} height={520} onSelect={setNode} selectedId={node?.id} />
           <div className="mt-3"><GraphLegend /></div>

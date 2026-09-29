@@ -151,7 +151,7 @@ function Shell() {
     <LiveCtx.Provider value={{ ...live, paused, setPaused }}>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-on-accent">Skip to content</a>
       <div className="flex h-full flex-col">
-        <header className="sticky top-0 z-30 flex h-12 shrink-0 items-center gap-3 bg-chrome px-3 text-chrome-ink lg:px-4">
+        <header className="safe-top sticky top-0 z-30 shrink-0 bg-chrome text-chrome-ink"><div className="safe-x flex h-12 items-center gap-3 lg:px-4">
           <button className="grid size-8 place-items-center rounded hover:bg-chrome-2 lg:hidden" onClick={() => setMenu((m) => !m)} aria-expanded={menu} aria-controls="side-nav" aria-label="Menu">
             <Icon name="menu" className="size-5" />
           </button>
@@ -167,14 +167,14 @@ function Shell() {
             aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} title={theme === 'dark' ? 'Light theme' : 'Dark theme'}>
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
           </button>
-        </header>
+        </div></header>
         <div className="flex min-h-0 flex-1">
           <aside id="side-nav" className={`w-56 shrink-0 overflow-y-auto border-r border-line bg-surface py-3 max-lg:fixed max-lg:inset-y-12 max-lg:left-0 max-lg:z-20 max-lg:shadow-lg ${menu ? '' : 'max-lg:hidden'}`}>
             <nav aria-label="Main"><NavItems /></nav>
           </aside>
           <div className="board flex min-w-0 flex-1 flex-col overflow-y-auto">
             <SampleBanner />
-            <main id="main" className="w-full max-w-[1600px] flex-1 px-4 py-5 lg:px-6">
+            <main id="main" className="safe-bottom w-full max-w-[1600px] flex-1 px-4 py-5 lg:px-6">
               <Suspense fallback={<Loading />}>
                 <div key={pathname} className="page">
                 <Routes>
@@ -189,7 +189,7 @@ function Shell() {
                   <Route path="/review" element={<Review />} />
                   <Route path="/intel" element={<Intel />} />
                   <Route path="/models" element={<Models />} />
-                  <Route path="/health" element={<Health />} />
+                  <Route path="/system" element={<Health />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/setup" element={<Setup />} />
                   <Route path="*" element={<Navigate to="/" replace />} />

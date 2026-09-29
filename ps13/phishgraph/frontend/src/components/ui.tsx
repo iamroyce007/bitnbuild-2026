@@ -97,12 +97,12 @@ export function Stat({ label, value, sub, color }: { label: string; value: React
 
 export function Section({ title, right, children, className = '', flush = false }: { title: ReactNode; right?: ReactNode; children: ReactNode; className?: string; flush?: boolean }) {
   return (
-    <section className={`card ${className}`}>
+    <section className={`card min-w-0 ${className}`}>
       <header className="flex min-h-10 items-center justify-between gap-3 border-b border-line px-4 py-1.5">
         <h2 className="sec-title text-[14px] font-semibold">{title}</h2>
         {right}
       </header>
-      <div className={flush ? '' : 'p-4'}>{children}</div>
+      <div className={`min-w-0 overflow-x-auto ${flush ? '' : 'p-4'}`}>{children}</div>
     </section>
   );
 }
@@ -112,7 +112,7 @@ export const NAV_GROUPS: { group: string; items: [string, string, string][] }[] 
   { group: 'Monitor', items: [['/', 'overview', 'Overview'], ['/feed', 'feed', 'Live detections'], ['/review', 'review', 'Review queue']] },
   { group: 'Investigate', items: [['/analyze', 'analyze', 'Analyze message'], ['/investigate', 'investigate', 'Investigate URL'], ['/graph', 'graph', 'Threat graph'], ['/campaigns', 'campaigns', 'Campaigns']] },
   { group: 'Intelligence', items: [['/intel', 'intel', 'Threat intelligence'], ['/models', 'models', 'Model health']] },
-  { group: 'Administration', items: [['/health', 'health', 'System health'], ['/setup', 'setup', 'Setup'], ['/settings', 'settings', 'Settings']] },
+  { group: 'Administration', items: [['/system', 'health', 'System health'], ['/setup', 'setup', 'Setup'], ['/settings', 'settings', 'Settings']] },
 ];
 
 function Crumbs({ title }: { title: string }) {

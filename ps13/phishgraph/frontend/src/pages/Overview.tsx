@@ -56,13 +56,13 @@ export default function Overview() {
             <Stat label="Campaigns" value={s.campaigns} sub={`${s.threat_feed_size} feed indicators`} />
             <Stat label="Avg analysis" value={`${s.avg_latency_ms}`} sub="milliseconds" />
           </div>
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             <Section title="Detections per hour"><StackedBars data={s.timeseries} /></Section>
             <Section title="Risk distribution"><Histogram bins={s.risk_histogram} />
               <p className="mt-3 text-[12px] text-muted">Thresholds: flag 30 · quarantine 60 · block 85.</p>
             </Section>
           </div>
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             <Section title="Latest detections" right={<Link to="/feed" className="text-[12px] text-accent hover:underline">Live feed</Link>} flush>
               {recent.data ? <DetectionTable rows={recent.data} compact /> : <Loading />}
             </Section>

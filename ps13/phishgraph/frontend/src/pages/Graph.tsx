@@ -35,7 +35,7 @@ export default function Graph() {
       </div>
       {err && <div className="mb-4"><ErrorBox error={err} /></div>}
       {overview.error ? <ErrorBox error={overview.error} /> : !data ? <Loading /> : (
-        <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
           <Section title={focused ? `Neighbourhood of ${domain}` : 'Campaign and high-risk neighbourhoods'}>
             <GraphView data={data} height={600} onSelect={setNode} selectedId={node?.id} />
             <div className="mt-3"><GraphLegend /></div>
