@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ReportView from '../components/ReportView';
 import { ErrorBox, PageTitle, Section } from '../components/ui';
 import { api } from '../lib/api';
@@ -7,7 +8,8 @@ import type { Report } from '../lib/types';
 const STEPS = ['Normalise & SSRF check', 'DNS resolution', 'RDAP registration', 'TLS certificate', 'IP → ASN', 'Threat intelligence', 'Graph traversal', 'Brand similarity', 'Campaign similarity', 'Risk fusion'];
 
 export default function Investigate() {
-  const [url, setUrl] = useState('');
+  const [params, setParams] = useSearchParams();
+  const [url, setUrl] = useState(params.get('url') || '');
   const [job, setJob] = useState<string | null>(null);
   const [status, setStatus] = useState('');
   const [rep, setRep] = useState<Report | null>(null);
@@ -35,20 +37,26 @@ export default function Investigate() {
       setJob(null);
     }
   };
-  const start = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const run = async (target: string) => {
     setErr(null); setRep(null);
     try {
-      const { job_id } = await api.investigate(url.trim());
+      const { job_id } = await api.investigate(target);
       setJob(job_id);
       poll(job_id);
     } catch (x) {
       setErr(x);
     }
   };
+  const start = (e: React.FormEvent) => { e.preventDefault(); run(url.trim()); };
+  // opened from the top-bar lookup: /investigate?url=...
+  useEffect(() => {
+    const u = params.get('url');
+    if (u) { setUrl(u); run(u); setParams({}, { replace: true }); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
   return (
     <>
-      <PageTitle title="Investigate unknown URL" sub="Runs the full chain on a link no feed has seen yet, and explains any link to known malicious infrastructure." />
+      <PageTitle title="Investigate URL" sub="Runs the full chain on a link no feed has seen yet, and explains any link to known malicious infrastructure." />
       <Section title="Target" className="mb-5">
         <form onSubmit={start} className="flex flex-wrap gap-2">
           <label className="sr-only" htmlFor="u">URL to investigate</label>
