@@ -190,4 +190,6 @@ if (DIST / 'index.html').exists():
         f = DIST / path
         if path and f.is_file() and DIST in f.resolve().parents:
             return FileResponse(f)
-        return FileResponse(DIST / 'index.html')
+        # the HTML shell must always be revalidated: it names this build's hashed assets, and a cached copy from an
+        # earlier deploy would point at files that no longer exist (blank page after every deploy)
+        return FileResponse(DIST / 'index.html', headers={'Cache-Control': 'no-cache'})

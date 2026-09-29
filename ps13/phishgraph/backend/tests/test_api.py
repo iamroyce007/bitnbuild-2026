@@ -73,3 +73,12 @@ def test_public_access_mode(client, monkeypatch):
     assert client.get('/api/v1/sample-data', headers={'X-API-Key': 'wrong'}).status_code == 401  # a wrong key is still refused
     monkeypatch.setattr(get_settings(), 'public_access', False)
     assert client.get('/api/v1/sample-data').status_code == 401
+
+
+def test_html_shell_is_never_cached(client):
+    import pytest
+    from app.main import DIST
+    if not (DIST / 'index.html').exists():
+        pytest.skip('dashboard not built')
+    r = client.get('/investigate')
+    assert r.status_code == 200 and r.headers.get('cache-control') == 'no-cache'
