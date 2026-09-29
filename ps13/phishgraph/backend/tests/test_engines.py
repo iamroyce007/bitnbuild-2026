@@ -184,3 +184,15 @@ def test_feed_domains_never_taint_shared_services():
     assert not st.match('url', 'https://dub.sh/abc') and not st.match('url', 'https://google.com/')
     assert not st.match('url', 'https://someone-else.github.io/')
     assert st.match('url', 'https://abc123-phish.github.io/login') and st.match('url', 'https://evil-login-kyc.site/x')
+
+
+def test_snapshot_domain_lists_survive_reload(tmp_path):
+    import gzip
+    from app.services.intel_store import IntelStore
+    f = tmp_path / 'list.txt.gz'
+    with gzip.open(f, 'wt') as fh:
+        fh.write('evil-kyc-verify.site\nanother-phish.top\n')
+    st = IntelStore()
+    assert st.load_domain_list(f, 'test_list') == 2
+    st.load()  # the app lifespan reloads from the database at start-up
+    assert st.match('url', 'https://evil-kyc-verify.site/login')

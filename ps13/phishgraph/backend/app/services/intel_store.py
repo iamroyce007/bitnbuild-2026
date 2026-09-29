@@ -30,6 +30,7 @@ class IntelStore:
         self.hashes: dict[str, list[dict]] = {}
         self.url_regs: dict[str, list[dict]] = {}
         self.loaded = False
+        self._lists: list[tuple] = []  # snapshot domain lists; re-applied on every reload (they have no database rows)
 
     def _shared(self, reg: str) -> bool:
         from .brand_engine import get_brand_engine
@@ -72,17 +73,25 @@ class IntelStore:
             with session_scope() as s:
                 for r in s.execute(select(IOC.ioc_type, IOC.value, IOC.source, IOC.demo, IOC.tags, IOC.first_seen).where(IOC.active.is_(True))):
                     self._index(r[0], r[1], {'source': r[2], 'demo': r[3], 'tags': r[4], 'first_seen': r[5].isoformat() if r[5] else None})
+            for args in self._lists:
+                self._index_list(*args)
             self.loaded = True
 
     def load_domain_list(self, path, source: str, tags: list[str] | None = None, at: str | None = None) -> int:
         """Index a (gzipped) domain list from the deploy-time snapshot straight into memory, without database rows:
-        100k+ domains in about a second on a serverless cold start. Returns the number indexed."""
-        import gzip
+        100k+ domains in about a second on a serverless cold start. Remembered, so a later reload keeps it."""
         if not self.loaded:
             self.load()
-        meta = {'source': source, 'demo': False, 'tags': tags or ['phishing'], 'first_seen': at}
+        args = (path, source, tags or ['phishing'], at)
+        with self._lock:
+            self._lists.append(args)
+            return self._index_list(*args)
+
+    def _index_list(self, path, source: str, tags: list[str], at: str | None) -> int:
+        import gzip
+        meta = {'source': source, 'demo': False, 'tags': tags, 'first_seen': at}
         n = 0
-        with gzip.open(path, 'rt', encoding='utf-8') as f, self._lock:
+        with gzip.open(path, 'rt', encoding='utf-8') as f:
             for line in f:
                 d = line.strip()
                 if d:
