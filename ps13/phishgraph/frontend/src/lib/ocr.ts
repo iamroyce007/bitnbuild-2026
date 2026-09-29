@@ -8,16 +8,35 @@ export type OcrResult = { text: string; confidence: number; inverted: boolean; s
 
 /** Upscale small crops, convert to greyscale and turn dark-mode screenshots (light text on dark) into dark-on-light,
  *  which is what the OCR engine reads best. */
+async function decode(file: Blob): Promise<{ img: CanvasImageSource; w: number; h: number; done: () => void }> {
+  try {
+    const bmp = await createImageBitmap(file);
+    return { img: bmp, w: bmp.width, h: bmp.height, done: () => bmp.close() };
+  } catch {
+    // some formats (e.g. HEIC on Safari) decode through <img> but not createImageBitmap
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.src = url;
+    await img.decode();
+    return { img, w: img.naturalWidth, h: img.naturalHeight, done: () => URL.revokeObjectURL(url) };
+  }
+}
+
+// iOS Safari refuses canvases above ~16.7 megapixels; stay well under it for long, scrolling screenshots
+const MAX_PIXELS = 12_000_000;
+
 async function prepare(file: Blob): Promise<{ canvas: HTMLCanvasElement; inverted: boolean; scaled: number }> {
-  const bmp = await createImageBitmap(file);
-  const scaled = Math.min(3, Math.max(1, 1400 / bmp.width));
+  const { img: source, w, h, done } = await decode(file);
+  // small crops are enlarged (OCR wants ~30 px letters); big iPad / desktop captures are reduced to save memory
+  let scaled = w < 1400 ? Math.min(3, 1400 / w) : Math.min(1, 2200 / w);
+  scaled = Math.min(scaled, Math.sqrt(MAX_PIXELS / (w * h)));
   const canvas = document.createElement('canvas');
-  canvas.width = Math.round(bmp.width * scaled);
-  canvas.height = Math.round(bmp.height * scaled);
+  canvas.width = Math.max(1, Math.round(w * scaled));
+  canvas.height = Math.max(1, Math.round(h * scaled));
   const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
   ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(bmp, 0, 0, canvas.width, canvas.height);
-  bmp.close();
+  ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+  done();
   const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const d = img.data;
   let sum = 0;
