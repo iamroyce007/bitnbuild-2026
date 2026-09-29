@@ -37,7 +37,7 @@ export default function Feed() {
       <div className="mb-3 flex flex-wrap gap-1.5" role="tablist" aria-label="Filter by decision">
         {FILTERS.map((f) => (
           <button key={f} role="tab" aria-selected={filter === f} onClick={() => setFilter(f)}
-            className={`h-8 rounded-md border px-3 font-mono text-[12px] ${filter === f ? 'border-accent text-ink' : 'border-line text-muted hover:text-ink'}`}>{f}</button>
+            className={`h-8 rounded-[3px] border px-3 font-mono text-[11px] tracking-wider transition-colors duration-150 ${filter === f ? 'border-primary bg-primary text-on-primary' : 'border-line bg-surface text-muted hover:border-line-strong hover:text-ink'}`}>{f}</button>
         ))}
       </div>
       {error ? <ErrorBox error={error} /> : !data ? <Loading /> : <section className="card"><DetectionTable rows={rows} /></section>}

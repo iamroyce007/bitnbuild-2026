@@ -5,7 +5,6 @@ import type { Report } from '../lib/types';
 import { DECISION_COLOR, DemoTag, ReasonList, RiskNumber, ScoreRow, Section, riskColor } from './ui';
 
 const SCORE_LABEL: Record<string, string> = { nlp: 'Language (NLP)', url: 'Link / URL model', brand: 'Brand impersonation', metadata: 'Sender & headers', threat_intelligence: 'Threat intelligence', graph: 'Infrastructure graph' };
-const INTENT_COLOR = 'color-mix(in srgb, var(--color-flag) 18%, transparent)';
 
 function Highlighted({ text, spans }: { text: string; spans: { start: number; end: number; intent: string }[] }) {
   const s = [...spans].sort((a, b) => a.start - b.start).filter((x, i, arr) => i === 0 || x.start >= arr[i - 1].end);
@@ -13,7 +12,7 @@ function Highlighted({ text, spans }: { text: string; spans: { start: number; en
   let at = 0;
   for (const x of s) {
     if (x.start > at) out.push(text.slice(at, x.start));
-    out.push(<mark key={x.start} title={x.intent.replace(/_/g, ' ')} className="rounded-sm px-0.5 text-ink" style={{ background: INTENT_COLOR, boxShadow: 'inset 0 -1px 0 var(--color-flag)' }}>{text.slice(x.start, x.end)}</mark>);
+    out.push(<mark key={x.start} title={x.intent.replace(/_/g, ' ')} className="hl bg-transparent">{text.slice(x.start, x.end)}</mark>);
     at = x.end;
   }
   out.push(text.slice(at));
@@ -46,9 +45,10 @@ export default function ReportView({ r, status }: { r: Report; status?: string }
   const m = r.message;
   const textForHighlight = m.subject && m.text.startsWith(m.subject) ? m.text : m.text;
   return (
-    <div className="space-y-5">
+    // container queries: the report lays itself out by the width it is given (full page, or beside the Analyze form)
+    <div className="@container stagger space-y-5">
       {/* verdict */}
-      <section className="card grid gap-6 p-5 lg:grid-cols-[auto_1fr_auto]" style={{ borderTop: `3px solid ${DECISION_COLOR[r.decision]}` }}>
+      <section className="card pop grid items-center gap-6 p-5 @2xl:grid-cols-[auto_1fr_auto]" style={{ borderTop: `3px solid ${DECISION_COLOR[r.decision]}` }}>
         <RiskNumber value={r.risk_score} decision={r.decision} />
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
@@ -71,7 +71,7 @@ export default function ReportView({ r, status }: { r: Report; status?: string }
         <div role="note" className="rounded-md border border-flag/40 bg-flag/5 px-4 py-2.5 text-[13px]"><span className="font-semibold text-flag">Conflicting intelligence.</span> {r.conflict_detail}</div>
       )}
 
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
+      <div className="grid gap-5 @5xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-5 min-w-0">
           <Section title="Why this decision" right={<span className="text-[12px] text-faint">evidence weight</span>}>
             <ReasonList reasons={r.reasons} limit={14} />
@@ -146,7 +146,7 @@ export default function ReportView({ r, status }: { r: Report; status?: string }
           )}
         </div>
 
-        <div className="space-y-5">
+        <div className="stagger space-y-5">
           <Section title="Engine scores">
             {Object.keys(SCORE_LABEL).map((k) => <ScoreRow key={k} label={SCORE_LABEL[k]} value={r.scores[k]} note={r.weights_used[k] != null ? `weight ${r.weights_used[k]}` : 'unavailable: weight redistributed'} />)}
             {!!r.unavailable_sources.length && <p className="mt-2 text-[12px] text-faint">n/a = no evidence from that source; its weight was redistributed rather than counted as safe.</p>}

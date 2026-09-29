@@ -38,17 +38,17 @@ export default function Overview() {
       <PageTitle title="Overview" sub="Last 24 hours of analysed messages and links" right={<Link to="/analyze" className="btn btn-primary">Analyze a message</Link>} />
       {s && s.total_detections === 0 ? (
         <section className="card max-w-3xl p-6">
-          <h2 className="text-[16px] font-semibold">Nothing analysed yet</h2>
+          <h2 className="text-[18px] font-semibold"><span className="hl">Nothing analysed yet</span></h2>
           <p className="mt-1 text-[13px] text-muted">PhishGraph is running and already pulling real phishing indicators from the public OpenPhish feed. Give it something to look at:</p>
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            <Link to="/analyze" className="card block p-4 hover:border-line-strong"><div className="font-medium">Analyze a message</div><div className="mt-1 text-[12px] text-muted">Paste an email, SMS or WhatsApp text, or a link.</div></Link>
-            <Link to="/setup" className="card block p-4 hover:border-line-strong"><div className="font-medium">Install the extension</div><div className="mt-1 text-[12px] text-muted">Checks pages and Gmail messages as you browse.</div></Link>
-            <button onClick={sample.load} disabled={sample.busy} className="card block p-4 text-left hover:border-line-strong"><div className="font-medium">{sample.busy ? 'Loading…' : 'Load sample data'}</div><div className="mt-1 text-[12px] text-muted">27 labelled examples to explore every page. Removable.</div></button>
+          <div className="stagger mt-5 grid gap-3 sm:grid-cols-3">
+            <Link to="/analyze" className="card card-hover block p-4"><div className="font-medium">Analyze a message</div><div className="mt-1 text-[12px] text-muted">Paste an email, SMS or WhatsApp text, or a link.</div></Link>
+            <Link to="/setup" className="card card-hover block p-4"><div className="font-medium">Install the extension</div><div className="mt-1 text-[12px] text-muted">Checks pages and Gmail messages as you browse.</div></Link>
+            <button onClick={sample.load} disabled={sample.busy} className="card card-hover block p-4 text-left"><div className="font-medium">{sample.busy ? 'Loading…' : 'Load sample data'}</div><div className="mt-1 text-[12px] text-muted">27 labelled examples to explore every page. Removable.</div></button>
           </div>
         </section>
       ) : !s ? <Loading /> : (
-        <div className="space-y-5">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+        <div className="stagger space-y-5">
+          <div className="stagger grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
             <Stat label="Analysed (24 h)" value={total24} sub={`${s.total_detections} all time`} />
             <Stat label="Blocked" value={by.BLOCK || 0} color={DECISION_COLOR.BLOCK} />
             <Stat label="Quarantined" value={by.QUARANTINE || 0} color={DECISION_COLOR.QUARANTINE} />
