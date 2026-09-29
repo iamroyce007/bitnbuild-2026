@@ -2,10 +2,10 @@
  "real_domains": {
   "source": "Tranco ranks 100,001-150,000",
   "n": 50000,
-  "flagged": 95,
-  "rate": 0.0019,
+  "flagged": 99,
+  "rate": 0.00198,
   "by_kind": {
-   "combosquat": 41,
+   "combosquat": 45,
    "tld_swap": 19,
    "typosquat": 30,
    "permutation": 5
@@ -97,6 +97,11 @@
     "binance.com"
    ],
    [
+    "sloop-dns.online",
+    "combosquat",
+    "microsoft.com"
+   ],
+   [
     "azure-mobile.net",
     "combosquat",
     "microsoft.com"
@@ -130,6 +135,11 @@
     "azure-api.us",
     "combosquat",
     "microsoft.com"
+   ],
+   [
+    "iab.net",
+    "combosquat",
+    "iob.in"
    ],
    [
     "tstatic.net",
@@ -200,23 +210,13 @@
     "icloud-platform.com",
     "combosquat",
     "apple.com"
-   ],
-   [
-    "ikbnet.co.at",
-    "typosquat",
-    "iobnet.co.in"
-   ],
-   [
-    "booking.page",
-    "tld_swap",
-    "booking.com"
    ]
   ]
  },
  "generated_attacks": {
   "n": 8354,
   "curated_strong_recall": 0.87352,
-  "any_signal_rate": 0.83852,
+  "any_signal_rate": 0.8208,
   "by_group": {
    "brand homoglyph": {
     "strong": 106,
@@ -259,18 +259,18 @@
     "n": 1309
    },
    "popular omission": {
-    "strong": 7,
-    "weak": 885,
+    "strong": 8,
+    "weak": 884,
     "n": 1292
    },
    "popular repetition": {
     "strong": 7,
-    "weak": 895,
+    "weak": 894,
     "n": 1310
    },
    "popular transposition": {
     "strong": 6,
-    "weak": 998,
+    "weak": 851,
     "n": 1097
    },
    "popular keyboard": {
@@ -288,5 +288,5 @@
  "official_domains": {
   "flagged": []
  },
- "throughput_domains_per_s": 5712
+ "throughput_domains_per_s": 4384
 }

@@ -244,7 +244,7 @@ class BrandEngine:
                 idx: dict[str, list[str]] = {}
                 for lab, (dom, brand, prio) in self.protected.items():
                     t = tkey(lab)
-                    if len(t) >= 5 and (brand or len(t) >= 6):
+                    if len(t) >= 5 and brand:  # curated brands only: generic words shuffle into real names (manula/manual)
                         idx.setdefault(''.join(sorted(t)), []).append(lab)
                 self._anagrams = idx
             for lab in self._anagrams.get(''.join(sorted(tk)), []):
@@ -275,6 +275,9 @@ class BrandEngine:
         if not any(f.brand for f in found):
             raw_tokens = [t for t in re.split(r'[.\-_]+', uni) if t]
             raw_tokens += [t for t in TOKEN_SPLIT.split(uni) if t and t not in raw_tokens]
+            # brands split by a hyphen ("tik-tokbusiness" -> "tik" + "tok..."): also test adjacent pieces joined
+            parts = [t for t in re.split(r'[.\-_]+', uni) if t]
+            raw_tokens += [a + b for a, b in zip(parts, parts[1:]) if len(a) <= 6 and (a + b) not in raw_tokens]
             toks = [(r, skeleton(r)) for r in raw_tokens]
             match = None
             skel_all = {t for _, t in toks}
