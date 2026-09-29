@@ -94,13 +94,20 @@ class IntelStore:
         now = datetime.now(timezone.utc)
         with session_scope() as s:
             existing = {(r[0], r[1]) for r in s.execute(select(IOC.ioc_type, IOC.value).where(IOC.source == source))}
+            new = []
             for t, v in items:
                 if (t, v) in existing:
                     continue
                 existing.add((t, v))
-                s.add(IOC(ioc_type=t, value=v, source=source, tags=tags or [], demo=demo, first_seen=now, last_seen=now))
-                n += 1
+                new.append({'ioc_type': t, 'value': v, 'source': source, 'tags': tags or [], 'demo': demo, 'first_seen': now, 'last_seen': now})
+            n = len(new)
             try:
+                if len(new) > 500:  # large feeds (100k+ domains): one bulk statement instead of an ORM object per row
+                    from sqlalchemy import insert
+                    for i in range(0, len(new), 20_000):
+                        s.execute(insert(IOC), new[i:i + 20_000])
+                else:
+                    s.add_all(IOC(**r) for r in new)
                 s.flush()
             except IntegrityError:
                 s.rollback()

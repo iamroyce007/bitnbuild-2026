@@ -90,22 +90,28 @@ class NetworkXStore:
             return self.g.degree(nid) if nid in self.g else 0
 
     def subgraph(self, seeds: list[str], depth: int = 2, limit: int = 600) -> nx.MultiDiGraph:
+        """Breadth-first neighbourhood of `seeds`, truncated in BFS order so the kept nodes are the closest ones and stay
+        connected. Hubs (degree > 150) and feeds are included but never expanded."""
         with self.lock:
-            seen = {s for s in seeds if s in self.g}
-            frontier = set(seen)
+            order = [s for s in dict.fromkeys(seeds) if s in self.g]
+            seen = set(order)
+            frontier = list(order)
             for _ in range(depth):
-                nxt = set()
+                nxt: list[str] = []
                 for n in frontier:
                     nb = list(self.g.successors(n)) + list(self.g.predecessors(n))
-                    if len(nb) > 150:  # hub: include but do not expand through it
-                        nb = nb[:25]
-                    nxt.update(nb)
-                nxt -= seen
-                seen |= nxt
-                frontier = {n for n in nxt if self.g.degree(n) <= 150}
-                if len(seen) > limit:
+                    if len(nb) > 150:  # hub: include it, do not pull in its unrelated neighbours
+                        continue
+                    for x in nb:
+                        if x not in seen:
+                            seen.add(x)
+                            nxt.append(x)
+                            order.append(x)
+                # never walk through a feed: being on the same list does not connect two sites
+                frontier = [n for n in nxt if self.g.degree(n) <= 150 and self.g.nodes[n].get('type') != 'feed']
+                if len(order) > limit:
                     break
-            return self.g.subgraph(list(seen)[:limit]).copy()
+            return self.g.subgraph(order[:limit]).copy()
 
     def nodes_by_type(self, ntype: str, limit: int = 500) -> list[dict]:
         with self.lock:

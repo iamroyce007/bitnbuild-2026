@@ -33,7 +33,9 @@ async def collect_openphish() -> dict:
     r = await _get('https://openphish.com/feed.txt')
     urls = [u.strip() for u in r.text.splitlines() if u.strip().startswith('http')]
     n = get_intel_store().add([('url', u) for u in urls], source='openphish', tags=['phishing'])
-    return {'fetched': len(urls), 'new': n}
+    from ..services.graph_engine import ingest_feed
+    g = await asyncio.to_thread(ingest_feed, urls, 'openphish', 300)
+    return {'fetched': len(urls), 'new': n, 'graph': g}
 
 
 async def collect_phishtank() -> dict:
@@ -52,10 +54,38 @@ async def collect_urlhaus() -> dict:
     rows = [row for row in csv.reader(io.StringIO(r.text)) if row and not row[0].startswith('#')]
     urls = [row[2] for row in rows if len(row) > 3 and row[3] == 'online']
     n = get_intel_store().add([('url', u) for u in urls], source='urlhaus', tags=['malware'])
-    return {'fetched': len(urls), 'new': n}
+    from ..services.graph_engine import ingest_feed
+    g = await asyncio.to_thread(ingest_feed, urls, 'urlhaus', 150)
+    return {'fetched': len(urls), 'new': n, 'graph': g}
 
 
-COLLECTORS = {'openphish': collect_openphish, 'phishtank': collect_phishtank, 'urlhaus': collect_urlhaus}
+def _domains(text: str) -> list[str]:
+    out = []
+    for line in text.splitlines():
+        d = line.strip().lower().split('#', 1)[0].strip()
+        if d and '.' in d and ' ' not in d and '/' not in d:
+            out.append(d.removeprefix('*.'))
+    return out
+
+
+async def collect_certpl() -> dict:
+    """CERT Polska warning list: phishing and scam domains, published openly (no key)."""
+    r = await _get('https://hole.cert.pl/domains/v2/domains.txt')
+    doms = _domains(r.text)
+    n = get_intel_store().add([('domain', d) for d in doms], source='cert_pl', tags=['phishing', 'scam'])
+    return {'fetched': len(doms), 'new': n}
+
+
+async def collect_phishing_army() -> dict:
+    """Phishing Army blocklist: aggregated phishing domains from several public sources (no key)."""
+    r = await _get('https://phishing.army/download/phishing_army_blocklist.txt')
+    doms = _domains(r.text)
+    n = get_intel_store().add([('domain', d) for d in doms], source='phishing_army', tags=['phishing'])
+    return {'fetched': len(doms), 'new': n}
+
+
+COLLECTORS = {'openphish': collect_openphish, 'phishtank': collect_phishtank, 'urlhaus': collect_urlhaus,
+              'cert_pl': collect_certpl, 'phishing_army': collect_phishing_army}
 
 
 async def run_one(name: str) -> dict:

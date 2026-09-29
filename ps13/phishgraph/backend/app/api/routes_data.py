@@ -80,9 +80,12 @@ def graph_domain(domain: str, depth: int = Query(2, le=4), who: str = Depends(re
 
 
 @router.get('/graph/overview')
-def graph_overview(limit: int = Query(350, le=1500), who: str = Depends(require_key)):
+def graph_overview(limit: int = Query(220, le=1500), who: str = Depends(require_key)):
     gs = get_graph_store()
-    seeds = [c['id'] for c in gs.nodes_by_type('campaign', 40)] + [n['id'] for n in gs.nodes_by_type('email', 60) if (n.get('risk') or 0) >= 30]
+    # most-targeted brands and most-abused hosting platforms first (live feeds + analyses), then campaigns and messages
+    hubs = sorted(gs.nodes_by_type('brand', 200) + gs.nodes_by_type('platform', 100), key=lambda d: -gs.degree(d['id']))
+    seeds = [h['id'] for h in hubs[:16] if gs.degree(h['id']) >= 2] + [c['id'] for c in gs.nodes_by_type('campaign', 40)] \
+        + [n['id'] for n in gs.nodes_by_type('email', 60) if (n.get('risk') or 0) >= 30]
     g = gs.subgraph(seeds, depth=3, limit=limit) if seeds else nx.MultiDiGraph()
     return {**_graph_json(g), 'stats': gs.stats()}
 
@@ -208,6 +211,16 @@ def models(who: str = Depends(require_key)):
     return {'registry': [{k: v for k, v in m.items() if k != 'report'} | {'splits': m['report'].get('splits'), 'data': m['report'].get('data'),
                                                                           'notes': m['report'].get('notes')} for m in all_models()],
             'training_queue': feedback_engine.training_queue(), 'drift': drift_report()}
+
+
+@router.get('/validation', summary='Training history (every model version) and validation runs (feature checks, fresh-feed and look-alike evaluations)')
+def validation(who: str = Depends(require_key)):
+    from ..services import validation_log
+    runs = sorted(validation_log.load(), key=lambda r: r['at'], reverse=True)
+    training = [{k: v for k, v in m.items() if k != 'report'} | {'splits': m['report'].get('splits'), 'data': m['report'].get('data'),
+                                                               'fresh_feed': m['report'].get('fresh_feed'), 'calibration_fold': m['report'].get('calibration_fold')}
+                for m in all_models()]
+    return {'training': sorted(training, key=lambda m: m.get('trained_at', ''), reverse=True), 'runs': runs}
 
 
 @router.get('/sample-data')

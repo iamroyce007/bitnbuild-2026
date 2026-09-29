@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import hashlib
 import math
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
@@ -269,3 +270,55 @@ def score(seeds: list[str], exclude: str | None = None, campaign_similarity: flo
     paths.sort(key=lambda p: -p['weight'])
     return GraphRisk(score=round(100 * total, 1), components={k: round(v, 3) for k, v in comps.items()}, paths=paths[:8],
                      bad_neighbors=sorted(bad)[:20], data_quality=quality)
+
+
+def ingest_feed(urls: list[str], source: str, cap: int = 400) -> dict:
+    """Put live threat-feed URLs into the graph so it shows real attack infrastructure even before any message has
+    been analysed: url -LISTED_IN-> feed, url -HOSTED_ON-> domain -SUBDOMAIN_OF-> registrable domain,
+    domain -IMPERSONATES-> brand (brand engine finding) or -TARGETS-> brand (brand named in the URL path),
+    domain -ABUSES-> hosting platform (free site builders / hosting). Every node here is labelled with its feed.
+    No DNS or other network lookups are made (fast, safe for serverless)."""
+    from .brand_engine import get_brand_engine
+    from .url_features import FREE_HOSTING
+    from ..utils.url_utils import parse_url
+    be, gs = get_brand_engine(), get_graph_store()
+    fid = f'feed:{source}'
+    gs.upsert_node(fid, 'feed', {'label': source})
+    n_brand = n_platform = n = 0
+    for u in urls[:cap]:
+        p = parse_url(u)
+        if not p or not p.host:
+            continue
+        v = be.analyze(p.host)
+        if v.official_brand or v.established:
+            continue  # a phishing page on docs.google.com must not turn google.com into attacker infrastructure
+        uid, did = url_node(p.normalized), f'domain:{p.host}'
+        gs.upsert_node(uid, 'url', {'label': p.normalized[:120], 'risk': 95.0, 'malicious': True, 'feed': source})
+        gs.upsert_edge(uid, fid, 'LISTED_IN', source=source, confidence=0.9)
+        gs.upsert_node(did, 'domain', {'label': p.host_unicode, 'registrable': p.registrable, 'risk': 90.0, 'malicious': True, 'feed': source})
+        gs.upsert_edge(uid, did, 'HOSTED_ON', source=source)
+        platform = next((h for h in FREE_HOSTING if p.host == h or p.host.endswith('.' + h)), None)
+        if platform:
+            gs.upsert_node(f'platform:{platform}', 'platform', {'label': platform})
+            gs.upsert_edge(did, f'platform:{platform}', 'ABUSES', source=source, confidence=0.9)
+            n_platform += 1
+        elif p.registrable and p.registrable != p.host:
+            rid = f'domain:{p.registrable}'
+            gs.upsert_node(rid, 'domain', {'label': p.registrable, 'feed': source})
+            gs.upsert_edge(did, rid, 'SUBDOMAIN_OF')
+        brand = None
+        if v.findings and v.findings[0].brand:
+            f = v.findings[0]
+            brand, rel, conf, kind = f.brand, 'IMPERSONATES', f.confidence, f.kind
+        else:
+            claims = be.claimed_brands(re.sub(r'[/_\-.?=&]+', ' ', (p.path or '') + ' ' + (p.subdomain or '')))
+            if claims:
+                brand, rel, conf, kind = claims[0].name, 'TARGETS', 0.6, 'named in URL'
+        if brand:
+            bid = f'brand:{brand.lower()}'
+            gs.upsert_node(bid, 'brand', {'label': brand})
+            gs.upsert_edge(did, bid, rel, source='brand_engine', confidence=conf, props={'kind': kind})
+            n_brand += 1
+        n += 1
+    gs.save()
+    return {'urls': n, 'brand_links': n_brand, 'platform_links': n_platform}
