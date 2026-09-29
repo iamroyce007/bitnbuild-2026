@@ -62,3 +62,87 @@ def test_extract_endpoint(client, auth):
 def test_reviewed_fields_are_kept_exactly():
     x = extract_from_ocr('', fields={'channel': 'email', 'sender': 'a@b.com', 'subject': 'Hi', 'body': 'go to evil-login.xyz/a now'})
     assert (x.sender, x.subject) == ('a@b.com', 'Hi') and x.entities['urls'][0]['registrable'] == 'evil-login.xyz'
+
+
+# ---- one realistic OCR transcript per app layout ------------------------------------------------------------------
+IPHONE_SMS = """9:41
+LTE
+< 12
+AX-HDFCBK >
+Text Message • SMS
+Today 9:12 AM
+Your HDFC Bank NetBanking is blocked. Reactivate
+now at hdfc-netbanking-verify.in/login to avoid
+charges.
+The sender is not in your contact list. Report Junk"""
+
+WHATSAPP = """Rahul Boss
+online
+Messages and calls are end-to-end encrypted. No one outside of this chat can read them.
+Hi, I'm in a meeting. Need you to buy 4 Amazon 10:02 pm
+gift cards of ₹5,000 each urgently 10:02 pm ✓✓
+Send codes to +91 98765 43210 10:03 pm"""
+
+GMAIL_APP = """Inbox
+Action required: verify your Microsoft 365 account Inbox
+M
+Microsoft Security 10:24 AM
+to me
+Your mailbox storage is full. Verify at
+https://microsoft-login-security.xyz/verify
+Reply
+Reply all
+Forward"""
+
+GMAIL_WEB = """Invoice INV-20931 overdue External Inbox
+Accounts Team (billing@invoice-portal.top)
+Sep 28, 2026, 10:24 AM (2 hours ago)
+to me
+Please pay the attached invoice today via
+https://invoice-portal.top/pay"""
+
+OUTLOOK = """From: DHL Express <noreply@dhl-parcel-track.info>
+Sent: Monday, September 28, 2026 10:24 AM
+To: Anirudh
+Subject: Your parcel is on hold
+Pay the Rs. 49 customs fee at
+http://dhl-parcel-track.info/pay"""
+
+
+def test_iphone_messages_layout():
+    x = extract_from_ocr(IPHONE_SMS)
+    assert (x.channel, x.sender) == ('sms', 'AX-HDFCBK')
+    assert x.entities['urls'][0]['registrable'] == 'hdfc-netbanking-verify.in'
+    assert 'Report Junk' not in x.body and 'LTE' not in x.body and x.body.startswith('Your HDFC Bank')
+
+
+def test_whatsapp_layout_strips_bubble_times():
+    x = extract_from_ocr(WHATSAPP)
+    assert (x.channel, x.sender) == ('whatsapp', 'Rahul Boss')
+    assert '10:02' not in x.body and '✓' not in x.body and 'encrypted' not in x.body
+    assert x.entities['phones'] == ['+919876543210'] and '₹5,000' in x.entities['amounts']
+
+
+def test_gmail_app_sender_from_to_me_anchor():
+    x = extract_from_ocr(GMAIL_APP)
+    assert x.channel == 'email'
+    assert x.sender == 'Microsoft Security' and x.subject == 'Action required: verify your Microsoft 365 account'
+    assert x.body.startswith('Your mailbox storage is full') and 'Reply' not in x.body
+
+
+def test_gmail_web_parenthesised_address():
+    x = extract_from_ocr(GMAIL_WEB)
+    assert x.sender == 'Accounts Team <billing@invoice-portal.top>'
+    assert x.subject == 'Invoice INV-20931 overdue'
+    assert 'ago' not in x.body
+
+
+def test_outlook_headers():
+    x = extract_from_ocr(OUTLOOK)
+    assert x.sender == 'DHL Express <noreply@dhl-parcel-track.info>' and x.subject == 'Your parcel is on hold'
+    assert 'Sent:' not in x.body and 'To:' not in x.body and 'Rs. 49' in x.entities['amounts']
+
+
+def test_lookalike_characters_are_never_corrected():
+    x = extract_from_ocr('Sign in at https://g00gle.com/login now')
+    assert x.entities['urls'][0]['registrable'] == 'g00gle.com'  # the digits are the attack, keep them

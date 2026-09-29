@@ -32,10 +32,30 @@ _CHROME = [re.compile(p, re.I) for p in (
     r'^(\d{1,3}%|lte|5g|4g|volte|vo lte|wi-?fi)(\s.*)?$',
     r'^[<>←→‹›\s|·•○●◀▶…x+]{1,4}$',                                 # arrows, bullets, lone icons read as text
     r'^(unsubscribe|view in browser|show original|translate message|see translation)$',
+    # iPhone Messages / Android Messages
+    r'^(text message|imessage|sms|rcs)\s*[•·-]\s*(sms|imessage|rcs|today|yesterday).*$', r'^[<‹]\s*\d{0,4}$', r'^(details|info|tap to load preview|tap to view|unknown sender|mark as not spam|report spam|delete and report spam|kept|filtered)$',
+    r'^(the sender is not in your contact list\.?.*|if you did not expect this message.*)$',
+    # WhatsApp
+    r'^(online|typing\.*|last seen .*|tap here for contact info|tap for more info|not a contact|add to contacts|safety tools|report|block|add|forwarded|forwarded many times)$',
+    r'^.*(end-to-end encrypted|uses a secure service from meta|this business (uses|is)).*$',
+    # Gmail / Outlook (app and web)
+    r'^(reply all|summari[sz]e this email|show quoted text|external|be careful with this message.*|this message seems dangerous.*|why is this message in spam\??.*|report not spam)$',
+    r'^(focused|other|important|starred|all mail|sent:.*|date:.*|cc:.*|bcc:.*|to:.*)$',
+    r'^[A-Z]$',                                                       # a sender avatar letter
+    r'^\d{1,2}[:.]\d{2}\s?([ap]\.?m\.?)?\s*\(.*ago\)$',              # 10:24 AM (2 hours ago)
+    r'^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s\d{1,2}(,?\s\d{4})?(,?\s\d{1,2}[:.]\d{2}.*)?$',
+    r'^(9:41|[•·.]{2,6}|[•·]{1,3}\s*(lte|5g|4g)?)$',
 )]
+# chat bubble clutter: a trailing time (with optional read ticks) and a leading quote bar
+_BUBBLE_TIME = re.compile(r'\s+\d{1,2}[:.]\d{2}\s?(?:[ap]\.?m\.?)?\s*[✓✔√/Vv]{0,2}\s*$', re.I)
+_BUBBLE_LEAD = re.compile(r'^[|>¦│]\s+')
+_LABEL_CHIP = re.compile(r'(?:\s+(?:inbox|spam|external|important|promotions|updates|social)\s*[x×]?)+$', re.I)  # Gmail label chips
 _DLT = re.compile(r'\b([A-Z]{2})-([A-Z0-9]{6})(?:-[A-Z])?\b')          # TRAI DLT header, e.g. VM-SBIINB, JD-HDFCBK-S
 _SHORTCODE = re.compile(r'^\s*(?:\+?\d[\d\s-]{4,15}\d|[A-Z]{2}-[A-Z0-9]{6}(?:-[A-Z])?|[A-Z0-9]{5,9})\s*$')
-_FROM_LINE = re.compile(r'^(?:from:\s*)?(?P<name>[^<>@\n]{1,80}?)\s*<\s*(?P<addr>[^<>\s]+@[^<>\s]+)\s*>', re.I)
+_FROM_LINE = re.compile(r'^(?:from:\s*)?(?P<name>[^<>()«»\[\]@\n]{1,80}?)\s*[<(«\[]\s*(?P<addr>[^<>()«»\[\]\s]+@[^<>()«»\[\]\s]+?)\s*[>)»\]]', re.I)
+_FROM_BARE = re.compile(r'^(?:from:\s*)?(?P<name>[^@\n]{2,60}?)\s+(?P<addr>[\w.+-]+@[\w-]+(?:\.[\w-]+)+)\s*$', re.I)
+_TO_ME = re.compile(r'^to (me|you)\b', re.I)
+RE_URL_LIKE = re.compile(r'https?://|www\.|@')
 _SUBJECT = re.compile(r'^subject:\s*(.+)$', re.I)
 _AMOUNT = re.compile(r'(?:₹|rs\.?|inr|usd|\$|€|£)\s?\d[\d,]*(?:\.\d{1,2})?|\b\d[\d,]*(?:\.\d{1,2})?\s?(?:rupees|rs\.?|inr|lakh|crore)\b', re.I)
 _CODE = re.compile(r'\b(?:otp|code|pin|passcode|verification code|password)\b[^\n\d]{0,20}(\d{4,8})\b|\b(\d{4,8})\b[^\n]{0,20}\b(?:is your|as your)\b[^\n]{0,20}\b(?:otp|code|pin)\b', re.I)
@@ -95,57 +115,74 @@ def _is_chrome(line: str) -> bool:
     return not s or any(rx.match(s) for rx in _CHROME)
 
 
-def _layout(lines: list[str], hint: str) -> tuple[str, str, str, str]:
-    """Return (channel, sender, subject, body) from cleaned lines."""
+def _sender_of(line: str) -> str | None:
+    """'Name <a@b>' (brackets possibly misread as () « [ ), 'Name a@b', or a bare address -> 'Name <a@b>'."""
+    line = re.sub(r'^from:\s*', '', line.strip(), flags=re.I)
+    line = _BUBBLE_TIME.sub('', line)                                     # "PayPal Service 10:24 AM"
+    for rx in (_FROM_LINE, _FROM_BARE):
+        m = rx.match(line)
+        if m:
+            name = m.group('name').strip(' ,:-')
+            return f"{name} <{m.group('addr').strip()}>" if name else m.group('addr').strip()
+    m = RE_EMAIL.fullmatch(line.strip('<>() '))
+    return m.group(0) if m else None
+
+
+def _layout(lines: list[str], hint: str, anchors: dict) -> tuple[str, str, str, str]:
+    """Return (channel, sender, subject, body) from cleaned lines. `anchors` holds positions of removed chrome that
+    carries layout meaning, e.g. Gmail's "to me" line sits right under the sender's name."""
     text = '\n'.join(lines)
     subject = sender = ''
     body_lines = list(lines)
-    email_like = hint == 'email' or bool(re.search(r'(^|\n)(from:|to:|subject:)', text, re.I)) or any(_FROM_LINE.match(l) for l in lines[:8])
+    head = lines[:10]
+    email_like = (hint == 'email' or anchors.get('to_me') is not None or bool(re.search(r'(^|\n)(from:|subject:)', text, re.I))
+                  or any(_sender_of(l) for l in lines[:6]))
     if hint == 'sms':
         email_like = False
 
     if email_like:
-        for i, l in enumerate(lines[:10]):
+        for i, l in enumerate(head):
             m = _SUBJECT.match(l)
             if m:
-                subject = m.group(1).strip()
+                subject = _LABEL_CHIP.sub('', m.group(1).strip())
                 body_lines[i] = ''
-        for i, l in enumerate(lines[:10]):
-            m = _FROM_LINE.match(l)
-            if m:
-                sender = f"{m.group('name').strip()} <{m.group('addr').strip()}>"
-                body_lines[i] = ''
-                # Gmail app/web: the subject is the first real line above the sender line
-                if not subject:
-                    above = [x for x in lines[:i] if x.strip() and not re.match(r'^(from|to|cc|date):', x, re.I)]
-                    if above:
-                        subject = above[0].strip()
-                        body_lines[lines.index(above[0])] = ''
+        si = None
+        for i, l in enumerate(head):
+            snd = _sender_of(l)
+            if snd:
+                sender, si = snd, i
                 break
-        if not sender:  # a bare address on its own line
-            for i, l in enumerate(lines[:8]):
-                m = RE_EMAIL.search(l)
-                if m and len(l.strip()) <= len(m.group(0)) + 40:
-                    sender = l.strip().removeprefix('From:').strip()
-                    body_lines[i] = ''
-                    break
-        body_lines = [re.sub(r'^(from|to|cc|date):.*$', '', l, flags=re.I) for l in body_lines]
+        if si is None and anchors.get('to_me') is not None:
+            # Gmail app: "PayPal Service" then "to me"; the address is hidden until the header is expanded
+            k = anchors['to_me'] - 1
+            if 0 <= k < len(lines) and not RE_URL_LIKE.search(lines[k]):
+                sender, si = _BUBBLE_TIME.sub('', lines[k]).strip(), k
+        if si is not None:
+            body_lines[si] = ''
+            if not subject:  # the subject is the first real line above the sender
+                above = [(j, x) for j, x in enumerate(lines[:si]) if x.strip() and not re.match(r'^(from|to|cc|date|sent):', x, re.I)]
+                if above:
+                    j, x = above[0]
+                    subject = _LABEL_CHIP.sub('', x.strip())
+                    body_lines[j] = ''
+        body_lines = [re.sub(r'^(from|to|cc|date|sent):.*$', '', l, flags=re.I) for l in body_lines]
         return 'email', sender, subject, '\n'.join(x for x in body_lines if x.strip()).strip()
 
-    # SMS / chat: the sender id (DLT header, short code or number, or contact name) sits on the first line
-    for i, l in enumerate(lines[:3]):
-        s = l.strip()
-        if _SHORTCODE.match(s) or _DLT.search(s):
-            sender = s
+    # SMS / chat: tidy bubbles, then the sender id (DLT header, short code, number or contact name) on top
+    body_lines = [_BUBBLE_LEAD.sub('', _BUBBLE_TIME.sub('', l)) for l in body_lines]
+    for i, l in enumerate(body_lines[:3]):
+        st = l.strip().rstrip('>›').strip()
+        if _SHORTCODE.match(st) or _DLT.search(st):
+            sender = st
             body_lines[i] = ''
             break
-    first = lines[0].strip() if lines else ''
+    first = body_lines[0].strip().rstrip('>›').strip() if body_lines else ''
     # a saved-contact or business name: short, no sentence punctuation, no link, not a greeting
-    if (not sender and len(lines) > 1 and 1 <= len(first.split()) <= 3 and not re.search(r'[.!?:,/@]|\d{5}', first)
+    if (not sender and len(body_lines) > 1 and 1 <= len(first.split()) <= 3 and not re.search(r'[.!?:,/@]|\d{5}', first)
             and not re.match(r'(hi|hello|dear|hey|namaste)\b', first, re.I)):
         sender = first
         body_lines[0] = ''
-    channel = 'whatsapp' if re.search(r'whatsapp|wa\.me/', text, re.I) else 'sms'
+    channel = 'whatsapp' if anchors.get('whatsapp') or re.search(r'whatsapp|wa\.me/', text, re.I) else 'sms'
     return channel, sender, '', '\n'.join(x for x in body_lines if x.strip()).strip()
 
 
@@ -172,15 +209,21 @@ def extract_from_ocr(text: str, hint: str = 'auto', ocr_confidence: float | None
     text = re.sub(r'[ \t]+', ' ', text)
     text = _repair_links(text, ex.repairs)
 
-    kept = []
+    kept: list[str] = []
+    anchors: dict = {}
     for line in text.split('\n'):
+        st = line.strip()
+        if _TO_ME.match(st):
+            anchors.setdefault('to_me', len(kept))  # index of the next kept line; the sender is just before it
+        if re.search(r'end-to-end encrypted|last seen|^online$|typing', st, re.I):
+            anchors['whatsapp'] = True
         if _is_chrome(line):
-            if line.strip():
-                ex.removed_lines.append(line.strip())
+            if st:
+                ex.removed_lines.append(st)
         else:
-            kept.append(line.strip())
+            kept.append(st)
 
-    ex.channel, ex.sender, ex.subject, body = _layout(kept, hint)
+    ex.channel, ex.sender, ex.subject, body = _layout(kept, hint, anchors)
     ex.body = _reflow(body)
     return _entities(ex, ocr_confidence)
 
