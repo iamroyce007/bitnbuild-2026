@@ -11,6 +11,7 @@ instance pulls OpenPhish and URLhaus live (<= 8 s), so the newest phishing is al
 Set DATABASE_URL to a hosted Postgres for data that persists across instances.
 """
 import asyncio
+import calendar
 import json
 import os
 import shutil
@@ -59,9 +60,15 @@ try:
         else:
             STATUS[name] = {'status': 'missing', 'at': time.time(), 'error': f'snapshot status {info.get("status")}, file present: {path.exists()}'}
 
-    async def _live():
-        await asyncio.gather(run_one('openphish'), run_one('urlhaus'))
-    asyncio.run(asyncio.wait_for(_live(), timeout=8))
+    # the snapshot already holds OpenPhish + URLhaus from deploy time; re-fetch live only once it is > 6 h old
+    # (keeps cold starts short right after a deploy, and fresh afterwards)
+    built = manifest.get('built_at')
+    age_h = (time.time() - calendar.timegm(time.strptime(built, '%Y-%m-%dT%H:%M:%SZ'))) / 3600 if built else 99
+    STATUS['snapshot']['age_hours'] = round(age_h, 1)
+    if age_h > 6:
+        async def _live():
+            await asyncio.gather(run_one('openphish'), run_one('urlhaus'))
+        asyncio.run(asyncio.wait_for(_live(), timeout=8))
 except Exception as e:  # a feed being down or slow never blocks start-up; the Intel page shows each collector's status
     print('live feed refresh skipped:', e)
 
