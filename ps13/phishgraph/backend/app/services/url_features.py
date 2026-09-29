@@ -39,8 +39,11 @@ def url_features(url: str) -> dict[str, float]:
     p = parse_url(url)
     if p is None or not p.host:
         return {k: 0.0 for k in FEATURE_NAMES}
-    u = p.normalized
-    host = p.host
+    # canonical form: the scheme and a leading "www." carry no phishing signal but differ systematically between the
+    # training datasets (PhiUSIIL's legitimate URLs almost all start with https://www.), so the model must not see them.
+    host = p.host[4:] if p.host.startswith('www.') and p.host.count('.') >= 2 else p.host
+    u = re.sub(r'^[a-z][a-z0-9+.-]*://', '', p.normalized, flags=re.I)
+    u = u[4:] if u.startswith('www.') else u
     path = p.path or ''
     q = p.query or ''
     tokens = re.split(r'[/\-._?=&]+', (path + '?' + q).lower())
@@ -48,7 +51,7 @@ def url_features(url: str) -> dict[str, float]:
     reg_label = p.registrable.split('.')[0] if p.registrable else host
     f = {
         'url_len': len(u), 'host_len': len(host), 'path_len': len(path), 'query_len': len(q),
-        'n_dots': host.count('.'), 'n_subdomains': len([s for s in p.subdomain.split('.') if s]),
+        'n_dots': host.count('.'), 'n_subdomains': len([s for s in p.subdomain.split('.') if s and s != 'www']),
         'digit_ratio': sum(c.isdigit() for c in u) / max(1, len(u)),
         'special_ratio': sum(not c.isalnum() for c in u) / max(1, len(u)),
         'n_hyphens': host.count('-'), 'n_underscores': u.count('_'), 'n_slashes': path.count('/'),

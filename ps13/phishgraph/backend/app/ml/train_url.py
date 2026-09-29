@@ -45,7 +45,15 @@ def load() -> pd.DataFrame:
     b = b.rename(columns={'URL': 'url'})
     b['label'] = 1 - b['label']  # PhiUSIIL: 1 = legitimate
     b['source'] = 'phiusiil'
-    df = pd.concat([a, b], ignore_index=True)
+    # C: real, legitimate homepages from the Tranco list. Both datasets under-represent ordinary sites without a path,
+    # which made the model treat any unfamiliar bare domain as phishing. Ranks 20,001-23,000 (fresh-feed evaluation)
+    # and 100,001-150,000 (look-alike evaluation) are held out and never trained on.
+    lines = (RAW / 'top-1m.csv').read_text().splitlines()
+    ranks = [i for i in range(len(lines)) if not (20_000 <= i < 23_000 or 100_000 <= i < 150_000)]
+    pick = RNG.choice(ranks, size=min(60_000, len(ranks)), replace=False)
+    c = pd.DataFrame({'url': [f'https://{lines[i].split(",", 1)[1].strip()}/' for i in pick], 'label': 0})
+    c['source'] = 'tranco'
+    df = pd.concat([a, b, c], ignore_index=True)
     df['url'] = df['url'].astype(str).str.strip()
     df['key'] = df['url'].str.lower().str.replace(r'^[a-z]+://', '', regex=True).str.replace(r'^www\.', '', regex=True).str.rstrip('/')
     before = len(df)
@@ -84,12 +92,13 @@ def feats(urls) -> np.ndarray:
 def fresh_feed_eval(predict, seen_keys: set[str]) -> dict:
     """Today's live phishing (OpenPhish public feed) against real sites (Tranco ranks 20,001-23,000), none of them in the
     training data. This is the closest thing to "how does it do on phishing it has never seen, right now".
-    Caveat, recorded in the result: the benign side is homepages only, because no public list of deep links on
-    ordinary sites exists, so its false-positive rate is optimistic."""
+    Caveat, recorded in the result: the benign side is homepages only (no public list of deep links on ordinary sites
+    exists). It still matters: before URL canonicalisation the model flagged 76% of these real sites because they lacked
+    "www." (a dataset artifact)."""
     import httpx
     key = lambda u: u.lower().split('://', 1)[-1].removeprefix('www.').rstrip('/')
     try:
-        feed = httpx.get('https://openphish.com/feed.txt', timeout=20, headers={'User-Agent': 'PhishGraph-training/1.0'}).text.split()
+        feed = httpx.get('https://openphish.com/feed.txt', timeout=20, follow_redirects=True, headers={'User-Agent': 'PhishGraph-training/1.0'}).text.split()
     except Exception as e:  # offline: report it, do not invent a number
         return {'status': 'unavailable', 'error': str(e)[:200]}
     phish = sorted({u.strip() for u in feed if u.startswith('http') and key(u) not in seen_keys})
@@ -103,7 +112,7 @@ def fresh_feed_eval(predict, seen_keys: set[str]) -> dict:
     return {'status': 'ok', 'at': time.strftime('%Y-%m-%dT%H:%M:%S'), 'phishing_source': 'openphish.com/feed.txt (live)',
             'benign_source': 'Tranco ranks 20,001-23,000 homepages', 'n_phishing': len(phish), 'n_benign': len(benign),
             'recall_at_0.5': round(float((pp >= 0.5).mean()), 4), 'fp_rate_at_0.5': round(float((pb >= 0.5).mean()), 4), **m,
-            'caveat': 'benign side is homepages only, so the false-positive rate is optimistic; the recall is the meaningful number'}
+            'caveat': 'benign side is real sites but homepages only; phishing side is live and unseen. The URL model is one signal of six and never decides alone.'}
 
 
 def main() -> None:
@@ -140,13 +149,16 @@ def main() -> None:
 
     # 1. random stratified
     idx = np.arange(len(df))
+    # Tranco homepages are training-only: test sets hold the two labelled datasets, so numbers stay comparable across
+    # versions and are not inflated by easy negatives.
+    is_ds = (df['source'] != 'tranco').to_numpy()
     tr, te = train_test_split(idx, test_size=0.2, random_state=7, stratify=y)
-    report['splits']['random_stratified'], _ = evaluate('random', tr, te)
+    report['splits']['random_stratified'], _ = evaluate('random', tr, te[is_ds[te]])
 
     # 2. domain-grouped (no domain appears in both)
     gss = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=7)
     tr, te = next(gss.split(idx, y, groups=df['reg']))
-    report['splits']['domain_grouped'], models = evaluate('domain-grouped', tr, te)
+    report['splits']['domain_grouped'], models = evaluate('domain-grouped', tr, te[is_ds[te]])
 
     # 3. cross-source
     for a, b in (('ealvaradob', 'phiusiil'), ('phiusiil', 'ealvaradob')):
@@ -169,6 +181,11 @@ def main() -> None:
     def predict(us: list[str]) -> np.ndarray:  # exactly the deployed scoring path: blend -> isotonic
         return iso.predict((lr.predict_proba(hv.transform(us))[:, 1] + hgb.predict_proba(feats(us))[:, 1]) / 2)
     report['fresh_feed'] = fresh_feed_eval(predict, seen_keys)
+    if report['fresh_feed'].get('status') == 'ok':
+        from ..services import validation_log
+        ff = report['fresh_feed']
+        validation_log.append('fresh_feed', {k: ff[k] for k in ('n_phishing', 'n_benign', 'recall_at_0.5', 'fp_rate_at_0.5', 'f1', 'pr_auc')},
+                              {k: v for k, v in ff.items() if k != 'status'}, target='url model (at training time)')
     print('fresh feed:', {k: v for k, v in report['fresh_feed'].items() if k not in ('confusion',)})
     out = S.models_dir / 'url'
     out.mkdir(parents=True, exist_ok=True)
