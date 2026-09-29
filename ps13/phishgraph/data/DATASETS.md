@@ -28,3 +28,17 @@ OpenPhish community feed, PhishTank (app key), URLhaus (auth key): ingested into
 
 ## Demo data
 `data/demo/demo_dataset.json`: 12 legitimate and 15 phishing messages, 14 fictional domains with infrastructure on RFC 5737 IPs / RFC 5398 ASNs, 6 demo feed IOCs. Labelled `DEMO DATA` wherever it appears; never mixed with real intelligence.
+
+
+## Added for live evaluation and threat intelligence (keyless, public)
+
+| Source | Use | Notes |
+|---|---|---|
+| OpenPhish community feed (`openphish.com/feed.txt`) | Local IOC store, threat graph, and the **fresh-feed evaluation** of the URL model (unseen, live phishing) | ~300 URLs, refreshed upstream ~12 h; evaluation drops any URL present in the training data |
+| URLhaus recent dump (`urlhaus.abuse.ch/downloads/csv_recent/`) | Local IOC store and threat graph (online malware URLs) | abuse.ch terms; no key needed for the dump |
+| CERT Polska warning list (`hole.cert.pl/domains/v2/domains.txt`) | Local IOC store (domains) | ~130k phishing/scam domains |
+| Phishing Army blocklist (`phishing.army/download/phishing_army_blocklist.txt`) | Local IOC store (domains) | ~147k domains aggregated from public sources |
+| Tranco list (already used for brand protection) | **Training-only** legitimate homepages for the URL model (57,283 sampled) | Ranks 20,001-23,000 (fresh-feed benign set) and 100,001-150,000 (look-alike evaluation) are held out and never trained on |
+
+The intel store never indexes Tranco top-100k, official-brand or free-hosting registrable domains, so a phishing page
+hosted on a big platform cannot taint the platform itself.
