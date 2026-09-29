@@ -73,10 +73,16 @@ def analyze(pm) -> MetaResult:
     if pm.channel == 'sms' and pm.sender:
         if re.fullmatch(r'\+?\d{10,13}', pm.sender.replace(' ', '')) and claimed and any(b.category.startswith(('bank', 'gov', 'payments', 'telecom')) for b in claimed):
             add('sms_personal_number', f'Claims to be {claimed[0].name} but comes from a personal mobile number {pm.sender}', 0.45, pm.sender)
-        elif DLT_HEADER.match(pm.sender.upper()) and claimed:
+        elif DLT_HEADER.match(pm.sender.upper()):
+            # TRAI-registered header (e.g. AX-HDFCBK): trusted when it belongs to a protected brand and the text does not
+            # claim to be a *different* brand. Payment handles (swiggy@icici) and email addresses are not identity claims.
             hdr = pm.sender.upper().split('-')[1]
-            if any(k.upper()[:3] in hdr for b in claimed for k in (b.keywords or [b.id]) if len(k) >= 3):
-                trust.append(f'registered SMS sender header {pm.sender} matches the brand it mentions')
+            owns = lambda b: any(k.upper()[:3] in hdr for k in (b.keywords or [b.id]) if len(k) >= 3)
+            hdr_brands = [b for b in be.brands if owns(b)]
+            text_claims = be.claimed_brands(re.sub(r'\S+@\S+', ' ', f'{pm.subject} {pm.text[:3000]}'))
+            if hdr_brands and (not text_claims or any(owns(b) for b in text_claims)):
+                trust.append(f'registered SMS sender header {pm.sender} matches the brand it mentions' if text_claims
+                             else f'registered SMS sender header {pm.sender} belongs to {hdr_brands[0].name}')
     if pm.html_text_ratio > 40:
         add('html_heavy', f'Message is almost all markup (HTML/text ratio {pm.html_text_ratio})', 0.06, '')
     for t in pm.tricks:
