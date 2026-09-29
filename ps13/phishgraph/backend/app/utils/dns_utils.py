@@ -183,7 +183,8 @@ async def enrich_host(host: str) -> dict:
     """Parallel DNS -> (ASN per IP, TLS cert) + RDAP. Returns what was actually observed, with per-step status."""
     from .url_utils import registrable
     s = get_settings()
-    if s.demo_mode and host in demo_infrastructure():
+    from ..services.sample_data import active as sample_active
+    if host in demo_infrastructure() and sample_active():
         return _demo_enrichment(host, demo_infrastructure()[host])
     blocked = ssrf_block_reason(host)
     res: dict = {'host': host, 'registrable': registrable(host), 'status': {}}

@@ -208,3 +208,31 @@ def models(who: str = Depends(require_key)):
     return {'registry': [{k: v for k, v in m.items() if k != 'report'} | {'splits': m['report'].get('splits'), 'data': m['report'].get('data'),
                                                                           'notes': m['report'].get('notes')} for m in all_models()],
             'training_queue': feedback_engine.training_queue(), 'drift': drift_report()}
+
+
+@router.get('/sample-data')
+def sample_data_status(who: str = Depends(require_key)):
+    from ..services import sample_data
+    return sample_data.status()
+
+
+@router.post('/sample-data')
+async def sample_data_load(who: str = Depends(require_key)):
+    from ..services import sample_data
+    audit(who, 'sample_data.load')
+    return await sample_data.load()
+
+
+@router.delete('/sample-data')
+def sample_data_clear(who: str = Depends(require_key)):
+    from ..services import sample_data
+    audit(who, 'sample_data.clear')
+    return sample_data.clear()
+
+
+@router.post('/feeds/refresh')
+async def feeds_refresh(who: str = Depends(require_key)):
+    """Pull the public phishing feeds now (OpenPhish community feed needs no key)."""
+    from ..workers.feed_collector import refresh_all
+    audit(who, 'feeds.refresh')
+    return await refresh_all()
