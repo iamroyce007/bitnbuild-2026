@@ -129,7 +129,7 @@ permutation false alarm.
   English/Hindi/Tamil/WhatsApp, the brand guarantee, 6 screenshot layouts, investigation, SSRF refusals, graph, campaigns,
   intel, feedback, history). Latest runs: all passed locally and 97/97 against https://phishgraph.vercel.app (recorded).
 - Sample set (27 hand-written messages, not an accuracy claim): 12 / 12 legitimate allowed, 15 / 15 phishing caught.
-- `backend/tests`: **490 tests** (`scripts/run_tests.py` records each run).
+- `backend/tests`: **491 tests** (`scripts/run_tests.py` records each run).
 
 ### Performance (single process, Apple M-series laptop, `scripts/load_test.py`, fast path)
 | Endpoint | Throughput | p50 / p95 at 16 concurrent clients |

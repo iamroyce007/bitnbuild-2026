@@ -185,7 +185,7 @@ in `fonts/`, so no third-party requests), `warning.*`, `popup.*`, `options.*`. T
 cd ps13/phishgraph
 python3 -m venv ../.venv && ../.venv/bin/pip install -r requirements-dev.txt [-r requirements-embeddings.txt]
 ../.venv/bin/python scripts/download_datasets.py [--reference-only] [--embeddings]
-(cd backend && ../../.venv/bin/python -m pytest -q)                 # 490 tests, ~25 s, isolated temp DB/graph
+(cd backend && ../../.venv/bin/python -m pytest -q)                 # 491 tests, ~30 s, isolated temp DB/graph
 ../.venv/bin/python scripts/seed_demo.py --reset                     # DEMO DATA
 ../.venv/bin/python -m uvicorn --app-dir backend app.main:app --port 8000
 ../.venv/bin/python scripts/demo_attack.py                           # scripted demo against the running API
