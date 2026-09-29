@@ -46,6 +46,8 @@ URLS: list[tuple[str, str, str]] = [
     ('https://www.google.com@evil-login.xyz/', 'flag', 'userinfo-trick'), ('http://192.0.2.10/paypal/login.php', 'flag', 'ip-host'),
     ('https://amaz0n-refund.shop/claim', 'flag', 'digit-combo'), ('https://icici-rewards-points.top/redeem', 'flag', 'bank-combo'),
     ('https://incometax-refund-gov.in/refund', 'flag', 'gov-combo'), ('https://dhl-parcel-track.info/pay', 'flag', 'courier'),
+    ('https://hyeonseok067.gitbuh.io/', 'flag', 'permutation'), ('https://gogole.com/accounts', 'flag', 'permutation'),
+    ('https://hyeonseok067.github.io/', 'allow', 'brand-pages'),
     # ambiguous or special: recorded, not scored
     ('https://bit.ly/3xYz12a', 'any', 'shortener'), ('https://example.com/', 'any', 'reserved'),
 ]
@@ -88,6 +90,7 @@ def main() -> int:
     ap.add_argument('--base', default=os.getenv('PHISHGRAPH_URL', 'http://localhost:8000'))
     ap.add_argument('--key', default=os.getenv('PHISHGRAPH_KEY', ''))
     ap.add_argument('--no-feedback', action='store_true', help='skip the feedback step (it adds an indicator to the feed)')
+    ap.add_argument('--no-record', action='store_true', help='do not append this run to data/validation/history.json')
     a = ap.parse_args()
     base = a.base.rstrip('/')
     headers = {'X-API-Key': a.key} if a.key else ({'X-API-Key': 'dev-local-key'} if 'localhost' in base or '127.0.0.1' in base else {})
@@ -95,8 +98,13 @@ def main() -> int:
     ck = Check()
 
     def call(method: str, path: str, **kw):
-        t = time.perf_counter()
-        r = c.request(method, path, **kw)
+        # behave like a polite client: when the server rate-limits (429), wait and retry instead of recording a failure
+        for attempt in range(6):
+            t = time.perf_counter()
+            r = c.request(method, path, **kw)
+            if r.status_code != 429:
+                return r, (time.perf_counter() - t) * 1000
+            time.sleep(float(r.headers.get('retry-after') or 2 + 2 * attempt))
         return r, (time.perf_counter() - t) * 1000
 
     print(f'PhishGraph feature check against {base}\n')
@@ -137,6 +145,21 @@ def main() -> int:
         ok = (expect == 'allow' and j['decision'] == 'ALLOW') or (expect == 'flag' and RANK[j['decision']] >= 1)
         ck.add('message', f'{chan}: {msg["body"][:40]}', ok, f'{j["decision"]} {j["risk_score"]:.0f}', ms)
 
+    # ---- the brand-claim guarantee (brand_guard.py): impersonation with an unofficial link is never ALLOWed ------
+    GUARD = [
+        ('email', {'subject': 'SBI: your account needs attention', 'sender': 'SBI Alerts <alerts@sbi-notify.help>', 'body': 'Review your account: https://sites.google.com/view/sbi-account-review'}, True),
+        ('email', {'subject': 'Netflix: update your payment', 'sender': 'Netflix <billing@nflx-mail.net>', 'body': 'Update payment at https://netflix-billing-help.com/pay'}, True),
+        ('sms', {'sender': '+919811112222', 'body': 'HDFC Bank: KYC pending, account will be blocked. Verify at hdfc-kyc-verify.site/login'}, True),
+        ('email', {'subject': 'Amazon: order shipped', 'sender': 'Amazon <shipment-tracking@amazon.in>', 'body': 'Track your parcel at https://www.amazon.in/gp/your-account/orders'}, False),
+    ]
+    for chan, msg, expect_guard in GUARD:
+        r, ms = call('POST', '/api/v1/analyze/email', json={**msg, 'channel': chan})
+        j = r.json() if r.status_code == 200 else {}
+        guarded = bool(j.get('report', {}).get('brand_guard'))
+        ok = r.status_code == 200 and ((guarded and j['decision'] != 'ALLOW') if expect_guard else (not guarded))
+        ck.add('guarantee', ('impersonation' if expect_guard else 'genuine') + f': {msg["subject"] if "subject" in msg else msg["body"][:40]}', ok,
+               f'{j.get("decision")} {j.get("risk_score", 0):.0f} guard={"yes" if guarded else "no"}', ms)
+
     # ---- screenshot text extraction ---------------------------------------------------------------------------
     for name, (text, want) in SCREENSHOTS.items():
         r, ms = call('POST', '/api/v1/extract', json={'text': text, 'hint': 'auto'})
@@ -151,7 +174,7 @@ def main() -> int:
     if r.status_code == 202:
         jid = r.json()['job_id']
         for _ in range(90):
-            s = c.get(f'/api/v1/jobs/{jid}').json()
+            s = call('GET', f'/api/v1/jobs/{jid}')[0].json()
             if s['status'] in ('done', 'failed'):
                 break
             time.sleep(0.5)
@@ -166,7 +189,7 @@ def main() -> int:
     # ---- data, graph, intel -------------------------------------------------------------------------------
     r, ms = call('GET', '/api/v1/detections?limit=20'); ck.add('data', 'list detections', r.status_code == 200 and isinstance(r.json(), list), f'{len(r.json())} rows', ms)
     if first_id:
-        r, ms = call('GET', f'/api/v1/detection/{first_id}'); ck.add('data', 'detection report', r.status_code == 200 and 'reasons' in r.json(), '', ms)
+        r, ms = call('GET', f'/api/v1/detection/{first_id}'); ck.add('data', 'detection report (explainable)', r.status_code == 200 and bool(r.json().get('report', {}).get('reasons')), f"{len(r.json().get('report', {}).get('reasons', []))} reasons" if r.status_code == 200 else '', ms)
         r, ms = call('GET', f'/api/v1/graph/detection/{first_id}?depth=3'); ck.add('graph', 'detection neighbourhood', r.status_code == 200 and len(r.json().get('nodes', [])) > 0, f'{len(r.json().get("nodes", []))} nodes', ms)
         if not a.no_feedback:
             r, ms = call('POST', '/api/v1/feedback', json={'detection_id': first_id, 'label': 'confirmed_phishing', 'note': 'feature_check'})
@@ -184,6 +207,10 @@ def main() -> int:
     r, ms = call('GET', '/api/v1/statistics?hours=24'); ck.add('data', 'statistics', r.status_code == 200 and 'by_decision' in r.json(), '', ms)
     r, ms = call('GET', '/api/v1/sample-data'); ck.add('data', 'sample data status', r.status_code == 200, json.dumps(r.json())[:60], ms)
     r, ms = call('GET', '/api/v1/events/recent'); ck.add('live', 'event stream (polling fallback)', r.status_code == 200, '', ms)
+    r, ms = call('GET', '/api/v1/validation'); ck.add('history', 'training & validation history', r.status_code == 200 and 'training' in r.json(),
+                                                     f'{len(r.json().get("training", []))} model versions, {len(r.json().get("runs", []))} runs' if r.status_code == 200 else '', ms)
+    for path in ('/validation',):
+        r, ms = call('GET', path); ck.add('dashboard', f'GET {path} serves the app', r.status_code == 200 and '<div id="root">' in r.text, '', ms)
 
     # ---- summary ------------------------------------------------------------------------------------------
     failed = [x for x in ck.rows if not x['ok']]
@@ -196,6 +223,10 @@ def main() -> int:
     out = ROOT / 'data' / 'processed' / 'feature_check.json'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({'summary': summary, 'rows': ck.rows, 'urls': url_rows}, indent=1, ensure_ascii=False))
+    if not a.no_record:
+        sys.path.insert(0, str(ROOT / 'backend'))
+        from app.services import validation_log
+        validation_log.append('feature_check', summary, {'rows': ck.rows, 'urls': url_rows}, target=base)
     print(f"\n{summary['passed']}/{summary['checks']} checks passed. URLs: {len(scored) - len(fp) - len(fn)}/{len(scored)} as expected "
           f"(false positives {len(fp)}, false negatives {len(fn)}). Saved {out.relative_to(ROOT)}")
     return 1 if failed else 0

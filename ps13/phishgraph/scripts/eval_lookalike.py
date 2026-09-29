@@ -133,3 +133,8 @@ out = {
 }
 (ROOT / 'data/processed').mkdir(parents=True, exist_ok=True)
 (ROOT / 'data/processed/lookalike_eval.json').write_text(json.dumps(out, indent=1, ensure_ascii=False))
+
+from app.services import validation_log  # noqa: E402
+validation_log.append('lookalike', {'real_domains_n': len(real), 'real_flag_rate': round(fp_rate, 5), 'attacks_n': total,
+                                    'curated_strong_recall': round(recall, 5), 'any_signal_rate': round(any_rate, 5),
+                                    'official_flagged': len(official_fp)}, out, target='brand engine')

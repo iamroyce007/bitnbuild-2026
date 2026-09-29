@@ -55,7 +55,7 @@ async def require_key(request: Request, x_api_key: str | None = Header(None, ali
         _limiter = RateLimiter(get_settings().rate_limit_per_minute, burst=max(20, get_settings().rate_limit_per_minute // 6))
     bucket = _hash(key)[:16] if key else 'ip:' + client_ip(request)
     if not _limiter.allow(bucket):
-        raise HTTPException(429, 'rate limit exceeded')
+        raise HTTPException(429, 'rate limit exceeded', headers={'Retry-After': '5'})
     request.state.client = who
     return who
 
