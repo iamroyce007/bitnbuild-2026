@@ -14,4 +14,4 @@ mkdir -p "$OUT"
 cp -R "$ROOT/frontend/dist" "$OUT/static"
 [ -d "$ROOT/.vercel" ] && cp -R "$ROOT/.vercel" "$OUT/"
 cd "$OUT"
-npx --yes vercel@latest deploy --prod --yes -e API_KEYS="$KEY" -e DEMO_MODE=false -e ENABLE_EMBEDDINGS=false
+npx --yes vercel@latest deploy --prod --yes -e API_KEYS="$KEY" -e PUBLIC_ACCESS=true -e DEMO_MODE=false -e ENABLE_EMBEDDINGS=false
