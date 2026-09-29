@@ -44,7 +44,26 @@ async function req<T>(path: string, init?: RequestInit): Promise<T> {
 
 const post = <T>(path: string, body: unknown) => req<T>(path, { method: 'POST', body: JSON.stringify(body) });
 
+export type Extraction = {
+  channel: 'sms' | 'whatsapp' | 'email';
+  sender: string;
+  subject: string;
+  body: string;
+  entities: {
+    urls: { url: string; host: string; registrable: string }[];
+    emails: string[]; phones: string[]; upi_ids: string[]; crypto_wallets: string[];
+    amounts: string[]; codes: string[]; deadlines: string[]; brands_claimed: string[];
+    sender_header: { header: string; route: string; entity: string } | null;
+    obfuscation: string[];
+  };
+  repairs: string[];
+  removed_lines: string[];
+  warnings: string[];
+};
+
 export const api = {
+  extract: (text: string, hint: 'auto' | 'sms' | 'email', ocr_confidence?: number, fields?: Pick<Extraction, 'channel' | 'sender' | 'subject' | 'body'>) =>
+    post<Extraction>('/api/v1/extract', { text, hint, ocr_confidence, fields }),
   analyzeEmail: (b: { subject?: string; sender?: string; body?: string; html?: string; raw?: string; channel?: string; deep?: boolean }) => post<Analysis>('/api/v1/analyze/email', b),
   analyzeUrl: (url: string, deep = false) => post<Analysis>('/api/v1/analyze/url', { url, deep }),
   investigate: (url: string) => post<{ job_id: string }>('/api/v1/investigate', { url }),
