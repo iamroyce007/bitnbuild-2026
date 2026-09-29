@@ -42,8 +42,10 @@ except Exception as e:  # feed down or slow: start anyway, the Intel page shows 
 
 
 def _background() -> None:
+    async def _large():
+        await asyncio.gather(run_one('cert_pl'), run_one('phishing_army'))
     try:
-        asyncio.run(asyncio.gather(run_one('cert_pl'), run_one('phishing_army')))
+        asyncio.run(_large())
     except Exception as e:
         print('large feeds skipped:', e)
     if os.getenv('SAMPLE_DATA_ON_START', 'true').lower() != 'false':
