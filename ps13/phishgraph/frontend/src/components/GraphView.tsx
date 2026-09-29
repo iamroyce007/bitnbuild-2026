@@ -5,7 +5,7 @@ import type { GraphData, GraphNode } from '../lib/types';
 
 export const TYPE_LABEL: Record<string, string> = {
   email: 'Email', url: 'URL', domain: 'Domain', ip: 'IP address', asn: 'ASN', cert: 'Certificate', ns: 'Nameserver', brand: 'Brand',
-  campaign: 'Campaign', sender: 'Sender', attachment: 'Attachment', feed: 'Threat feed',
+  campaign: 'Campaign', sender: 'Sender', attachment: 'Attachment', feed: 'Threat feed', platform: 'Hosting platform',
 };
 
 function nodeColor(n: GraphNode) {
@@ -16,6 +16,8 @@ function nodeColor(n: GraphNode) {
   if (r >= 30) return 'var(--color-flag)';
   if (n.type === 'brand') return 'var(--color-accent)';
   if (n.type === 'campaign') return 'var(--color-campaign)';
+  if (n.type === 'platform') return 'var(--color-flag)';
+  if (n.type === 'feed') return 'var(--color-accent-2)';
   return 'var(--color-neutral)';
 }
 
@@ -27,7 +29,7 @@ function Shape({ type, r, fill, stroke }: { type: string; r: number; fill: strin
     case 'ns': return <polygon points={`0,${-r * 1.2} ${r * 1.1},${r * 0.8} ${-r * 1.1},${r * 0.8}`} {...p} />;
     case 'cert': return <polygon points={`${-r},${-r * 0.7} ${r * 1.2},${-r * 0.7} ${r},${r * 0.7} ${-r * 1.2},${r * 0.7}`} {...p} />;
     case 'asn': case 'campaign': return <polygon points={Array.from({ length: 6 }, (_, i) => `${Math.cos((i * Math.PI) / 3) * r * 1.15},${Math.sin((i * Math.PI) / 3) * r * 1.15}`).join(' ')} {...p} />;
-    case 'feed': return <rect x={-r} y={-r} width={2 * r} height={2 * r} {...p} />;
+    case 'feed': case 'platform': return <rect x={-r} y={-r} width={2 * r} height={2 * r} rx={type === 'platform' ? r * 0.5 : 0} {...p} />;
     default: return <circle r={r} {...p} />;
   }
 }

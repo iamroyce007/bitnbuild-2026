@@ -86,10 +86,10 @@ export function RiskNumber({ value, decision }: { value: number; decision: Decis
 
 export function Stat({ label, value, sub, color }: { label: string; value: ReactNode; sub?: ReactNode; color?: string }) {
   return (
-    <div className="card card-hover relative overflow-hidden px-4 py-3">
-      <span className="absolute inset-x-0 top-0 h-[3px] origin-left bar-grow" style={{ background: color || 'var(--color-line-strong)' }} aria-hidden="true" />
+    <div className="card card-hover sheen relative overflow-hidden px-4 py-3.5">
+      <span className="absolute inset-x-0 top-0 h-[2px] origin-left bar-grow" style={{ background: color ? `linear-gradient(90deg, ${color}, transparent)` : 'linear-gradient(90deg, var(--color-accent), transparent)', boxShadow: `0 0 14px ${color || 'var(--color-accent)'}` }} aria-hidden="true" />
       <div className="eyebrow">{label}</div>
-      <div className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight" style={{ color }}>{typeof value === 'number' ? <CountUp value={value} /> : value}</div>
+      <div className={`mt-2 text-[28px] font-semibold leading-none tracking-tight ${color ? '' : 'kpi-num'}`} style={{ color, textShadow: color ? `0 0 22px ${tint(color, 45)}` : undefined }}>{typeof value === 'number' ? <CountUp value={value} /> : value}</div>
       {sub && <div className="mt-1.5 text-[12px] text-faint">{sub}</div>}
     </div>
   );
@@ -111,7 +111,7 @@ export function Section({ title, right, children, className = '', flush = false 
 export const NAV_GROUPS: { group: string; items: [string, string, string][] }[] = [
   { group: 'Monitor', items: [['/', 'overview', 'Overview'], ['/feed', 'feed', 'Live detections'], ['/review', 'review', 'Review queue']] },
   { group: 'Investigate', items: [['/analyze', 'analyze', 'Analyze message'], ['/investigate', 'investigate', 'Investigate URL'], ['/graph', 'graph', 'Threat graph'], ['/campaigns', 'campaigns', 'Campaigns']] },
-  { group: 'Intelligence', items: [['/intel', 'intel', 'Threat intelligence'], ['/models', 'models', 'Model health']] },
+  { group: 'Intelligence', items: [['/intel', 'intel', 'Threat intelligence'], ['/models', 'models', 'Model health'], ['/validation', 'check', 'Training & validation']] },
   { group: 'Administration', items: [['/system', 'health', 'System health'], ['/setup', 'setup', 'Setup'], ['/settings', 'settings', 'Settings']] },
 ];
 
@@ -210,6 +210,7 @@ const P: Record<string, string> = {
   health: 'M3 12h4l2-5 4 10 2-5h6',
   settings: 'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM19.4 13a7.9 7.9 0 0 0 0-2l2-1.6-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3.4h-4l-.3 2.6a8 8 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.9 7.9 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a8 8 0 0 0 1.7 1l.3 2.6h4l.3-2.6a8 8 0 0 0 1.7-1l2.4 1 2-3.4z',
   pause: 'M8 5v14M16 5v14',
+  check: 'M9 12l2 2 4-4M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z',
   setup: 'M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9',
   search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5',
   sun: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',

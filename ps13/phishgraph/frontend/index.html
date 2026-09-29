@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#17150f" />
+    <meta name="theme-color" content="#05070d" />
     <meta name="description" content="PhishGraph phishing defense console" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -18,7 +18,7 @@
     <title>PhishGraph</title>
     <script>
       // apply the saved theme before first paint (no flash); "system" follows the OS
-      try { var t = localStorage.getItem('phishgraph.theme') || 'light'; if (t !== 'system') document.documentElement.dataset.theme = t; } catch (e) {}
+      try { var t = localStorage.getItem('phishgraph.ui-theme') || 'dark'; if (t !== 'system') document.documentElement.dataset.theme = t; } catch (e) {}
     </script>
   </head>
   <body>

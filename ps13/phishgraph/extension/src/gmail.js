@@ -20,9 +20,9 @@
     svg.setAttribute('aria-hidden', 'true');
     // built node by node: Gmail enforces Trusted Types, so no innerHTML
     const parts = [
-      ['rect', { width: 64, height: 64, rx: 10, fill: '#17150f' }],
+      ['rect', { width: 64, height: 64, rx: 10, fill: '#05070d' }],
       ['path', { d: 'M14 46 26 20l12 18 12-24', fill: 'none', stroke: '#f3efe4', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }],
-      ['circle', { cx: 38, cy: 38, r: 8, fill: '#ffd83d', stroke: '#17150f', 'stroke-width': 2.4 }],
+      ['circle', { cx: 38, cy: 38, r: 8, fill: '#38bdf8', stroke: '#05070d', 'stroke-width': 2.4 }],
     ];
     for (const [tag, attrs] of parts) {
       const n = document.createElementNS(NS, tag);
