@@ -2,41 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <link rel="stylesheet" href="fonts.css" />
   <link rel="stylesheet" href="ui.css" />
   <style>
-    body { width: 360px; padding: 14px; }
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
-    .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .score { font: 600 26px/1 var(--mono); }
-    .host { font: 12px var(--mono); color: var(--muted); word-break: break-all; margin: 6px 0 8px; }
-    .foot { display: flex; gap: 8px; }
-    .foot .btn { flex: 1; min-height: 32px; font-size: 12px; }
-    .empty { color: var(--muted); font-size: 13px; }
+    body { width: 372px; }
+    .wrap { padding: 12px; display: grid; gap: 10px; }
+    .card { padding: 12px 14px; }
+    .verdict { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; margin-top: 8px; }
+    .host { font: 12px var(--mono); color: var(--muted); word-break: break-all; margin: 10px 0 4px; padding: 6px 8px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 3px; }
+    .headline { font-size: 15px; font-weight: 600; line-height: 1.35; }
+    .empty { color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .reasons { margin-top: 6px; }
+    .last { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 6px; }
+    .last .host { margin: 0; flex: 1; }
+    .foot { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .foot .btn { min-height: 32px; font-size: 12px; }
+    .verdict-top { border-top: 3px solid var(--line-strong); }
   </style>
 </head>
-<body>
-  <header>
-    <div class="brand"><img src="../icons/icon-32.png" alt="" />PhishGraph Guard</div>
-    <span class="label" id="status">…</span>
+<body class="board">
+  <header class="bar">
+    <span class="brand"><img src="../icons/icon-32.png" alt="" /><span>Phish<b>Graph</b></span></span>
+    <span class="sub">/ guard</span>
+    <span class="spacer"></span>
+    <span class="status" id="status" role="status"><i></i><span id="statusText">…</span></span>
   </header>
-  <section class="card" id="page">
-    <div class="label">This page</div>
-    <div class="empty" id="pageEmpty">No verdict yet for this tab.</div>
-    <div id="pageBody" hidden>
-      <div class="top"><span class="pill" id="pill"></span><span class="score" id="score"></span></div>
-      <div class="host" id="host"></div>
-      <ul class="reasons" id="reasons"></ul>
+  <div class="wrap">
+    <section class="card sec rise" id="page">
+      <div class="eyebrow">This page</div>
+      <div class="empty" id="pageEmpty">No verdict yet for this tab. Pages are checked as you open them.</div>
+      <div id="pageBody" hidden>
+        <div class="verdict">
+          <div id="dial"></div>
+          <div>
+            <div class="headline" id="headline"></div>
+            <div style="margin-top:6px"><span class="pill" id="pill"></span></div>
+          </div>
+        </div>
+        <div class="host" id="host"></div>
+        <ul class="reasons" id="reasons"></ul>
+      </div>
+    </section>
+    <section class="card sec rise d1" id="last" hidden>
+      <div class="eyebrow">Last right-click check</div>
+      <div class="last"><div class="host" id="lastTarget"></div><span class="pill" id="lastPill"></span></div>
+    </section>
+    <div class="foot rise d2">
+      <a class="btn primary" id="dash" target="_blank">Open dashboard</a>
+      <button class="btn" id="opts">Settings</button>
     </div>
-  </section>
-  <section class="card" id="last" hidden>
-    <div class="label">Last right-click check</div>
-    <div class="host" id="lastTarget"></div>
-    <div class="top"><span class="pill" id="lastPill"></span><span class="score" id="lastScore"></span></div>
-  </section>
-  <div class="foot">
-    <a class="btn" id="dash" target="_blank">Open dashboard</a>
-    <button class="btn" id="opts">Settings</button>
   </div>
   <script type="module" src="popup.js"></script>
 </body>
