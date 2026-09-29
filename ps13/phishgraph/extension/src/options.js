@@ -2,6 +2,20 @@ import { settings } from './api.js';
 
 const $ = (id) => document.getElementById(id);
 const s = await settings();
+$('openSetup').href = `${s.server}/setup`;
+if (s.apiKey) {
+  $('headline').textContent = 'PhishGraph Guard is connected';
+  $('lede').textContent = 'Pages you open are checked against your PhishGraph server. Change what is scanned below.';
+  $('status').innerHTML = '';
+  const b = document.createElement('span');
+  b.className = 'pill ALLOW';
+  b.textContent = 'CONNECTED';
+  const t = document.createElement('span');
+  t.className = 'mono muted';
+  t.style.marginLeft = '8px';
+  t.textContent = s.server;
+  $('status').append(b, t);
+}
 $('server').value = s.server;
 $('apiKey').value = s.apiKey;
 $('protectPages').checked = s.protectPages;

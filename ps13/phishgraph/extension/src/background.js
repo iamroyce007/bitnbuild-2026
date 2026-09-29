@@ -1,5 +1,5 @@
 // Service worker: checks top-level navigations, answers content-script requests, context menus.
-import { analyzeEmail, analyzeUrl, atLeast, localCheck, settings } from './api.js';
+import { analyzeEmail, analyzeUrl, atLeast, DASHBOARD_ORIGINS, localCheck, settings } from './api.js';
 
 const cache = new Map(); // host -> { at, result }
 const allowOnce = new Set(); // "tabId|url" the user chose to proceed to
@@ -58,6 +58,16 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
     } else if (msg.type === 'tab-verdict') {
       const k = `tab:${msg.tab}`;
       reply((await chrome.storage.session.get(k))[k] || null);
+    } else if (msg.type === 'configure') {
+      // one-click connect from the dashboard; trust only the dashboard origin the message really came from
+      const origin = sender.origin || (sender.url ? new URL(sender.url).origin : '');
+      if (!DASHBOARD_ORIGINS.includes(origin) || !msg.apiKey) return reply({ ok: false, error: 'not an allowed dashboard' });
+      await chrome.storage.sync.set({ server: origin, apiKey: String(msg.apiKey), protectPages: msg.protectPages !== false, scanGmail: !!msg.scanGmail });
+      cache.clear();
+      reply({ ok: true, server: origin });
+    } else if (msg.type === 'status') {
+      const s = await settings();
+      reply({ connected: !!s.apiKey, server: s.server, protectPages: s.protectPages, scanGmail: s.scanGmail, version: chrome.runtime.getManifest().version });
     } else if (msg.type === 'check-url') {
       reply(await verdictFor(msg.url));
     }
@@ -68,7 +78,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 chrome.runtime.onInstalled.addListener((info) => {
   chrome.contextMenus.create({ id: 'pg-link', title: 'Check link with PhishGraph', contexts: ['link'] });
   chrome.contextMenus.create({ id: 'pg-text', title: 'Check selected text with PhishGraph', contexts: ['selection'] });
-  if (info.reason === 'install') chrome.runtime.openOptionsPage();
+  if (info.reason === 'install') chrome.tabs.create({ url: 'https://phishgraph.vercel.app/setup?from=extension' });
 });
 
 chrome.contextMenus.onClicked.addListener(async (info) => {

@@ -21,13 +21,22 @@
 <body>
   <main>
     <div class="brand"><img src="../icons/icon-32.png" alt="" />PhishGraph Guard</div>
-    <h1>Connect to your PhishGraph server</h1>
-    <p class="muted">The extension only talks to the server below. Page addresses are sent to it for checking; email content only if you enable Gmail scanning.</p>
+    <h1 id="headline">Connect PhishGraph Guard</h1>
+    <p class="muted" id="lede">Open your PhishGraph dashboard, go to <b>Setup</b> and click <b>Connect extension</b>. That's it: no keys to copy.</p>
     <section class="card">
-      <div class="field"><label class="label" for="server">Server URL</label><input type="url" id="server" placeholder="http://localhost:8000" /></div>
-      <div class="field"><label class="label" for="apiKey">API key</label><input type="password" id="apiKey" placeholder="X-API-Key value" autocomplete="off" /></div>
-      <div class="row"><button class="btn primary" id="save">Save and test</button><span id="msg" class="muted"></span></div>
+      <div class="row" style="justify-content:space-between">
+        <div><div class="label">Status</div><div id="status" style="margin-top:4px">Not connected</div></div>
+        <a class="btn primary" id="openSetup" target="_blank">Open dashboard setup</a>
+      </div>
     </section>
+    <details class="card" style="margin-top:18px">
+      <summary class="label" style="cursor:pointer">Advanced: connect manually</summary>
+      <div style="margin-top:14px">
+        <div class="field"><label class="label" for="server">Server URL</label><input type="url" id="server" placeholder="https://phishgraph.vercel.app" /></div>
+        <div class="field"><label class="label" for="apiKey">API key</label><input type="password" id="apiKey" placeholder="X-API-Key value" autocomplete="off" /></div>
+        <div class="row"><button class="btn" id="save">Save and test</button><span id="msg" class="muted"></span></div>
+      </div>
+    </details>
     <section class="card">
       <div class="check"><input type="checkbox" id="protectPages" /><label for="protectPages">Check pages I open<small>High-risk pages are replaced by a warning before you can type anything.</small></label></div>
       <div class="check"><input type="checkbox" id="scanGmail" /><label for="scanGmail">Scan Gmail messages I open<small>The opened message (sender, subject, body, links) is sent to your server and a verdict banner appears above it.</small></label></div>
