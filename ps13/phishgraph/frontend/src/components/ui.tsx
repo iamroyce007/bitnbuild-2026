@@ -135,7 +135,7 @@ export function ErrorBox({ error }: { error: unknown }) {
   const auth = /401|API key/i.test(msg);
   return (
     <div role="alert" className="rounded border border-block/40 border-l-[3px] bg-block/5 px-3 py-2 text-[13px] text-ink">
-      <span className="font-semibold text-block">Error.</span> {auth ? 'The API key was rejected. Set it on the Settings page.' : msg}
+      <span className="font-semibold text-block">Error.</span> {auth ? 'This server is private and this browser has no access. Open the setup link from its administrator.' : msg}
     </div>
   );
 }

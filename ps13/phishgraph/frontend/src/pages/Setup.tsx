@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSample } from '../App';
 import { PageTitle } from '../components/ui';
-import { getKey, setupLink } from '../lib/api';
+import { getKey } from '../lib/api';
 
 type ExtState = 'missing' | 'installed' | 'connected';
 
@@ -30,7 +30,7 @@ export default function Setup() {
     const onMsg = (e: MessageEvent) => {
       if (e.source !== window || e.origin !== window.location.origin) return;
       if (e.data?.type === 'phishgraph:extension') setExt(e.data.status?.connected ? 'connected' : 'installed');
-      if (e.data?.type === 'phishgraph:connected') setMsg(e.data.result?.ok ? 'Extension connected. It now checks the pages you open.' : `Could not connect: ${e.data.result?.error || 'unknown error'}`);
+      if (e.data?.type === 'phishgraph:connected') setMsg(e.data.result?.ok ? 'Saved. The extension uses these settings now.' : `Could not save: ${e.data.result?.error || 'unknown error'}`);
     };
     window.addEventListener('message', onMsg);
     window.postMessage({ type: 'phishgraph:ping' }, window.location.origin);
@@ -39,7 +39,7 @@ export default function Setup() {
   }, []);
 
   const connect = () => {
-    setMsg('Connecting…');
+    setMsg('Saving…');
     window.postMessage({ type: 'phishgraph:connect', apiKey: getKey(), protectPages: protect, scanGmail: gmail }, window.location.origin);
   };
   const copy = async (text: string, what: string) => {
@@ -50,15 +50,10 @@ export default function Setup() {
 
   return (
     <>
-      <PageTitle title="Setup" sub="Connect browsers and the Chrome extension. Nothing to configure by hand." />
+      <PageTitle title="Setup" sub="Install the Chrome extension. No accounts or keys needed." />
       <ol className="max-w-3xl space-y-3">
-        <Step n={1} title="This browser is connected" done>
-          <p>To connect another browser or a teammate, send them the setup link. Anyone with it can use this server, so share it privately.</p>
-          <button className="btn" onClick={() => copy(setupLink(), 'link')}>{copied === 'link' ? 'Copied' : 'Copy setup link'}</button>
-        </Step>
-
-        <Step n={2} title="Install the Chrome extension" done={ext !== 'missing'}>
-          {ext !== 'missing' ? <p>Installed. Continue with step 3.</p> : (
+        <Step n={1} title="Install the Chrome extension" done={ext !== 'missing'}>
+          {ext !== 'missing' ? <p>Installed. It is already protecting this browser; step 2 is optional.</p> : (
             <>
               <a className="btn btn-primary" href="/downloads/phishgraph-extension.zip" download>Download extension</a>
               <ol className="list-decimal space-y-1 pl-5">
@@ -71,20 +66,20 @@ export default function Setup() {
           )}
         </Step>
 
-        <Step n={3} title="Connect the extension" done={ext === 'connected'}>
+        <Step n={2} title="Choose what the extension checks (optional)" done={ext === 'connected'}>
           {ext === 'missing' ? <p>Install the extension first.</p> : (
             <>
               <label className="flex items-start gap-2 text-ink"><input type="checkbox" className="mt-1 accent-accent" checked={protect} onChange={(e) => setProtect(e.target.checked)} />
                 <span>Check the pages I open<span className="block text-muted">Dangerous pages are replaced by a warning that explains why.</span></span></label>
               <label className="flex items-start gap-2 text-ink"><input type="checkbox" className="mt-1 accent-accent" checked={gmail} onChange={(e) => setGmail(e.target.checked)} />
                 <span>Scan Gmail messages I open<span className="block text-muted">Adds a verdict banner above each email. The message is sent to this server for analysis.</span></span></label>
-              <button className="btn btn-primary" onClick={connect}>{ext === 'connected' ? 'Update extension settings' : 'Connect extension'}</button>
+              <button className="btn btn-primary" onClick={connect}>Save to extension</button>
               {msg && <p role="status" className="text-ink">{msg}</p>}
             </>
           )}
         </Step>
 
-        <Step n={4} title="Try it" done={false}>
+        <Step n={3} title="Try it" done={false}>
           <div className="flex flex-wrap gap-2">
             <Link className="btn" to="/analyze">Analyze a suspicious message</Link>
             <Link className="btn" to="/investigate">Investigate a link</Link>

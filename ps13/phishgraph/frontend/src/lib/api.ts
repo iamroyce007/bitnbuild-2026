@@ -1,4 +1,5 @@
-// Typed API client. The API key lives in localStorage (set on the Settings page); requests go to the same origin
+// Typed API client. Public servers need no key. A private server's key can arrive once via a #key= setup link and
+// then lives in localStorage; the dashboard never asks for one. Requests go to the same origin
 // (the FastAPI server serves the built dashboard; Vite proxies in development).
 import type { Analysis, CampaignDetail, CampaignSummary, DetectionDetail, DetectionSummary, GraphData, ModelsInfo, ProvidersInfo, Statistics, ThreatFeed } from './types';
 
@@ -6,7 +7,6 @@ const KEY = 'phishgraph.apiKey';
 const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 export const getKey = () => localStorage.getItem(KEY) || (isLocal ? 'dev-local-key' : '');
 export const setKey = (k: string) => localStorage.setItem(KEY, k);
-export const clearKey = () => localStorage.removeItem(KEY);
 
 // One-click setup links: https://host/#key=...  (the fragment never reaches any server; removed from the URL at once)
 (() => {
@@ -16,7 +16,6 @@ export const clearKey = () => localStorage.removeItem(KEY);
     history.replaceState(null, '', window.location.pathname + window.location.search);
   }
 })();
-export const setupLink = () => `${window.location.origin}/#key=${encodeURIComponent(getKey())}`;
 export const apiBase = () => (import.meta.env.VITE_API_BASE as string | undefined) || '';
 
 export class ApiError extends Error {
@@ -28,7 +27,7 @@ export class ApiError extends Error {
 async function req<T>(path: string, init?: RequestInit): Promise<T> {
   const r = await fetch(`${apiBase()}${path}`, {
     ...init,
-    headers: { 'content-type': 'application/json', 'X-API-Key': getKey(), ...(init?.headers || {}) },
+    headers: { 'content-type': 'application/json', ...(getKey() ? { 'X-API-Key': getKey() } : {}), ...(init?.headers || {}) },
   });
   if (!r.ok) {
     let detail = r.statusText;

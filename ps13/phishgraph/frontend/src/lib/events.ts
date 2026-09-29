@@ -28,7 +28,7 @@ export function useEvents(onEvent?: (e: LiveEvent) => void) {
 
     const poll = async () => {
       try {
-        const r = await fetch(`${apiBase()}/api/v1/events/recent?since=${encodeURIComponent(lastAt)}`, { headers: { 'X-API-Key': getKey() } });
+        const r = await fetch(`${apiBase()}/api/v1/events/recent?since=${encodeURIComponent(lastAt)}`, { headers: getKey() ? { 'X-API-Key': getKey() } : {} });
         if (r.ok) {
           const xs: LiveEvent[] = await r.json();
           for (const e of xs) push(e);
@@ -43,7 +43,7 @@ export function useEvents(onEvent?: (e: LiveEvent) => void) {
 
     const connect = () => {
       const base = apiBase() || window.location.origin;
-      const url = base.replace(/^http/, 'ws') + `/api/v1/events?api_key=${encodeURIComponent(getKey())}`;
+      const url = base.replace(/^http/, 'ws') + (getKey() ? `/api/v1/events?api_key=${encodeURIComponent(getKey())}` : '/api/v1/events');
       ws = new WebSocket(url);
       ws.onopen = () => {
         retry = 1000;

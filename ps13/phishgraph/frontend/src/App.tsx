@@ -1,8 +1,7 @@
 import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react';
 import { NavLink, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Icon, Loading, NAV_GROUPS } from './components/ui';
-import Welcome from './components/Welcome';
-import { api, getKey } from './lib/api';
+import { api } from './lib/api';
 import { type LinkState, useEvents } from './lib/events';
 import type { LiveEvent } from './lib/types';
 
@@ -103,8 +102,21 @@ function QuickLookup() {
   );
 }
 
+/** Shown only when this server was deployed as private and the browser has not been given access. */
+function Private() {
+  return (
+    <div className="grid min-h-full place-items-center px-5">
+      <div className="card max-w-md p-6">
+        <div className="mb-3 flex items-center gap-2.5"><img src="/favicon.svg" alt="" width={24} height={24} /><span className="font-semibold">PhishGraph</span></div>
+        <h1 className="text-[17px] font-semibold">This server is private</h1>
+        <p className="mt-1 text-[13px] text-muted">Open the setup link from the person who runs it. The public server at phishgraph.vercel.app needs no access.</p>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
-  const [auth, setAuth] = useState<'checking' | 'ok' | 'needed'>(getKey() ? 'checking' : 'needed');
+  const [auth, setAuth] = useState<'checking' | 'ok' | 'needed'>('checking');
   const [sample, setSample] = useState({ loaded: false, count: 0, busy: false });
   const refreshSample = useCallback(async () => {
     try {
@@ -121,7 +133,7 @@ export default function App() {
     load: async () => { setSample((x) => ({ ...x, busy: true })); try { await api.loadSample(); } finally { await refreshSample(); setSample((x) => ({ ...x, busy: false })); window.dispatchEvent(new Event('phishgraph:data-changed')); } },
     clear: async () => { setSample((x) => ({ ...x, busy: true })); try { await api.clearSample(); } finally { await refreshSample(); setSample((x) => ({ ...x, busy: false })); window.dispatchEvent(new Event('phishgraph:data-changed')); } },
   };
-  if (auth === 'needed') return <Welcome onConnected={() => setAuth('checking')} />;
+  if (auth === 'needed') return <Private />;
   if (auth === 'checking') return <Loading label="Connecting" />;
   return <SampleCtx.Provider value={sampleCtx}><Shell /></SampleCtx.Provider>;
 }
