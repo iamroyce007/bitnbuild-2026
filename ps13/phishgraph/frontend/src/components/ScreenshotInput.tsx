@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { api, type Extraction } from '../lib/api';
 import { readScreenshot, type OcrLang, type OcrProgress } from '../lib/ocr';
-import { ErrorBox } from './ui';
+import { CountUp, ErrorBox } from './ui';
 
 type Fields = Pick<Extraction, 'channel' | 'sender' | 'subject' | 'body'>;
 type Stage = 'pick' | 'reading' | 'review';
@@ -22,7 +22,7 @@ function EntityRow({ label, items, mono = true }: { label: string; items: string
       <th scope="row" className="w-32 py-1.5 pr-3 text-left align-top text-[12px] font-medium text-muted">{label} <span className="text-faint">({items.length})</span></th>
       <td className="py-1.5">
         <ul className="flex flex-wrap gap-1">
-          {items.map((v) => <li key={v} className={`break-all rounded-sm border border-line bg-surface-2 px-1.5 py-px text-[12px] ${mono ? 'font-mono' : ''}`}>{v}</li>)}
+          {items.map((v, i) => <li key={v} className={`pop break-all rounded-[3px] border border-line bg-surface-2 px-1.5 py-px text-[12px] ${mono ? 'font-mono' : ''}`} style={{ animationDelay: `${i * 40}ms` }}>{v}</li>)}
         </ul>
       </td>
     </tr>
@@ -124,8 +124,11 @@ export default function ScreenshotInput({ busy, onAnalyze }: { busy: boolean; on
       <div
         onDragOver={(ev) => { ev.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)}
         onDrop={(ev) => { ev.preventDefault(); setDrag(false); const file = ev.dataTransfer.files[0]; if (file) read(file); }}
-        className={`grid place-items-center rounded border-2 border-dashed px-4 py-8 text-center ${drag ? 'border-accent bg-accent/5' : 'border-line-strong'}`}>
-        <p className="text-[14px] font-medium">Drop a screenshot here</p>
+        className={`grid place-items-center rounded-[3px] border-2 border-dashed px-4 py-9 text-center transition-[border-color,background-color,transform] duration-200 ${drag ? 'scale-[1.01] border-primary bg-mark/15' : 'border-line-strong bg-surface-2/60'}`}>
+        <svg viewBox="0 0 48 48" className="mb-2 size-11 text-muted" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="13" y="4" width="22" height="40" rx="4" /><path d="M21 8h6M18 16h12M18 21h9M18 26h11" /><circle cx="33" cy="33" r="7" fill="var(--color-mark)" stroke="var(--color-ink)" /><path d="m38 38 4 4" stroke="var(--color-ink)" />
+        </svg>
+        <p className="text-[15px] font-semibold">Drop a <span className="hl">screenshot</span> here</p>
         <p className="mt-1 text-[12px] text-muted">SMS, WhatsApp, Gmail or Outlook. You can also paste it with Ctrl+V / ⌘V.</p>
         <div className="mt-3 flex flex-wrap justify-center gap-2">
           <button type="button" className="btn btn-primary" onClick={() => fileRef.current?.click()}>Choose image</button>
@@ -159,8 +162,13 @@ export default function ScreenshotInput({ busy, onAnalyze }: { busy: boolean; on
 
   if (stage === 'reading') return (
     <div className="space-y-3" aria-live="polite">
-      {preview && <img src={preview} alt="Screenshot being read" className="max-h-64 w-full rounded border border-line object-contain" />}
-      <div className="text-[13px]">{STATUS[prog.status] || prog.status || 'Working'}…</div>
+      {preview && (
+        <div className="relative overflow-hidden rounded-[3px] border border-line bg-surface-2">
+          <img src={preview} alt="Screenshot being read" className="max-h-72 w-full object-contain" />
+          <div className="scan-beam" aria-hidden="true" />
+        </div>
+      )}
+      <div className="flex items-baseline justify-between gap-3 text-[13px]"><span>{STATUS[prog.status] || prog.status || 'Working'}…</span><span className="font-mono text-[12px] text-faint">{Math.round(prog.progress * 100)}%</span></div>
       <div className="h-1.5 overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(prog.progress * 100)}>
         <div className="h-full bg-accent transition-[width] duration-200" style={{ width: `${Math.max(3, prog.progress * 100)}%` }} />
       </div>
@@ -172,7 +180,7 @@ export default function ScreenshotInput({ busy, onAnalyze }: { busy: boolean; on
       <div className="flex items-start gap-3">
         {preview && <img src={preview} alt="Uploaded screenshot" className="h-28 w-20 shrink-0 rounded border border-line object-cover object-top" />}
         <div className="min-w-0 text-[13px]">
-          <div className="font-semibold">Check what was read</div>
+          <div className="font-semibold"><span className="hl">Check what was read</span></div>
           <p className="text-muted">Correct anything the text recognition got wrong, then analyse.</p>
           <p className="mt-1 text-[12px] text-faint">Recognition confidence {ocr ? Math.round(ocr.confidence) : '–'}%{ocr?.inverted ? ' · dark-mode image inverted' : ''}</p>
           <button type="button" className="mt-1 text-[12px] text-accent hover:underline" onClick={reset}>Use a different screenshot</button>
@@ -195,7 +203,7 @@ export default function ScreenshotInput({ busy, onAnalyze }: { busy: boolean; on
       <label className="block"><span className="label">Message</span><textarea className="textarea mt-1 h-40 font-sans" value={f.body} onChange={set('body')} /></label>
 
       <section aria-labelledby="ent-h" className="rounded border border-line">
-        <h3 id="ent-h" className="border-b border-line bg-surface-2 px-3 py-1.5 text-[12px] font-semibold text-muted">Entities found ({total})</h3>
+        <h3 id="ent-h" className="eyebrow flex justify-between border-b border-line bg-surface-2 px-3 py-1.5"><span>Entities extracted</span><span className="text-ink"><CountUp value={total} /></span></h3>
         <div className="px-3 py-1">
           {total === 0 ? <p className="py-2 text-[13px] text-muted">No links, numbers, payment IDs or brands were found.</p> : (
             <table className="w-full"><tbody>
