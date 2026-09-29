@@ -86,7 +86,14 @@ export default function App() {
             <span className="hidden text-[12px] text-muted lg:block">NLP · URL model · brand look-alikes · threat intelligence · infrastructure graph</span>
             <LinkBadge state={live.state} />
           </header>
-          {menu && <nav id="mobile-nav" className="space-y-0.5 border-b border-line bg-[#0a0d11] p-2.5 lg:hidden" aria-label="Main"><NavItems onPick={() => setMenu(false)} /></nav>}
+          {menu && (
+            <nav id="mobile-nav" className="space-y-0.5 border-b border-line bg-[#0a0d11] p-2.5 lg:hidden" aria-label="Main">
+              <NavItems onPick={() => setMenu(false)} />
+              <NavLink to="/settings" onClick={() => setMenu(false)} className={({ isActive }) => `flex items-center gap-2.5 rounded-md px-3 py-2 text-[13px] ${isActive ? 'bg-surface-2 text-ink' : 'text-muted hover:text-ink'}`}>
+                <Icon name="settings" />Settings
+              </NavLink>
+            </nav>
+          )}
           <main id="main" className="min-w-0 flex-1 px-5 py-6 lg:px-8">
             <Suspense fallback={<Loading />}>
               <Routes>
