@@ -196,3 +196,14 @@ def test_snapshot_domain_lists_survive_reload(tmp_path):
     assert st.load_domain_list(f, 'test_list') == 2
     st.load()  # the app lifespan reloads from the database at start-up
     assert st.match('url', 'https://evil-kyc-verify.site/login')
+
+
+def test_user_content_hosts_never_inherit_platform_trust():
+    # found by scripts/real_world_check.py: live phishing on GitHub Pages / Weebly was capped as "official/established"
+    from app.services.url_engine import get_url_engine
+    ue = get_url_engine()
+    for u in ('https://online-secured.github.io/Wells/', 'https://hispeed-websrv.weebly.com/', 'https://hasanshahid32h-source.github.io/facebook-login/'):
+        assert not ue.analyze(u).trusted, u
+    r = ue.analyze('https://hasanshahid32h-source.github.io/facebook-login/')
+    assert any(x['id'] == 'brand_on_user_content' for x in r.rules)
+    assert ue.analyze('https://github.com/login').trusted and ue.analyze('https://www.weebly.com/').trusted

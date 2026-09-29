@@ -5,6 +5,8 @@ and rule-based for everything else, so no reason is ever inferred after the fact
 """
 from __future__ import annotations
 
+import re
+
 import logging
 from dataclasses import dataclass, field
 from functools import lru_cache
@@ -16,7 +18,7 @@ from sklearn.feature_extraction.text import HashingVectorizer
 from ..config import get_settings
 from ..utils.url_utils import ParsedURL, parse_url
 from .brand_engine import DomainVerdict, get_brand_engine
-from .url_features import FEATURE_NAMES, char_ngrams, url_features
+from .url_features import FREE_HOSTING, FEATURE_NAMES, char_ngrams, url_features
 
 log = logging.getLogger(__name__)
 
@@ -103,6 +105,15 @@ class URLEngine:
             rule('shortener', f'Link shortener ({p.registrable}) hides the real destination', 0.15)
         if f['free_hosting']:
             rule('free_hosting', f'Hosted on a free/throw-away platform ({p.registrable})', 0.18)
+            # a brand named on a site anyone can publish to (online-secured.github.io/Wells, xfinitymail01.weebly.com):
+            # real brands do not serve sign-in pages from someone's GitHub Pages / Weebly / Firebase site
+            words = re.sub(r'[/_\-.?=&#+]+', ' ', f'{p.subdomain} {p.path} {p.query}')
+            platform = self.brands.official_brand(p.registrable or p.host)
+            named = [b for b in self.brands.claimed_brands(words)
+                     if not platform or b.name.split(' /')[0].split()[0].lower() != platform.name.split(' /')[0].split()[0].lower()]
+            if named:
+                rule('brand_on_user_content', f'Names {named[0].name} on {p.host}, a site anyone can publish to; '
+                     f'{named[0].name} does not host its pages there', 0.62)
         if f['suspicious_tld']:
             rule('suspicious_tld', f'.{p.host.rsplit(".", 1)[-1]} domains are cheap and heavily abused', 0.12)
         if f['n_subdomains'] >= 4:
@@ -129,7 +140,11 @@ class URLEngine:
         if self.m is not None and p.host:
             prob = float(self.predict([p.normalized])[0])
             top = self._ngram_reasons(p.normalized)
-        trusted = bool(bv and (bv.official_brand or bv.established)) and not any(r['id'] in ('userinfo', 'executable', 'deceptive_link_text') for r in rules)
+        # a user-content host never inherits its platform's reputation: *.github.io is not GitHub, *.weebly.com is not Weebly
+        root = next((h for h in FREE_HOSTING if p.host == h or p.host.endswith('.' + h)), None)
+        user_content = bool(root) and p.host not in (root, 'www.' + root)
+        trusted = (bool(bv and (bv.official_brand or bv.established)) and not user_content
+                   and not any(r['id'] in ('userinfo', 'executable', 'deceptive_link_text') for r in rules))
         rule_risk = 1.0
         for r in rules:
             rule_risk *= 1 - r['weight']
