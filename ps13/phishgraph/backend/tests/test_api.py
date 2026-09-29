@@ -64,3 +64,12 @@ def test_lists_and_statistics(client, auth):
 
 def test_validation_limits(client, auth):
     assert client.post('/api/v1/analyze/url', json={'url': 'a' * 5000}, headers=auth).status_code == 422
+
+
+def test_public_access_mode(client, monkeypatch):
+    from app.config import get_settings
+    monkeypatch.setattr(get_settings(), 'public_access', True)
+    assert client.get('/api/v1/sample-data').status_code == 200  # no key needed
+    assert client.get('/api/v1/sample-data', headers={'X-API-Key': 'wrong'}).status_code == 401  # a wrong key is still refused
+    monkeypatch.setattr(get_settings(), 'public_access', False)
+    assert client.get('/api/v1/sample-data').status_code == 401

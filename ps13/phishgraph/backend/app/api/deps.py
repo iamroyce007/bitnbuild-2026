@@ -32,15 +32,29 @@ def client_for(key: str) -> str | None:
         return u.name if u else None
 
 
+def client_ip(request: Request) -> str:
+    fwd = request.headers.get('x-forwarded-for', '')
+    return fwd.split(',')[0].strip() if fwd else (request.client.host if request.client else '')
+
+
+def resolve_client(key: str | None) -> str | None:
+    """Who is calling: a named key holder, 'public' when PUBLIC_ACCESS allows keyless use, else None.
+    A key that is sent but wrong is always rejected, even in public mode."""
+    if key:
+        return client_for(key)
+    return 'public' if get_settings().public_access else None
+
+
 async def require_key(request: Request, x_api_key: str | None = Header(None, alias='X-API-Key')) -> str:
     global _limiter
     key = x_api_key or request.query_params.get('api_key')
-    who = client_for(key) if key else None
+    who = resolve_client(key)
     if not who:
         raise HTTPException(401, 'missing or invalid API key (send X-API-Key)')
     if _limiter is None:
         _limiter = RateLimiter(get_settings().rate_limit_per_minute, burst=max(20, get_settings().rate_limit_per_minute // 6))
-    if not _limiter.allow(_hash(key)[:16]):
+    bucket = _hash(key)[:16] if key else 'ip:' + client_ip(request)
+    if not _limiter.allow(bucket):
         raise HTTPException(429, 'rate limit exceeded')
     request.state.client = who
     return who

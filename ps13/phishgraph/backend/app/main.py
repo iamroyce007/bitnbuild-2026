@@ -14,7 +14,7 @@ from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
 from .api import routes_analyze, routes_data
-from .api.deps import METRICS, client_for
+from .api.deps import METRICS, resolve_client
 from .config import ROOT, get_settings
 from .database import init_db
 from .services.events import bus
@@ -134,7 +134,7 @@ def metrics():
 @app.websocket('/api/v1/events')
 async def events(ws: WebSocket):
     key = ws.query_params.get('api_key') or ws.headers.get('x-api-key')
-    if not key or not client_for(key):
+    if not resolve_client(key):
         await ws.close(code=4401)
         return
     await ws.accept()

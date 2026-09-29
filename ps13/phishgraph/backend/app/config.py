@@ -22,6 +22,7 @@ class Settings(BaseSettings):
 
     # --- security ---
     api_keys: str = 'dev-local-key'  # comma-separated; clients send X-API-Key
+    public_access: bool = False  # true -> requests without a key are served as client 'public' (rate limited per IP)
     rate_limit_per_minute: int = 600
     allow_private_targets: bool = False  # SSRF guard; only for controlled test labs
     cors_origins: str = 'http://localhost:5173,http://localhost:8000'
