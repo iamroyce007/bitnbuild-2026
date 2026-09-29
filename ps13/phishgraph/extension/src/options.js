@@ -2,19 +2,20 @@ import { settings } from './api.js';
 
 const $ = (id) => document.getElementById(id);
 const s = await settings();
-$('openSetup').href = `${s.server}/setup`;
+$('openSetup').href = s.server;
 {
-  $('headline').textContent = 'PhishGraph Guard is connected';
+  $('headline').textContent = 'PhishGraph Guard is active';
   $('lede').textContent = 'Works out of the box: pages you open are checked against the PhishGraph server below. Change what is scanned here.';
   $('status').innerHTML = '';
-  const b = document.createElement('span');
-  b.className = 'pill ALLOW';
-  b.textContent = s.protectPages ? 'PROTECTING' : 'PAUSED';
+  const dot = document.createElement('span');
+  dot.className = `status ${s.protectPages ? 'on' : 'off'}`;
+  dot.innerHTML = '<i></i>';
+  dot.append(s.protectPages ? 'Protecting' : 'Paused');
   const t = document.createElement('span');
   t.className = 'mono muted';
-  t.style.marginLeft = '8px';
+  t.style.fontSize = '12px';
   t.textContent = s.server;
-  $('status').append(b, t);
+  $('status').append(dot, t);
 }
 $('server').value = s.server;
 $('apiKey').value = s.apiKey;

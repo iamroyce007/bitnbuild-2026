@@ -3,46 +3,61 @@
 <head>
   <meta charset="utf-8" />
   <title>PhishGraph Guard settings</title>
+  <link rel="stylesheet" href="fonts.css" />
   <link rel="stylesheet" href="ui.css" />
   <style>
-    main { max-width: 620px; margin: 40px auto; padding: 0 20px; }
-    h1 { font-size: 22px; margin: 16px 0 4px; }
-    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-top: 18px; }
+    body { min-height: 100vh; }
+    main { max-width: 660px; margin: 0 auto; padding: 28px 20px 48px; }
+    .crumb { margin-bottom: 6px; }
+    h1 { font-size: 24px; margin: 0 0 6px; }
+    .page-head { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 18px; }
+    .card { padding: 16px 18px; margin-top: 14px; }
     .field { margin-bottom: 14px; }
     .field label { display: block; margin-bottom: 6px; }
-    .check { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
-    .check:first-of-type { border-top: 0; }
-    .check input { margin-top: 3px; accent-color: var(--accent); }
-    .check small { display: block; color: var(--muted); }
-    .row { display: flex; gap: 10px; align-items: center; }
+    .check { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--line); cursor: pointer; }
+    .check:first-of-type { border-top: 0; padding-top: 4px; }
+    .check input { margin-top: 4px; accent-color: var(--primary); width: 15px; height: 15px; }
+    .check small { display: block; color: var(--muted); font-size: 13px; }
+    .row { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .sec > .eyebrow { margin-bottom: 10px; }
+    #status { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 13px; }
     #msg { font-size: 13px; }
+    summary { cursor: pointer; }
   </style>
 </head>
-<body>
+<body class="board">
+  <header class="bar">
+    <span class="brand"><img src="../icons/icon-32.png" alt="" /><span>Phish<b>Graph</b></span></span>
+    <span class="sub">/ guard</span>
+  </header>
   <main>
-    <div class="brand"><img src="../icons/icon-32.png" alt="" />PhishGraph Guard</div>
-    <h1 id="headline">Connect PhishGraph Guard</h1>
-    <p class="muted" id="lede">No setup needed: the extension already protects you using the public PhishGraph server.</p>
-    <section class="card">
-      <div class="row" style="justify-content:space-between">
-        <div><div class="label">Status</div><div id="status" style="margin-top:4px">Not connected</div></div>
-        <a class="btn primary" id="openSetup" target="_blank">Open dashboard setup</a>
+    <div class="page-head rise">
+      <div class="eyebrow crumb">Extension / Settings</div>
+      <h1 id="headline">PhishGraph Guard</h1>
+      <p class="muted" id="lede" style="margin:0">No setup needed: the extension already protects you using the public PhishGraph server.</p>
+    </div>
+    <section class="card sec rise d1">
+      <div class="eyebrow">Status</div>
+      <div class="row">
+        <div id="status">Not connected</div>
+        <a class="btn primary" id="openSetup" target="_blank">Open dashboard</a>
       </div>
     </section>
-    <details class="card" style="margin-top:18px">
-      <summary class="label" style="cursor:pointer">Advanced: use a different server</summary>
-      <div style="margin-top:14px">
-        <div class="field"><label class="label" for="server">Server URL</label><input type="url" id="server" placeholder="https://phishgraph.vercel.app" /></div>
-        <div class="field"><label class="label" for="apiKey">Access key (only for private servers)</label><input type="password" id="apiKey" placeholder="leave empty" autocomplete="off" /></div>
-        <div class="row"><button class="btn" id="save">Save and test</button><span id="msg" class="muted"></span></div>
-      </div>
-    </details>
-    <section class="card">
-      <div class="check"><input type="checkbox" id="protectPages" /><label for="protectPages">Check pages I open<small>High-risk pages are replaced by a warning before you can type anything.</small></label></div>
-      <div class="check"><input type="checkbox" id="scanGmail" /><label for="scanGmail">Scan Gmail messages I open<small>The opened message (sender, subject, body, links) is sent to your server and a verdict banner appears above it.</small></label></div>
-      <div class="field" style="margin-top:10px"><label class="label" for="blockThreshold">Show the full-page warning at</label>
+    <section class="card sec rise d2">
+      <div class="eyebrow">What to check</div>
+      <label class="check"><input type="checkbox" id="protectPages" /><span>Check pages I open<small>High-risk pages are replaced by a warning before you can type anything.</small></span></label>
+      <label class="check"><input type="checkbox" id="scanGmail" /><span>Scan Gmail messages I open<small>The opened message (sender, subject, body, links) is sent to your server and a verdict banner appears above it.</small></span></label>
+      <div class="field" style="margin:10px 0 0"><label class="eyebrow" for="blockThreshold">Show the full-page warning at</label>
         <select id="blockThreshold"><option value="FLAG">FLAG and above</option><option value="QUARANTINE">QUARANTINE and above (default)</option><option value="BLOCK">BLOCK only</option></select></div>
     </section>
+    <details class="card sec rise d3">
+      <summary class="eyebrow">Advanced: use a different server</summary>
+      <div style="margin-top:14px">
+        <div class="field"><label class="eyebrow" for="server">Server URL</label><input type="url" id="server" placeholder="https://phishgraph.vercel.app" /></div>
+        <div class="field"><label class="eyebrow" for="apiKey">Access key (only for private servers)</label><input type="password" id="apiKey" placeholder="leave empty" autocomplete="off" /></div>
+        <div class="row" style="justify-content:flex-start"><button class="btn" id="save">Save and test</button><span id="msg" class="muted" role="status"></span></div>
+      </div>
+    </details>
   </main>
   <script type="module" src="options.js"></script>
 </body>
