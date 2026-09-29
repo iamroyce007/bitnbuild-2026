@@ -179,7 +179,7 @@ in `fonts/`, so no third-party requests), `warning.*`, `popup.*`, `options.*`. T
 cd ps13/phishgraph
 python3 -m venv ../.venv && ../.venv/bin/pip install -r requirements-dev.txt [-r requirements-embeddings.txt]
 ../.venv/bin/python scripts/download_datasets.py [--reference-only] [--embeddings]
-(cd backend && ../../.venv/bin/python -m pytest -q)                 # 485 tests, ~20 s, isolated temp DB/graph
+(cd backend && ../../.venv/bin/python -m pytest -q)                 # 487 tests, ~20 s, isolated temp DB/graph
 ../.venv/bin/python scripts/seed_demo.py --reset                     # DEMO DATA
 ../.venv/bin/python -m uvicorn --app-dir backend app.main:app --port 8000
 ../.venv/bin/python scripts/demo_attack.py                           # scripted demo against the running API
@@ -212,6 +212,10 @@ docker compose up --build                                            # full stac
 - Text model over-flags transactional notices on its own; add the collected hard negatives and retrain.
 - Local graph is single-process; multi-worker deployments should use Neo4j.
 - Docker Compose has not been executed yet; first run may need adjustments (e.g. Neo4j memory).
+- Vercel: `scripts/deploy_vercel.sh` first runs `scripts/build_snapshot.py` (feeds + feed graph + sample data + large domain
+  lists → `snapshot/`, git-ignored, bundled); `api/index.py` copies it to /tmp, indexes the lists in memory
+  (`IntelStore.load_domain_list`, re-applied on reload), and re-fetches OpenPhish/URLhaus only when the snapshot is > 6 h old.
+  `vercel.json` serves `/assets/*` and icons from the CDN via an `@vercel/static` build of `static/`.
 - Vercel deploys must go through `scripts/deploy_vercel.sh`: `vercel.json` uses an explicit `@vercel/python` build (framework
   auto-detection and rewrites broke routing), the dashboard is bundled as `static/`, and uploads are git-free because Vercel
   blocks deploys whose commit author is not a verified team member (`TEAM_ACCESS_REQUIRED`).

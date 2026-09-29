@@ -14,6 +14,8 @@ unseen email ─► NLP 95 · URL 99 · Brand 86 · Sender 94 · Threat intel n/
 ```
 *(output of `scripts/demo_attack.py`; the infrastructure is labelled DEMO DATA, see [Demo](#demo))*
 
+**New here? Read [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md)**: one message end to end, the guarantee, the measured results and a two-minute demo.
+
 ---
 
 ## What it does
@@ -110,9 +112,9 @@ after a reviewer found `hyeonseok067.gitbuh.io` allowed) → flagged with the ex
 ### End-to-end
 - `scripts/feature_check.py`: **98 checks** through the HTTP API (service, every dashboard route, 43 URLs, 8 messages in
   English/Hindi/Tamil/WhatsApp, the brand guarantee, 6 screenshot layouts, investigation, SSRF refusals, graph, campaigns,
-  intel, feedback, history). Latest local run: all passed; runs against the live deployment are recorded too.
+  intel, feedback, history). Latest runs: all passed locally and 97/97 against https://phishgraph.vercel.app (recorded).
 - Sample set (27 hand-written messages, not an accuracy claim): 12 / 12 legitimate allowed, 15 / 15 phishing caught.
-- `backend/tests`: **485 tests** (`scripts/run_tests.py` records each run).
+- `backend/tests`: **487 tests** (`scripts/run_tests.py` records each run).
 
 ### Performance (single process, Apple M-series laptop, `scripts/load_test.py`, fast path)
 | Endpoint | Throughput | p50 / p95 at 16 concurrent clients |
@@ -145,7 +147,7 @@ Detectors give probabilities; no honest system can promise to catch every phishi
 Every run is written to `data/validation/history.json` by the script that performed it and shown on
 **Training & validation** in the dashboard (with trend lines, per-file results and every check's detail):
 ```bash
-python scripts/run_tests.py                     # unit + property tests (485), per test file
+python scripts/run_tests.py                     # unit + property tests (487), per test file
 python scripts/feature_check.py                 # end-to-end against http://localhost:8000
 python scripts/feature_check.py --base https://phishgraph.vercel.app --no-feedback
 python scripts/eval_fresh_feed.py               # deployed URL model vs today's live phishing
@@ -221,12 +223,13 @@ npx vercel login                                                                
 ```
 The script builds the dashboard locally, bundles it into the single Python function (`api/index.py`, routed by `vercel.json`)
 and deploys from a git-free copy (Vercel blocks CLI deploys whose commit author is not a verified team member).
-Serverless trade-offs: SQLite and the graph live in `/tmp` and reset on a cold start (first request ~10–15 s), which also
-pulls the real keyless feeds (OpenPhish and URLhaus immediately; CERT Polska and Phishing Army in the background) and
-fills the threat graph with their infrastructure, then loads the labelled sample data so every page has something to
-show (turn off with `SAMPLE_DATA_ON_START=false`; remove any time from the dashboard). Jobs run inline,
-WebSockets fall back to polling, and the semantic (MiniLM) stage is off, so campaigns cluster on infrastructure and brand
-only. Set `DATABASE_URL` to a hosted Postgres for persistence.
+Serverless trade-offs: instances have no shared disk and are frozen between requests, so each deploy builds a **data
+snapshot** (`scripts/build_snapshot.py`: real OpenPhish + URLhaus indicators and their threat graph, the labelled sample
+data, and ~280,000 domains from CERT Polska and Phishing Army; 7.6 MB) that every instance loads in seconds. Feeds are
+re-fetched live once the snapshot is over 6 hours old. Dashboard assets are served by Vercel's CDN. A cold start takes
+~11 s, warm requests ~0.5 s. Analysis history is per instance (set `DATABASE_URL` to a hosted Postgres to share and keep
+it); the model and test history lives in the repository and is always shown. Jobs run inline, WebSockets fall back to
+polling, and the semantic (MiniLM) stage is off (PyTorch exceeds the function size).
 
 ## Demo
 
