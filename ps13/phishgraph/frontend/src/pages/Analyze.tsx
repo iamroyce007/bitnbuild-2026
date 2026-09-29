@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import ReportView from '../components/ReportView';
+import ScreenshotInput from '../components/ScreenshotInput';
 import { ErrorBox, Loading, PageTitle, Section } from '../components/ui';
 import { api } from '../lib/api';
 import type { Report } from '../lib/types';
 
-type Mode = 'email' | 'sms' | 'url' | 'raw';
+type Mode = 'image' | 'email' | 'sms' | 'url' | 'raw';
 const SAMPLES: Record<string, { mode: Mode; subject?: string; sender?: string; body?: string; url?: string }> = {
   'Microsoft look-alike': { mode: 'email', subject: 'Your Microsoft account will be suspended', sender: 'Microsoft Security <security@microsoft-support-alert.xyz>',
     body: 'Dear user, we detected an unusual sign-in to your Microsoft account. Your account will be suspended within 24 hours. Verify your identity immediately at https://microsoft-login-security.example.xyz/verify' },
@@ -15,7 +16,7 @@ const SAMPLES: Record<string, { mode: Mode; subject?: string; sender?: string; b
 };
 
 export default function Analyze() {
-  const [mode, setMode] = useState<Mode>('email');
+  const [mode, setMode] = useState<Mode>('image');
   const [f, setF] = useState({ subject: '', sender: '', body: '', url: '', raw: '' });
   const [deep, setDeep] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -38,21 +39,40 @@ export default function Analyze() {
       setBusy(false);
     }
   };
+  const analyseScreenshot = async (x: { channel: string; sender: string; subject: string; body: string }) => {
+    setBusy(true);
+    setErr(null);
+    try {
+      const r = await api.analyzeEmail({ subject: x.subject, sender: x.sender, body: x.body, channel: x.channel, deep });
+      setRep(r.report);
+    } catch (e) {
+      setErr(e);
+    } finally {
+      setBusy(false);
+    }
+  };
+  const deepBox = (
+    <label className="flex items-start gap-2 text-[13px]">
+      <input type="checkbox" className="mt-1 accent-accent" checked={deep} onChange={(e) => setDeep(e.target.checked)} />
+      <span>Full enrichment<span className="block text-[12px] text-muted">DNS, domain age, TLS, ASN and threat intel before answering (slower).</span></span>
+    </label>
+  );
   const canRun = mode === 'url' ? f.url.trim().length > 3 : mode === 'raw' ? f.raw.length > 20 : f.body.trim().length > 3;
   return (
     <>
-      <PageTitle title="Analyze message" sub="Paste an email, SMS / WhatsApp message, a raw .eml, or a single link." />
+      <PageTitle title="Analyze message" sub="Upload a screenshot, or paste an email, SMS / WhatsApp message, a raw .eml, or a single link." />
       <div className="grid gap-5 xl:grid-cols-[440px_minmax(0,1fr)]">
         <Section title="Input">
-          <form onSubmit={run} className="space-y-3">
-            <div className="grid grid-cols-4 border-b border-line" role="tablist" aria-label="Input type">
-              {(['email', 'sms', 'url', 'raw'] as Mode[]).map((m) => (
+          <div className="mb-3 grid grid-cols-5 border-b border-line" role="tablist" aria-label="Input type">
+              {(['image', 'email', 'sms', 'url', 'raw'] as Mode[]).map((m) => (
                 <button type="button" key={m} role="tab" aria-selected={mode === m} onClick={() => setMode(m)}
                   className={`-mb-px h-9 border-b-2 text-[13px] ${mode === m ? 'border-accent font-semibold text-ink' : 'border-transparent text-muted hover:text-ink'}`}>
-                  {m === 'sms' ? 'SMS / chat' : m === 'raw' ? 'Raw .eml' : m === 'url' ? 'Link' : 'Email'}
+                  {m === 'image' ? 'Screenshot' : m === 'sms' ? 'SMS / chat' : m === 'raw' ? 'Raw .eml' : m === 'url' ? 'Link' : 'Email'}
                 </button>
               ))}
-            </div>
+          </div>
+          {mode === 'image' ? <div className="space-y-3"><ScreenshotInput busy={busy} onAnalyze={analyseScreenshot} />{deepBox}</div> : (
+          <form onSubmit={run} className="space-y-3">
             {mode === 'url' ? (
               <label className="block"><span className="label">URL</span><input className="input mt-1 font-mono" value={f.url} onChange={set('url')} placeholder="https://…" autoFocus /></label>
             ) : mode === 'raw' ? (
@@ -65,12 +85,10 @@ export default function Analyze() {
                 <label className="block"><span className="label">Message</span><textarea className="textarea mt-1 h-48 font-sans" value={f.body} onChange={set('body')} /></label>
               </>
             )}
-            <label className="flex items-start gap-2 text-[13px]">
-              <input type="checkbox" className="mt-1 accent-accent" checked={deep} onChange={(e) => setDeep(e.target.checked)} />
-              <span>Full enrichment<span className="block text-[12px] text-muted">DNS, domain age, TLS, ASN and threat intel before answering (slower).</span></span>
-            </label>
+            {deepBox}
             <button className="btn btn-primary w-full" disabled={!canRun || busy}>{busy ? 'Analysing…' : 'Analyse'}</button>
           </form>
+          )}
           <div className="mt-5 border-t border-line pt-4">
             <div className="label mb-2">Samples</div>
             <div className="flex flex-wrap gap-1.5">
