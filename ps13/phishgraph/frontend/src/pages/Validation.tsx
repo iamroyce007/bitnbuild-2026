@@ -11,6 +11,7 @@ const KIND: Record<string, { label: string; color: string }> = {
   feature_check: { label: 'End-to-end feature check', color: 'var(--color-allow)' },
   fresh_feed: { label: 'Live phishing feed (unseen)', color: 'var(--color-flag)' },
   lookalike: { label: 'Look-alike engine', color: 'var(--color-campaign)' },
+  real_world: { label: 'Real-world URLs (feeds off)', color: 'var(--color-quarantine)' },
 };
 const SPLIT_LABEL: Record<string, string> = {
   random_stratified: 'Random split', domain_grouped: 'Domain-grouped (no shared domains)',
@@ -101,7 +102,7 @@ function RunDetails({ run }: { run: ValidationRun }) {
       </div>
     );
   }
-  if (run.kind === 'feature_check') {
+  if (run.kind === 'feature_check' || run.kind === 'real_world') {
     const rows = ((d.rows as { area: string; check: string; ok: boolean; detail: string; ms: number | null }[]) || []).filter((r) => !failedOnly || !r.ok);
     return (
       <div className="space-y-2">
@@ -130,6 +131,7 @@ function summaryText(r: ValidationRun) {
   if (r.kind === 'unit_tests') return `${s.passed}/${s.total} passed · ${s.seconds}s`;
   if (r.kind === 'feature_check') return `${s.passed}/${s.checks} checks · URLs ${s.urls_scored - ((s.false_positives as unknown as unknown[])?.length || 0) - ((s.false_negatives as unknown as unknown[])?.length || 0)}/${s.urls_scored} as expected`;
   if (r.kind === 'fresh_feed') return `recall ${pct(s['recall_at_0.5'])} on ${s.n_phishing} live phishing URLs · false alarms ${pct(s['fp_rate_at_0.5'])} on ${s.n_benign} real sites`;
+  if (r.kind === 'real_world') return `${s.n_total} real URLs · live phishing flagged ${pct(s.phishing_flagged)} · long-tail false alarms ${pct(s.longtail_false_alarm)} · top sites ${pct(s.top_false_alarm)}`;
   if (r.kind === 'lookalike') return `${pct(s.curated_strong_recall)} of look-alike attacks caught · ${s.official_flagged} official domains flagged · ${pct(s.real_flag_rate, 2)} of real domains flagged`;
   return '';
 }
@@ -138,6 +140,7 @@ function passed(r: ValidationRun) {
   const s = r.summary as Record<string, number>;
   if (r.kind === 'unit_tests') return s.failed === 0;
   if (r.kind === 'feature_check') return s.passed === s.checks;
+  if (r.kind === 'real_world') return `${s.n_total} real URLs · live phishing flagged ${pct(s.phishing_flagged)} · long-tail false alarms ${pct(s.longtail_false_alarm)} · top sites ${pct(s.top_false_alarm)}`;
   if (r.kind === 'lookalike') return s.official_flagged === 0;
   return true;
 }
@@ -179,6 +182,7 @@ export default function Validation() {
                 const vals = k === 'unit_tests' ? series(k, (r) => (r.summary as { passed: number }).passed)
                   : k === 'feature_check' ? series(k, (r) => (r.summary as { passed: number }).passed / Math.max(1, (r.summary as { checks: number }).checks))
                   : k === 'fresh_feed' ? series(k, (r) => (r.summary as Record<string, number>)['recall_at_0.5'])
+                  : k === 'real_world' ? series(k, (r) => (r.summary as Record<string, number>).phishing_flagged)
                   : series(k, (r) => (r.summary as { curated_strong_recall: number }).curated_strong_recall);
                 return vals.length ? <div key={k} className="flex items-center gap-2"><Spark values={vals} color={color} /><div><div className="eyebrow">{label}</div><div className="text-[12px] text-muted">{vals.length} run{vals.length > 1 ? 's' : ''}</div></div></div> : null;
               })}

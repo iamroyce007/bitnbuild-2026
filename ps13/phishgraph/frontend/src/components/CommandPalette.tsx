@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon, NAV_GROUPS } from './ui';
 
@@ -52,19 +52,25 @@ export default function CommandPalette({ open, setOpen, actions }: { open: boole
               else if (e.key === 'ArrowUp') { e.preventDefault(); setSel((s) => Math.max(0, s - 1)); }
               else if (e.key === 'Enter') { e.preventDefault(); go(items[sel]); }
               else if (e.key === 'Escape') setOpen(false);
+              else if (e.key === 'Tab') e.preventDefault(); // focus stays in the dialog (arrow keys move the selection)
             }} />
           <kbd className="rounded-[3px] border border-line px-1.5 font-mono text-[11px] text-faint">esc</kbd>
         </div>
         <ul id="cmd-list" role="listbox" className="max-h-[50vh] overflow-y-auto p-1.5">
           {items.length === 0 && <li className="px-3 py-6 text-center text-[13px] text-muted">Nothing matches. Paste a full domain to investigate it.</li>}
-          {items.map((c, i) => (
+          {items.map((c, i) => {
+            const group = c.id === 'inv' ? 'Investigate' : c.hint === 'Action' ? 'Actions' : 'Go to';
+            const prev = i > 0 ? (items[i - 1].id === 'inv' ? 'Investigate' : items[i - 1].hint === 'Action' ? 'Actions' : 'Go to') : null;
+            return (<Fragment key={c.id}>
+            {group !== prev && <li key={`h-${group}`} role="presentation" className="px-3 pb-1 pt-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-faint">{group}</li>}
             <li key={c.id} id={`cmd-${c.id}`} role="option" aria-selected={i === sel} onMouseEnter={() => setSel(i)} onClick={() => go(c)}
-              className={`flex cursor-pointer items-center gap-3 rounded-[3px] px-3 py-2 text-[13px] ${i === sel ? 'bg-surface-2' : ''}`}>
+              className={`flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-[13px] transition-colors ${i === sel ? 'bg-accent/10 text-ink' : 'text-muted'}`}>
               <Icon name={c.icon} className="size-4 text-muted" />
               <span className={`flex-1 truncate ${i === sel ? 'font-medium' : ''}`}>{c.label}</span>
-              <span className="eyebrow">{c.hint}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-faint">{c.hint === 'Action' ? '' : c.hint}</span>
             </li>
-          ))}
+            </Fragment>);
+          })}
         </ul>
         <div className="flex gap-4 border-t border-line bg-surface-2 px-3 py-1.5 font-mono text-[11px] text-faint">
           <span>↑↓ move</span><span>↵ open</span><span>⌘K toggle</span>
