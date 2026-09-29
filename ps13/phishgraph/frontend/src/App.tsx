@@ -1,5 +1,6 @@
 import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react';
 import { NavLink, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import CommandPalette from './components/CommandPalette';
 import { Icon, Loading, NAV_GROUPS } from './components/ui';
 import { api } from './lib/api';
 import { type LinkState, useEvents } from './lib/events';
@@ -46,7 +47,7 @@ function LinkBadge({ state }: { state: LinkState }) {
   const text = state === 'live' ? 'Live' : state === 'polling' ? 'Polling' : 'Offline';
   return (
     <span className="inline-flex items-center gap-1.5 text-[12px]" role="status" aria-live="polite" title="Connection to the detection event stream">
-      <span className="size-2 rounded-full" style={{ background: c }} />
+      <span className={`size-2 rounded-full ${state === 'live' ? 'live-dot' : ''}`} style={{ background: c, color: c }} />
       {text}
     </span>
   );
@@ -57,11 +58,14 @@ function NavItems({ onPick }: { onPick?: () => void }) {
     <>
       {NAV_GROUPS.map((g) => (
         <div key={g.group} className="mb-3">
-          <div className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-faint">{g.group}</div>
+          <div className="eyebrow px-4 pb-1 pt-2">{g.group}</div>
           {g.items.map(([to, icon, label]) => (
             <NavLink key={to} to={to} end={to === '/'} onClick={onPick}
-              className={({ isActive }) => `flex items-center gap-2.5 border-l-[3px] px-3 py-1.5 text-[13px] ${isActive ? 'border-accent bg-surface-2 font-semibold text-ink' : 'border-transparent text-muted hover:bg-surface-2 hover:text-ink'}`}>
-              <Icon name={icon} />{label}
+              className={({ isActive }) => `group flex items-center gap-2.5 px-4 py-1.5 text-[13px] transition-colors duration-150 ${isActive ? 'font-semibold text-ink' : 'text-muted hover:text-ink'}`}>
+              {({ isActive }) => (<>
+                <Icon name={icon} className={`size-4 transition-transform duration-200 ${isActive ? '' : 'group-hover:translate-x-0.5'}`} />
+                <span className={isActive ? 'hl' : ''}>{label}</span>
+              </>)}
             </NavLink>
           ))}
         </div>
@@ -81,24 +85,14 @@ function SampleBanner() {
   );
 }
 
-/** Top-bar lookup: opens a full investigation of a URL or domain. */
-function QuickLookup() {
-  const nav = useNavigate();
-  const [q, setQ] = useState('');
-  const go = (e: React.FormEvent) => {
-    e.preventDefault();
-    const v = q.trim();
-    if (!v) return;
-    nav(`/investigate?url=${encodeURIComponent(v)}`);
-    setQ('');
-  };
+function PaletteButton({ onOpen }: { onOpen: () => void }) {
+  const mac = /Mac|iPhone|iPad/.test(navigator.platform);
   return (
-    <form onSubmit={go} role="search" className="relative max-md:hidden">
-      <Icon name="search" className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-chrome-ink/60" />
-      <label htmlFor="lookup" className="sr-only">Check a URL or domain</label>
-      <input id="lookup" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Check a URL or domain"
-        className="h-8 w-72 rounded border border-white/15 bg-chrome-2 pl-8 pr-2 text-[13px] text-chrome-ink placeholder:text-chrome-ink/55 focus:border-accent focus:outline-none" />
-    </form>
+    <button onClick={onOpen} className="flex h-8 w-80 items-center gap-2 rounded-[3px] border border-white/15 bg-chrome-2 px-2.5 text-left text-[13px] text-chrome-ink/60 transition-colors hover:border-white/30 hover:text-chrome-ink max-md:w-8 max-md:justify-center max-md:px-0" aria-label="Check a URL or jump to a page">
+      <Icon name="search" className="size-4 shrink-0" />
+      <span className="flex-1 truncate max-md:hidden">Check a URL, or jump to…</span>
+      <kbd className="font-mono text-[11px] max-md:hidden">{mac ? '⌘' : 'Ctrl '}K</kbd>
+    </button>
   );
 }
 
@@ -144,7 +138,15 @@ function Shell() {
   const [menu, setMenu] = useState(false);
   const [theme, toggleTheme] = useTheme();
   const { pathname } = useLocation();
+  const nav = useNavigate();
+  const [palette, setPalette] = useState(false);
+  const sample = useSample();
   useEffect(() => setMenu(false), [pathname]);
+  const actions = [
+    { id: 'a-shot', label: 'Analyse a screenshot', hint: 'Action', icon: 'analyze', run: () => nav('/analyze') },
+    { id: 'a-theme', label: `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`, hint: 'Action', icon: theme === 'dark' ? 'sun' : 'moon', run: toggleTheme },
+    ...(sample.loaded ? [] : [{ id: 'a-sample', label: 'Load sample data', hint: 'Action', icon: 'campaigns', run: sample.load }]),
+  ];
   return (
     <LiveCtx.Provider value={{ ...live, paused, setPaused }}>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-on-accent">Skip to content</a>
@@ -154,13 +156,12 @@ function Shell() {
             <Icon name="menu" className="size-5" />
           </button>
           <NavLink to="/" className="flex items-center gap-2.5">
-            <img src="/favicon.svg" alt="" width={22} height={22} />
-            <span className="text-[15px] font-semibold">PhishGraph</span>
+            <img src="/favicon.svg" alt="" width={24} height={24} />
+            <span className="text-[16px] font-semibold tracking-tight">Phish<span className="font-normal">Graph</span></span>
           </NavLink>
-          <span className="hidden h-5 w-px bg-white/20 sm:block" aria-hidden="true" />
-          <span className="hidden text-[13px] text-chrome-ink/75 sm:block">Phishing Defense Console</span>
+          <span className="hidden font-mono text-[10.5px] tracking-[0.14em] text-chrome-ink/55 uppercase sm:block">/ phishing defense</span>
           <div className="flex-1" />
-          <QuickLookup />
+          <PaletteButton onOpen={() => setPalette(true)} />
           <LinkBadge state={live.state} />
           <button className="grid size-8 place-items-center rounded hover:bg-chrome-2" onClick={toggleTheme}
             aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} title={theme === 'dark' ? 'Light theme' : 'Dark theme'}>
@@ -168,13 +169,14 @@ function Shell() {
           </button>
         </header>
         <div className="flex min-h-0 flex-1">
-          <aside id="side-nav" className={`w-56 shrink-0 overflow-y-auto border-r border-line bg-surface py-2 max-lg:fixed max-lg:inset-y-12 max-lg:left-0 max-lg:z-20 max-lg:shadow-lg ${menu ? '' : 'max-lg:hidden'}`}>
+          <aside id="side-nav" className={`w-56 shrink-0 overflow-y-auto border-r border-line bg-surface py-3 max-lg:fixed max-lg:inset-y-12 max-lg:left-0 max-lg:z-20 max-lg:shadow-lg ${menu ? '' : 'max-lg:hidden'}`}>
             <nav aria-label="Main"><NavItems /></nav>
           </aside>
-          <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
+          <div className="board flex min-w-0 flex-1 flex-col overflow-y-auto">
             <SampleBanner />
             <main id="main" className="w-full max-w-[1600px] flex-1 px-4 py-5 lg:px-6">
               <Suspense fallback={<Loading />}>
+                <div key={pathname} className="page">
                 <Routes>
                   <Route path="/" element={<Overview />} />
                   <Route path="/feed" element={<Feed />} />
@@ -192,11 +194,13 @@ function Shell() {
                   <Route path="/setup" element={<Setup />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
+                </div>
               </Suspense>
             </main>
           </div>
         </div>
       </div>
+      <CommandPalette open={palette} setOpen={setPalette} actions={actions} />
     </LiveCtx.Provider>
   );
 }
