@@ -5,7 +5,7 @@
     { "src": "static/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/assets/(.*)", "dest": "/static/assets/$1", "headers": { "cache-control": "public, max-age=31536000, immutable" } },
+    { "src": "/assets/(.*)", "dest": "/static/assets/$1", "check": true },
     { "src": "/(favicon\\.svg|manifest\\.webmanifest|apple-touch-icon\\.png|icon-192\\.png|icon-512\\.png)", "dest": "/static/$1", "headers": { "cache-control": "public, max-age=86400" } },
     { "src": "/(.*)", "dest": "api/index.py" }
   ]

@@ -82,3 +82,12 @@ def test_html_shell_is_never_cached(client):
         pytest.skip('dashboard not built')
     r = client.get('/investigate')
     assert r.status_code == 200 and r.headers.get('cache-control') == 'no-cache'
+
+
+def test_missing_old_build_script_self_heals(client):
+    import pytest
+    from app.main import DIST
+    if not (DIST / 'index.html').exists():
+        pytest.skip('dashboard not built')
+    r = client.get('/assets/index-OLDBUILD0.js')
+    assert r.status_code == 200 and 'location.reload' in r.text and r.headers['cache-control'] == 'no-store'

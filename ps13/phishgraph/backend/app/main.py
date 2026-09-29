@@ -183,7 +183,26 @@ def extension_zip():
 
 DIST = next((d for d in (ROOT / 'frontend' / 'dist', ROOT / 'static') if (d / 'index.html').exists()), ROOT / 'frontend' / 'dist')
 if (DIST / 'index.html').exists():
-    app.mount('/assets', StaticFiles(directory=DIST / 'assets'), name='assets')
+    class _Assets(StaticFiles):
+        """Hashed build assets. A request for a script from an earlier build (a browser still holding an old page
+        shell) gets a one-time self-heal script instead of a 404: it refreshes the cached shell and reloads."""
+        async def get_response(self, path, scope):
+            from starlette.exceptions import HTTPException as StarletteHTTPException
+            from starlette.responses import Response
+            try:
+                return await super().get_response(path, scope)
+            except StarletteHTTPException as e:
+                if e.status_code != 404:
+                    raise
+                if path.endswith('.js'):
+                    js = ("try{if(!sessionStorage.getItem('pg-heal')){sessionStorage.setItem('pg-heal','1');"
+                          "fetch(location.href,{cache:'reload'}).finally(function(){location.reload()})}}catch(e){location.reload()}")
+                    return Response(js, media_type='application/javascript', headers={'Cache-Control': 'no-store'})
+                if path.endswith('.css'):
+                    return Response('', media_type='text/css', headers={'Cache-Control': 'no-store'})
+                raise
+
+    app.mount('/assets', _Assets(directory=DIST / 'assets'), name='assets')
 
     @app.get('/{path:path}', include_in_schema=False)
     def spa(path: str):
