@@ -17,7 +17,7 @@ export function StackedBars({ data, height = 150 }: { data: ({ t: string } & Par
           return ORDER.slice().reverse().map((k) => {
             const h = ((d[k] || 0) / max) * (height - 6);
             y -= h;
-            return h > 0 ? <rect key={`${i}${k}`} x={i * w + w * 0.18} width={w * 0.64} y={y} height={h} fill={DECISION_COLOR[k]} opacity={k === 'ALLOW' ? 0.55 : 0.9}><title>{`${d.t} ${k}: ${d[k]}`}</title></rect> : null;
+            return h > 0 ? <rect key={`${i}${k}`} className="col-grow" style={{ animationDelay: `${i * 12}ms` }} x={i * w + w * 0.18} width={w * 0.64} y={y} height={h} fill={DECISION_COLOR[k]} opacity={k === 'ALLOW' ? 0.55 : 0.9}><title>{`${d.t} ${k}: ${d[k]}`}</title></rect> : null;
           });
         })}
       </svg>
@@ -37,7 +37,7 @@ export function Histogram({ bins }: { bins: number[] }) {
       <div className="flex h-24 items-end gap-1" role="img" aria-label={`Risk score distribution: ${bins.map((b, i) => `${i * 10}-${i * 10 + 9}: ${b}`).join(', ')}`}>
         {bins.map((b, i) => {
           const c = i >= 8.5 ? DECISION_COLOR.BLOCK : i >= 6 ? DECISION_COLOR.QUARANTINE : i >= 3 ? DECISION_COLOR.FLAG : DECISION_COLOR.ALLOW;
-          return <div key={i} className="flex-1 rounded-sm" style={{ height: `${Math.max(b ? 4 : 1, (b / max) * 100)}%`, background: b ? c : 'var(--color-line)' }} title={`${i * 10}–${i * 10 + 9}: ${b}`} />;
+          return <div key={i} className="col-grow flex-1 rounded-sm" style={{ animationDelay: `${i * 40}ms`, height: `${Math.max(b ? 4 : 1, (b / max) * 100)}%`, background: b ? c : 'var(--color-line)' }} title={`${i * 10}–${i * 10 + 9}: ${b}`} />;
         })}
       </div>
       <figcaption className="mt-1.5 flex justify-between font-mono text-[11px] text-faint"><span>0</span><span>50</span><span>100</span></figcaption>
@@ -50,7 +50,7 @@ export function Meter({ parts }: { parts: { label: string; value: number; color:
   return (
     <div>
       <div className="flex h-2 overflow-hidden rounded-full bg-surface-2">
-        {parts.map((p) => <div key={p.label} style={{ width: `${(p.value / total) * 100}%`, background: p.color }} />)}
+        {parts.map((p) => <div key={p.label} className="bar-grow" style={{ width: `${(p.value / total) * 100}%`, background: p.color }} />)}
       </div>
       <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-[13px]">
         {parts.map((p) => (

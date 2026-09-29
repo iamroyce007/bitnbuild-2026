@@ -1,9 +1,35 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import type { Decision, Reason } from '../lib/types';
 
 export const DECISION_COLOR: Record<string, string> = { ALLOW: 'var(--color-allow)', FLAG: 'var(--color-flag)', QUARANTINE: 'var(--color-quarantine)', BLOCK: 'var(--color-block)' };
 const DECISION_SHAPE: Record<string, string> = { ALLOW: '○', FLAG: '△', QUARANTINE: '◇', BLOCK: '■' }; // never colour alone
+
+const reduced = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+/** Animate a number from its previous value to `to` (ease-out, ~700 ms). Renders the final value under reduced motion. */
+export function useCountUp(to: number, ms = 700) {
+  const [v, setV] = useState(reduced() ? to : 0);
+  const from = useRef(0);
+  useEffect(() => {
+    if (reduced()) { setV(to); from.current = to; return; }
+    const start = performance.now(), a = from.current;
+    let raf = 0;
+    const tick = (t: number) => {
+      const k = Math.min(1, (t - start) / ms), e = 1 - Math.pow(1 - k, 3);
+      setV(a + (to - a) * e);
+      if (k < 1) raf = requestAnimationFrame(tick); else from.current = to;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, ms]);
+  return v;
+}
+
+export function CountUp({ value, decimals = 0 }: { value: number; decimals?: number }) {
+  const v = useCountUp(value);
+  return <>{v.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}</>;
+}
 
 /** A translucent version of a theme colour (works with CSS variables, unlike hex+alpha). */
 export const tint = (c: string, pct: number) => `color-mix(in srgb, ${c} ${pct}%, transparent)`;
@@ -29,20 +55,30 @@ export function ScoreRow({ label, value, note }: { label: string; value: number 
     <div className="grid grid-cols-[140px_1fr_52px] items-center gap-3 py-1.5">
       <span className="text-[13px] text-muted">{label}</span>
       <div className="h-1.5 overflow-hidden rounded-full bg-surface-2" role="meter" aria-label={label} aria-valuenow={value ?? undefined} aria-valuemin={0} aria-valuemax={100}>
-        {value != null && <div className="h-full rounded-full" style={{ width: `${Math.max(2, value)}%`, background: riskColor(value) }} />}
+        {value != null && <div className="bar-grow h-full rounded-full" style={{ width: `${Math.max(2, value)}%`, background: riskColor(value) }} />}
       </div>
       <span className={`text-right font-mono text-[13px] ${value == null ? 'text-faint' : ''}`} title={note}>{value == null ? 'n/a' : value.toFixed(0)}</span>
     </div>
   );
 }
 
+/** Semicircular dial that sweeps to the risk score, with the three decision thresholds ticked on the arc. */
 export function RiskNumber({ value, decision }: { value: number; decision: Decision }) {
+  const v = useCountUp(value, 900);
+  const R = 46, C = Math.PI * R;
+  const at = (p: number) => { const a = Math.PI * (1 - p / 100); return [60 + R * Math.cos(a), 58 - R * Math.sin(a)]; };
   return (
-    <div className="flex items-end gap-3">
-      <span className="text-[44px] font-semibold leading-none" style={{ color: DECISION_COLOR[decision] }}>{Math.round(value)}</span>
-      <div className="pb-1">
-        <div className="label">Risk score / 100</div>
-        <DecisionPill decision={decision} large />
+    <div className="flex items-center gap-4">
+      <svg viewBox="0 0 120 66" className="h-[76px] w-[138px] shrink-0" role="img" aria-label={`Risk ${Math.round(value)} of 100, ${decision}`}>
+        <path d={`M14 58 A${R} ${R} 0 0 1 106 58`} fill="none" stroke="var(--color-surface-2)" strokeWidth="9" strokeLinecap="round" />
+        <path d={`M14 58 A${R} ${R} 0 0 1 106 58`} fill="none" stroke={DECISION_COLOR[decision]} strokeWidth="9" strokeLinecap="round"
+          strokeDasharray={C} strokeDashoffset={C * (1 - v / 100)} />
+        {[30, 60, 85].map((t) => { const [x, y] = at(t); const [x2, y2] = [60 + (x - 60) * 0.78, 58 + (y - 58) * 0.78]; return <line key={t} x1={x} y1={y} x2={x2} y2={y2} stroke="var(--color-faint)" strokeWidth="1" />; })}
+        <text x="60" y="56" textAnchor="middle" fontSize="28" fontWeight="600" fill={DECISION_COLOR[decision]} fontFamily="var(--font-sans)">{Math.round(v)}</text>
+      </svg>
+      <div>
+        <div className="eyebrow">Risk / 100</div>
+        <div className="mt-1"><DecisionPill decision={decision} large /></div>
       </div>
     </div>
   );
@@ -50,10 +86,11 @@ export function RiskNumber({ value, decision }: { value: number; decision: Decis
 
 export function Stat({ label, value, sub, color }: { label: string; value: ReactNode; sub?: ReactNode; color?: string }) {
   return (
-    <div className="card border-l-[3px] px-4 py-3" style={{ borderLeftColor: color || 'var(--color-line-strong)' }}>
-      <div className="label">{label}</div>
-      <div className="mt-1 text-[24px] font-semibold leading-tight" style={{ color }}>{value}</div>
-      {sub && <div className="mt-0.5 text-[12px] text-faint">{sub}</div>}
+    <div className="card card-hover relative overflow-hidden px-4 py-3">
+      <span className="absolute inset-x-0 top-0 h-[3px] origin-left bar-grow" style={{ background: color || 'var(--color-line-strong)' }} aria-hidden="true" />
+      <div className="eyebrow">{label}</div>
+      <div className="mt-1.5 text-[26px] font-semibold leading-none tracking-tight" style={{ color }}>{typeof value === 'number' ? <CountUp value={value} /> : value}</div>
+      {sub && <div className="mt-1.5 text-[12px] text-faint">{sub}</div>}
     </div>
   );
 }
@@ -62,7 +99,7 @@ export function Section({ title, right, children, className = '', flush = false 
   return (
     <section className={`card ${className}`}>
       <header className="flex min-h-10 items-center justify-between gap-3 border-b border-line px-4 py-1.5">
-        <h2 className="text-[14px] font-semibold">{title}</h2>
+        <h2 className="sec-title text-[14px] font-semibold">{title}</h2>
         {right}
       </header>
       <div className={flush ? '' : 'p-4'}>{children}</div>
@@ -87,7 +124,7 @@ function Crumbs({ title }: { title: string }) {
   }
   if (!group) return null;
   return (
-    <nav aria-label="Breadcrumb" className="mb-1 text-[12px] text-faint">
+    <nav aria-label="Breadcrumb" className="eyebrow mb-1.5">
       <ol className="flex flex-wrap items-center gap-1.5">
         <li>{group}</li>
         {parent && <><li aria-hidden="true">/</li><li><Link to={parent[0]} className="hover:text-accent hover:underline">{parent[1]}</Link></li></>}
@@ -103,7 +140,7 @@ export function PageTitle({ title, sub, right }: { title: string; sub?: ReactNod
     <div className="mb-5 flex flex-wrap items-end justify-between gap-3 border-b border-line pb-4">
       <div className="min-w-0">
         <Crumbs title={title} />
-        <h1 className="text-[20px] font-semibold">{title}</h1>
+        <h1 className="text-[22px] font-semibold tracking-tight">{title}</h1>
         {sub && <p className="mt-1 text-[13px] text-muted">{sub}</p>}
       </div>
       {right}
@@ -141,7 +178,10 @@ export function ErrorBox({ error }: { error: unknown }) {
 }
 
 export function Loading({ label = 'Loading' }: { label?: string }) {
-  return <div className="py-8 text-center text-[13px] text-faint" role="status">{label}…</div>;
+  return <div className="space-y-2.5 py-4" role="status" aria-label={label}>
+      <span className="sr-only">{label}…</span>
+      {[92, 76, 84, 58].map((w, i) => <div key={i} className="skeleton h-3" style={{ width: `${w}%` }} />)}
+    </div>;
 }
 
 export function DemoTag() {
