@@ -54,3 +54,10 @@ class AnalysisOut(BaseModel):
     conflicting_intelligence: bool
     latency_ms: int
     report: dict
+
+
+class ExtractIn(BaseModel):
+    text: str = Field(..., max_length=50_000, description='Text recognised from a screenshot (OCR runs on the client; images are never uploaded)')
+    hint: Literal['auto', 'sms', 'email'] = 'auto'
+    ocr_confidence: float | None = Field(None, ge=0, le=100)
+    fields: dict[str, str] | None = Field(None, description='Reviewed {channel, sender, subject, body}: only re-extract entities')

@@ -4,9 +4,10 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
 
-from ..models.schemas import AnalysisOut, EmailIn, InvestigateIn, URLIn
+from ..models.schemas import AnalysisOut, EmailIn, ExtractIn, InvestigateIn, URLIn
 from ..services.email_parser import ParsedMessage, parse_json_message, parse_raw_email
 from ..services.pipeline import analyze
+from ..services.screenshot_extractor import extract_from_ocr
 from ..services.url_extractor import ExtractedURL
 from ..utils.url_utils import parse_url, ssrf_block_reason
 from ..workers.queue import get_queue
@@ -39,6 +40,12 @@ async def analyze_eml(file: UploadFile = File(...), deep: bool = False, who: str
         raise HTTPException(413, 'file too large (10 MB max)')
     r = await analyze(parse_raw_email(data), source=f'api:{who}', deep=deep)
     return _out(r)
+
+
+@router.post('/extract', summary='Structure OCR text from an SMS / chat / email screenshot and list every entity (no analysis)')
+async def extract(body: ExtractIn, who: str = Depends(require_key)):
+    from dataclasses import asdict
+    return asdict(extract_from_ocr(body.text, body.hint, body.ocr_confidence, body.fields))
 
 
 @router.post('/analyze/url', response_model=AnalysisOut, summary='Analyse a single URL (fast, local)')
