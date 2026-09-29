@@ -58,23 +58,23 @@ async def collect_urlhaus() -> dict:
 COLLECTORS = {'openphish': collect_openphish, 'phishtank': collect_phishtank, 'urlhaus': collect_urlhaus}
 
 
+async def run_one(name: str) -> dict:
+    t = time.time()
+    try:
+        res = await COLLECTORS[name]()
+        STATUS[name] = {'status': res.get('status', 'ok'), 'at': time.time(), 'seconds': round(time.time() - t, 1), **res}
+    except Exception as e:
+        STATUS[name] = {'status': 'error', 'at': time.time(), 'error': f'{type(e).__name__}: {e}'[:200]}
+    return STATUS[name]
+
+
 async def refresh_all() -> dict:
-    out = {}
-    for name, fn in COLLECTORS.items():
-        t = time.time()
-        try:
-            res = await fn()
-            STATUS[name] = {'status': res.get('status', 'ok'), 'at': time.time(), 'seconds': round(time.time() - t, 1), **res}
-        except Exception as e:
-            STATUS[name] = {'status': 'error', 'at': time.time(), 'error': f'{type(e).__name__}: {e}'[:200]}
-        out[name] = STATUS[name]
-    return out
+    return {name: await run_one(name) for name in COLLECTORS}
 
 
 async def scheduler() -> None:
     """Runs forever inside the API/worker process when ENABLE_EXTERNAL_TI is on."""
     await asyncio.sleep(5)
     while True:
-        if get_settings().enable_external_ti:
-            await refresh_all()
+        await refresh_all()  # OpenPhish needs no key; keyed feeds report not_configured
         await asyncio.sleep(max(5, get_settings().feed_refresh_minutes) * 60)
