@@ -17,7 +17,7 @@ from ..database import session_scope
 from ..ml.model_registry import active
 from ..models.database_models import Detection, Email, EmailURL, URLRecord
 from ..utils.dns_utils import enrich_host
-from . import campaign_engine, graph_engine, metadata_engine
+from . import brand_guard, campaign_engine, graph_engine, metadata_engine
 from .email_parser import ParsedMessage
 from .events import bus
 from .explainability import build_report
@@ -134,9 +134,10 @@ async def analyze(pm: ParsedMessage, *, source: str = 'api', deep: bool = False,
         bool(ti_score is not None and ti_score >= 50),            # threat intelligence
         bool(graph_score is not None and graph_score >= 40),      # infrastructure graph
     ])
+    guard = brand_guard.check(pm, nlp, url_results, meta)
     fusion = fuse(nlp.score if nlp else None, url_score, ti_score, graph_score, brand_score, meta.score,
                   hard_known_bad=hard_bad, strong_brand=strong_brand, all_urls_trusted=all_trusted, ti_clean_votes=ti.clean_votes,
-                  evasion=bool(pm.tricks), families=families, trust=meta.trust)
+                  evasion=bool(pm.tricks), families=families, trust=meta.trust, brand_guard=guard)
 
     campaign_id = None
     if fusion.decision != 'ALLOW':
@@ -147,6 +148,12 @@ async def analyze(pm: ParsedMessage, *, source: str = 'api', deep: bool = False,
     latency = int((time.perf_counter() - t0) * 1000)
     report = build_report(det_id, pm, nlp, url_results, meta, ti, gr, fusion, enrichment, extra_rules, best_camp, camp_sim, campaign_id,
                           deep=deep, latency_ms=latency, demo=demo)
+    if guard:
+        report['brand_guard'] = guard
+        g = guard[0]
+        report['reasons'].insert(0, {'category': 'Brand', 'text': f'Claims to be {g["brand"]}, but the link goes to {g["hosts"][0]}, which is not '
+                                     f'an official {g["brand"]} domain. Go to {g["official"]} yourself instead of using the link.',
+                                     'weight': 0.9, 'source': 'brand_guard'})
     if persist:
         await asyncio.to_thread(_persist, det_id, pm, url_results, report, fusion, campaign_id, latency, source, demo, kind)
         action = await asyncio.to_thread(respond, det_id, fusion.decision, pm, source)

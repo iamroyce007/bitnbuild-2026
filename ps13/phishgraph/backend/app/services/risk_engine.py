@@ -37,7 +37,7 @@ def decide(score: float) -> str:
 
 def fuse(nlp: float | None, url: float | None, ti: float | None, graph: float | None, brand: float | None, meta: float | None,
          hard_known_bad: bool = False, strong_brand: bool = False, all_urls_trusted: bool = False, ti_clean_votes: int = 0,
-         evasion: bool = False, families: int = 0, trust: list[str] | None = None) -> Fusion:
+         evasion: bool = False, families: int = 0, trust: list[str] | None = None, brand_guard: list[dict] | None = None) -> Fusion:
     st = get_settings()
     base = {'nlp': st.w_nlp, 'url': st.w_url, 'threat_intelligence': st.w_ti, 'graph': st.w_graph, 'brand': st.w_brand, 'metadata': st.w_meta}
     scores = {'nlp': nlp, 'url': url, 'threat_intelligence': ti, 'graph': graph, 'brand': brand, 'metadata': meta}
@@ -73,6 +73,14 @@ def fuse(nlp: float | None, url: float | None, ti: float | None, graph: float | 
     if trust and not hard_known_bad and not strong_brand:
         final *= 0.6
         overrides.append('verified sender: ' + '; '.join(trust[:2]) + ' (x0.6)')
+    # Brand-claim guard (brand_guard.py): applied LAST so no cap or trust discount can undo it.
+    if brand_guard:
+        floor = float(st.t_flag) + 5
+        if final < floor:
+            final = floor
+        g = brand_guard[0]
+        overrides.append(f'claims to be {g["brand"]} but links to {", ".join(g["hosts"][:2])}, not an official {g["brand"]} domain '
+                         f'(guaranteed at least FLAG; official site: {g["official"]})')
     conflict, detail = False, None
     if ti is not None and ti_clean_votes and (graph or 0) >= 60:
         conflict, detail = True, 'threat-intel sources report the indicators as clean, but the graph links them to suspicious infrastructure'
