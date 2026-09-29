@@ -1,0 +1,2784 @@
+{
+ "summary": {
+  "n_total": 460,
+  "n_phishing": 200,
+  "n_longtail": 200,
+  "n_top": 60,
+  "phishing_flagged": 0.42,
+  "phishing_quarantine_or_block": 0.005,
+  "longtail_false_alarm": 0.08,
+  "longtail_quarantine_or_block": 0.0,
+  "top_false_alarm": 0.0,
+  "feeds": "off (engines only)",
+  "seconds": 10.7,
+  "seed": 20260929
+ },
+ "results": {
+  "phishing": [
+   {
+    "url": "https://sync-app.at/UpdlAx10s",
+    "decision": "FLAG",
+    "risk": 31.2,
+    "reason": "URL model: 97% structural similarity to phishing URLs (sync-app.at)"
+   },
+   {
+    "url": "https://online-secured.github.io/Wells/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (online-secured.github.io)"
+   },
+   {
+    "url": "https://usrinters-auth-en-useast.global.ssl.fastly.net/",
+    "decision": "FLAG",
+    "risk": 31.6,
+    "reason": "URL model: 98% structural similarity to phishing URLs (usrinters-auth-en-useast.global.ssl.fastly.net)"
+   },
+   {
+    "url": "https://wl0ejoi3pu.filbmarsh.info/l/bYE34AIrzuY",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 93% structural similarity to phishing URLs (wl0ejoi3pu.filbmarsh.info)"
+   },
+   {
+    "url": "https://healthcheck.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.2,
+    "reason": "URL model: 85% structural similarity to phishing URLs (healthcheck.evergreenfin.ltd)"
+   },
+   {
+    "url": "http://www.verificarcuenta-micros0ft2026way.zya.me/",
+    "decision": "FLAG",
+    "risk": 32.1,
+    "reason": "URL model: 100% structural similarity to phishing URLs (www.verificarcuenta-micros0ft2026way.zya.me)"
+   },
+   {
+    "url": "https://www.roblox.com.ml/users/423567304167/profile",
+    "decision": "FLAG",
+    "risk": 51.1,
+    "reason": "URL model: 85% structural similarity to phishing URLs (www.roblox.com.ml)"
+   },
+   {
+    "url": "https://hispeed-websrv.weebly.com/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (hispeed-websrv.weebly.com)"
+   },
+   {
+    "url": "http://supportecloud.info/icloud2022-esp.php/s3.php",
+    "decision": "FLAG",
+    "risk": 50.6,
+    "reason": "URL model: 84% structural similarity to phishing URLs (supportecloud.info)"
+   },
+   {
+    "url": "https://backoffice.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "URL model: 78% structural similarity to phishing URLs (backoffice.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://prestamos-oficiales--creditprestamo.replit.app/",
+    "decision": "FLAG",
+    "risk": 31.6,
+    "reason": "URL model: 98% structural similarity to phishing URLs (prestamos-oficiales--creditprestamo.replit.app)"
+   },
+   {
+    "url": "https://huiyuanlogin.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (huiyuanlogin.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://iy2ol9dmgilpq-hbk28.vercel.app/fdutyhaz3doeryfdhjsa",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (iy2ol9dmgilpq-hbk28.vercel.app)"
+   },
+   {
+    "url": "https://robiox.com.py/users/220726313163/profile",
+    "decision": "ALLOW",
+    "risk": 17.4,
+    "reason": ""
+   },
+   {
+    "url": "https://www.pay-dev.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 29.6,
+    "reason": "URL model: 92% structural similarity to phishing URLs (www.pay-dev.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://sp31ct-tureva-biz-zemko-nadup.pages.dev/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 93% structural similarity to phishing URLs (sp31ct-tureva-biz-zemko-nadup.pages.dev)"
+   },
+   {
+    "url": "https://sell.tik-tokbusiness.com/login",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "URL model: 84% structural similarity to phishing URLs (sell.tik-tokbusiness.com)"
+   },
+   {
+    "url": "https://arhamkhan670.github.io/facebook",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "Names Meta on arhamkhan670.github.io, a site anyone can publish to; Meta does not host its pages there"
+   },
+   {
+    "url": "https://feiselei-festvial.de/wp-includes/sp/sp/redirect/p/",
+    "decision": "FLAG",
+    "risk": 32.1,
+    "reason": "URL model: 100% structural similarity to phishing URLs (feiselei-festvial.de)"
+   },
+   {
+    "url": "https://coupang.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "URL model: 79% structural similarity to phishing URLs (coupang.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://monitor.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "URL model: 78% structural similarity to phishing URLs (monitor.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://dev-web.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 30.2,
+    "reason": "URL model: 94% structural similarity to phishing URLs (dev-web.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://coinbasppolagin.gitbook.io/",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "URL model: 84% structural similarity to phishing URLs (coinbasppolagin.gitbook.io)"
+   },
+   {
+    "url": "http://www.app-test.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 30.2,
+    "reason": "URL model: 94% structural similarity to phishing URLs (www.app-test.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://kibana.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.8,
+    "reason": "URL model: 83% structural similarity to phishing URLs (kibana.evergreenfin.ltd)"
+   },
+   {
+    "url": "http://pancakeswapfinances.pages.dev/s.**%402*.webp/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 93% structural similarity to phishing URLs (pancakeswapfinances.pages.dev)"
+   },
+   {
+    "url": "http://www.heimamsensor.lat/verify/1ac44984-403d-4851-8e7c-e5f4a059d788/",
+    "decision": "FLAG",
+    "risk": 54.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (www.heimamsensor.lat)"
+   },
+   {
+    "url": "https://6fiycfwktmtg-hbk27.vercel.app/fgwqergyuuytqcxzjs.html",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 99% structural similarity to phishing URLs (6fiycfwktmtg-hbk27.vercel.app)"
+   },
+   {
+    "url": "http://xfinitymail01.weebly.com/",
+    "decision": "FLAG",
+    "risk": 44.7,
+    "reason": "xfinitymail01.weebly.com \u2192 weebly.com \u2192 hispeed-websrv.weebly.com  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://api-v1.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 30.4,
+    "reason": "URL model: 94% structural similarity to phishing URLs (api-v1.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://to.lk/oudKft",
+    "decision": "FLAG",
+    "risk": 30.2,
+    "reason": "URL model: 94% structural similarity to phishing URLs (to.lk)"
+   },
+   {
+    "url": "https://dify.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.9,
+    "reason": "URL model: 90% structural similarity to phishing URLs (dify.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://preview-3bade4.previewship.net/",
+    "decision": "ALLOW",
+    "risk": 26.8,
+    "reason": "URL model: 83% structural similarity to phishing URLs (preview-3bade4.previewship.net)"
+   },
+   {
+    "url": "https://blockwavewallets.com/admin/impersonate/1775",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (blockwavewallets.com)"
+   },
+   {
+    "url": "http://suportcloud.com/icloud2022-esp.php/s3.php",
+    "decision": "ALLOW",
+    "risk": 19.6,
+    "reason": ""
+   },
+   {
+    "url": "https://site-xvkqwz5wj.godaddysites.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://teams.sharepoint.co.it/Kacoisv7yNfyOrlkuI7YwZh/t",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "\"sharepoint.co.it\" reuses the exact name \"sharepoint\" of sharepoint.com on a different suffix"
+   },
+   {
+    "url": "https://freschezzafoods.com/account/linkedin/index.html#veror@28d6412d3c95c210d89d43cf30f69a0f3bee.com",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (freschezzafoods.com)"
+   },
+   {
+    "url": "http://www.test-api.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.9,
+    "reason": "URL model: 87% structural similarity to phishing URLs (www.test-api.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://shopeejkt46.blogspot.com/",
+    "decision": "FLAG",
+    "risk": 54.9,
+    "reason": "URL model: 90% structural similarity to phishing URLs (shopeejkt46.blogspot.com)"
+   },
+   {
+    "url": "https://comfyui.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "URL model: 84% structural similarity to phishing URLs (comfyui.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://dingtalk.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 21.1,
+    "reason": ""
+   },
+   {
+    "url": "https://sunrisemaifg.jimdofree.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://naver.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.9,
+    "reason": "URL model: 90% structural similarity to phishing URLs (naver.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://www.test-admin.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 31.2,
+    "reason": "URL model: 97% structural similarity to phishing URLs (www.test-admin.evergreenfin.ltd)"
+   },
+   {
+    "url": "http://billing.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 54.5,
+    "reason": "URL model: 92% structural similarity to phishing URLs (billing.evergreenfin.ltd)"
+   },
+   {
+    "url": "https://heimamsensor.lat/verify/5242a7ee-540b-4db5-bbc9-f6a4b0787b31?error=login_required",
+    "decision": "FLAG",
+    "risk": 46.4,
+    "reason": "heimamsensor.lat \u2192 www.heimamsensor.lat  (1 hop to a known-bad domain)"
+   },
+   {
+    "url": "https://8gpv-tszw-jyrx.phil-heron-zoomdrain-com-s-account.workers.dev/0122c7727f3f9b87?email=example%2540domain.invalid",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (8gpv-tszw-jyrx.phil-heron-zoomdrain-com-s-account.workers.dev)"
+   },
+   {
+    "url": "https://bitly.cx/VR9wD",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (bitly.cx)"
+   },
+   {
+    "url": "https://sopports-net.us/icloud-archivos/code2022esp.php?digitos=&id=",
+    "decision": "ALLOW",
+    "risk": 11.1,
+    "reason": ""
+   },
+   {
+    "url": "https://team.blanread.info/posts/featured/pdny101jl7ak7xtbj7dv6y0hy/f41fa0hniyb8gy6l6n20gxoc/ovhr080e3704480bp",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 93% structural similarity to phishing URLs (team.blanread.info)"
+   },
+   {
+    "url": "https://conta.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 23.3,
+    "reason": "conta.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://app-login.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.5,
+    "reason": "app-login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://fedf81-hbk27.vercel.app/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 99% structural similarity to phishing URLs (fedf81-hbk27.vercel.app)"
+   },
+   {
+    "url": "https://site-fq5i0d6de.godaddysites.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "http://usweb01zoom.pages.dev/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 94% structural similarity to phishing URLs (usweb01zoom.pages.dev)"
+   },
+   {
+    "url": "https://iy2ol9dmgilpq-hbk28.vercel.app/fdutyhaz3doeryfdhjsa.html.html",
+    "decision": "FLAG",
+    "risk": 45.8,
+    "reason": "iy2ol9dmgilpq-hbk28.vercel.app \u2192 https://iy2ol9dmgilpq-hbk28.vercel.app/fdutyhaz3doeryfdhjsa  (1 hop to a known-bad url)"
+   },
+   {
+    "url": "http://moonpay-commerce-868w0wpy4-heliofi.vercel.app/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (moonpay-commerce-868w0wpy4-heliofi.vercel.app)"
+   },
+   {
+    "url": "http://invitesmeeting.top/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (invitesmeeting.top)"
+   },
+   {
+    "url": "http://fragleaguegames.com/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "http://center.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 23.3,
+    "reason": "center.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://geren.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 23.3,
+    "reason": "geren.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://rakutenid.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 24.3,
+    "reason": "rakutenid.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://okta.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 22.2,
+    "reason": "okta.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://m.365bet440.com/",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (m.365bet440.com)"
+   },
+   {
+    "url": "https://sunriseg-maims.jimdofree.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://www.roblox.com.bi/games/120435791996748/MIC-Filipino-Spelling?privateServerLinkCode=06713340521095578656367400665464&game_id=120435791996748&game_name=MIC-Filipino-Spelling",
+    "decision": "FLAG",
+    "risk": 31.8,
+    "reason": "High-entropy random-looking path (typical of kit-generated phishing pages)"
+   },
+   {
+    "url": "https://www.dev-portal.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 24.0,
+    "reason": "www.dev-portal.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://lk.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 23.8,
+    "reason": "lk.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://passport2.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 24.0,
+    "reason": "passport2.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://passport.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 22.0,
+    "reason": "passport.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://www.roblox.com.bi/games/122749577958708/Face-fables-GAME-REOPEN?privateServerLinkCode=06713340521095578656367400665464&game_id=122749577958708&game_name=Face-fables-GAME-REOPEN",
+    "decision": "FLAG",
+    "risk": 33.9,
+    "reason": "High-entropy random-looking path (typical of kit-generated phishing pages)"
+   },
+   {
+    "url": "https://rajyashri12.github.io/Amazon-clone/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "Names Amazon on rajyashri12.github.io, a site anyone can publish to; Amazon does not host its pages there"
+   },
+   {
+    "url": "https://secure.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.0,
+    "reason": "secure.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://shangjia.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 23.8,
+    "reason": "shangjia.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://mobilebank.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 22.2,
+    "reason": "mobilebank.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://168632.xyz/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 93% structural similarity to phishing URLs (168632.xyz)"
+   },
+   {
+    "url": "https://aplicativos.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 22.0,
+    "reason": "aplicativos.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://eu-login.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.5,
+    "reason": "eu-login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://6fiycfwktmtg-hbk27.vercel.app/fgwqergyuuytqcxzjs",
+    "decision": "FLAG",
+    "risk": 46.0,
+    "reason": "6fiycfwktmtg-hbk27.vercel.app \u2192 https://6fiycfwktmtg-hbk27.vercel.app/fgwqergyuuytqcxzjs.html  (1 hop to a known-bad url)"
+   },
+   {
+    "url": "https://chase.phntm.com/",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (chase.phntm.com)"
+   },
+   {
+    "url": "https://acesso.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 24.0,
+    "reason": "acesso.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://verication-casefb386308.vercel.app/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (verication-casefb386308.vercel.app)"
+   },
+   {
+    "url": "https://passportpage.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 19.3,
+    "reason": "passportpage.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://umarashid41.github.io/facebook",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "Names Meta on umarashid41.github.io, a site anyone can publish to; Meta does not host its pages there"
+   },
+   {
+    "url": "https://readymedhealthcare.com/wp-includes/theme-compat/goxeqvs/mjdenvb/ktcahvg/kr/kr.html",
+    "decision": "FLAG",
+    "risk": 31.6,
+    "reason": "URL model: 98% structural similarity to phishing URLs (readymedhealthcare.com)"
+   },
+   {
+    "url": "https://suportcloud.com/icloud-archivos/code2022esp.php?digitos=&id=",
+    "decision": "ALLOW",
+    "risk": 11.1,
+    "reason": ""
+   },
+   {
+    "url": "https://apps.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 22.0,
+    "reason": "apps.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://n8o2-gg7f-efoz.alter-quintavious-dropoffs-org-s-account.workers.dev/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (n8o2-gg7f-efoz.alter-quintavious-dropoffs-org-s-account.workers.dev)"
+   },
+   {
+    "url": "https://eclauth.pages.dev/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 99% structural similarity to phishing URLs (eclauth.pages.dev)"
+   },
+   {
+    "url": "http://www.api-test.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 24.0,
+    "reason": "www.api-test.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://www.secure-dev.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 43.5,
+    "reason": "www.secure-dev.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://service-xinfinity.weebly.com/xinfinty.html",
+    "decision": "FLAG",
+    "risk": 45.6,
+    "reason": "service-xinfinity.weebly.com \u2192 weebly.com \u2192 xfinitymail01.weebly.com  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://secure.blueeyegroup.com/images/svbjmru/cdn/cdn",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "URL model: 84% structural similarity to phishing URLs (secure.blueeyegroup.com)"
+   },
+   {
+    "url": "https://mipsunrise.jimdofree.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://sell.tik-tokpakistan.com/login",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "URL model: 84% structural similarity to phishing URLs (sell.tik-tokpakistan.com)"
+   },
+   {
+    "url": "https://employees.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 21.0,
+    "reason": "employees.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://docs.courrierar24.co/",
+    "decision": "ALLOW",
+    "risk": 28.9,
+    "reason": "URL model: 90% structural similarity to phishing URLs (docs.courrierar24.co)"
+   },
+   {
+    "url": "https://bitly.cx/jczs",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (bitly.cx)"
+   },
+   {
+    "url": "https://node.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.7,
+    "reason": "node.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://site-e9tfr124f.godaddysites.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://drift-calm.pages.dev/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 93% structural similarity to phishing URLs (drift-calm.pages.dev)"
+   },
+   {
+    "url": "https://portal.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.1,
+    "reason": "portal.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://melon.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.1,
+    "reason": "melon.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://pub-7c4d7b0b3eda4ab180fcf978a483d9a6.r2.dev/OCN-System.html",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (pub-7c4d7b0b3eda4ab180fcf978a483d9a6.r2.dev)"
+   },
+   {
+    "url": "https://roblox.com.do/users/213450963/profile",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://roblox.et/users/8047086595/profile",
+    "decision": "ALLOW",
+    "risk": 16.5,
+    "reason": ""
+   },
+   {
+    "url": "https://https-roblox.com/login?returnUrl=1961065750",
+    "decision": "FLAG",
+    "risk": 31.2,
+    "reason": "URL model: 97% structural similarity to phishing URLs (https-roblox.com)"
+   },
+   {
+    "url": "http://www.verication-casefb328-ten.vercel.app/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (www.verication-casefb328-ten.vercel.app)"
+   },
+   {
+    "url": "https://facebookhotysexyvideos.blogspot.com/",
+    "decision": "FLAG",
+    "risk": 33.4,
+    "reason": "Hosted on a free/throw-away platform (facebookhotysexyvideos.blogspot.com)"
+   },
+   {
+    "url": "https://bitly.cx/Tdot",
+    "decision": "ALLOW",
+    "risk": 29.6,
+    "reason": "URL model: 92% structural similarity to phishing URLs (bitly.cx)"
+   },
+   {
+    "url": "https://ids.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.0,
+    "reason": "ids.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://blue-leaf-5cd6.hgthpisoa-0f6.workers.dev/meta.help",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (blue-leaf-5cd6.hgthpisoa-0f6.workers.dev)"
+   },
+   {
+    "url": "http://zoominvite044.pages.dev/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 94% structural similarity to phishing URLs (zoominvite044.pages.dev)"
+   },
+   {
+    "url": "https://www.backend-test.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.1,
+    "reason": "www.backend-test.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://sunrisemail-ch.jimdofree.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://authorization.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.4,
+    "reason": "authorization.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://zebcoindustrie-portal.vercel.app/",
+    "decision": "FLAG",
+    "risk": 53.5,
+    "reason": "URL model: 87% structural similarity to phishing URLs (zebcoindustrie-portal.vercel.app)"
+   },
+   {
+    "url": "http://develop.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.1,
+    "reason": "develop.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://id-sso.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "id-sso.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://tokenim-sg-cdn.cfd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "URL model: 79% structural similarity to phishing URLs (tokenim-sg-cdn.cfd)"
+   },
+   {
+    "url": "https://metamaskwallett.blogspot.com/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (metamaskwallett.blogspot.com)"
+   },
+   {
+    "url": "https://bitly.cx/0eUtB",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (bitly.cx)"
+   },
+   {
+    "url": "https://adm.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.4,
+    "reason": "adm.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://mitoken.cv/download",
+    "decision": "ALLOW",
+    "risk": 26.8,
+    "reason": "URL model: 83% structural similarity to phishing URLs (mitoken.cv)"
+   },
+   {
+    "url": "http://roblox.com.am/",
+    "decision": "ALLOW",
+    "risk": 8.0,
+    "reason": ""
+   },
+   {
+    "url": "https://blockwavewallets.com/admin/members?page=1&per_page=50&q=%EC%A0%95%EB%AA%85%EC%88%99",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "URL model: 84% structural similarity to phishing URLs (blockwavewallets.com)"
+   },
+   {
+    "url": "https://auth.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.1,
+    "reason": "auth.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://facebook.sioll.net/",
+    "decision": "QUARANTINE",
+    "risk": 81.9,
+    "reason": "uses the brand name \"facebook\" (Meta) but the domain belongs to sioll.net"
+   },
+   {
+    "url": "http://www.ofertadodiamaga.vercel.app/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 93% structural similarity to phishing URLs (www.ofertadodiamaga.vercel.app)"
+   },
+   {
+    "url": "https://dndair.com/iv/doc.html",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "http://www.rapidrewards.vercel.app/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (www.rapidrewards.vercel.app)"
+   },
+   {
+    "url": "https://vpn.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.1,
+    "reason": "vpn.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://financiamientos-ecuador--pichincha2026.replit.app/",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (financiamientos-ecuador--pichincha2026.replit.app)"
+   },
+   {
+    "url": "https://base-apps-extensions.framer.website/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (base-apps-extensions.framer.website)"
+   },
+   {
+    "url": "http://idpage.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "idpage.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://inscripcionsuv.solicitudesclientesonline.com/",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (inscripcionsuv.solicitudesclientesonline.com)"
+   },
+   {
+    "url": "http://tetes-air.pages.dev/dp/B0D484S271?ref=MarsFS_VICC_blinkhk",
+    "decision": "FLAG",
+    "risk": 47.7,
+    "reason": "URL model: 74% structural similarity to phishing URLs (tetes-air.pages.dev)"
+   },
+   {
+    "url": "https://getmyservices.in/axis-bank",
+    "decision": "ALLOW",
+    "risk": 26.9,
+    "reason": "URL model: 84% structural similarity to phishing URLs (getmyservices.in)"
+   },
+   {
+    "url": "https://www.ehay-item.solaf.co/",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (www.ehay-item.solaf.co)"
+   },
+   {
+    "url": "https://www.roblox.com.mu/users/1295571761/profile",
+    "decision": "ALLOW",
+    "risk": 10.0,
+    "reason": ""
+   },
+   {
+    "url": "https://admin.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.5,
+    "reason": "admin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://sonemosjuntos--pensandoenti.replit.app/",
+    "decision": "FLAG",
+    "risk": 31.2,
+    "reason": "URL model: 97% structural similarity to phishing URLs (sonemosjuntos--pensandoenti.replit.app)"
+   },
+   {
+    "url": "https://federate.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "federate.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://employee-sso.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "employee-sso.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://sunriseemails.jimdofree.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://pgsql.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 22.3,
+    "reason": "pgsql.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://1url.at/www/roblox-users-358617852035-profile",
+    "decision": "ALLOW",
+    "risk": 23.6,
+    "reason": "URL model: 74% structural similarity to phishing URLs (1url.at)"
+   },
+   {
+    "url": "https://https-login.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.9,
+    "reason": "https-login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://www.surl.li/ovdaap/",
+    "decision": "ALLOW",
+    "risk": 6.4,
+    "reason": "Link shortener (surl.li) hides the real destination"
+   },
+   {
+    "url": "https://builder.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "builder.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://back.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "back.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://clientes.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.2,
+    "reason": "clientes.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://in.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.6,
+    "reason": "in.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://www.api-uat.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.1,
+    "reason": "www.api-uat.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://sopports-net.us/icloud2022-esp.php/s3.php",
+    "decision": "ALLOW",
+    "risk": 29.6,
+    "reason": "URL model: 92% structural similarity to phishing URLs (sopports-net.us)"
+   },
+   {
+    "url": "https://instagramsupportverify.blogspot.com/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (instagramsupportverify.blogspot.com)"
+   },
+   {
+    "url": "https://douyin.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.1,
+    "reason": "douyin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://accounts.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.5,
+    "reason": "accounts.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://cas.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 23.1,
+    "reason": "cas.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://baosteel.click/purchase.html?e=a.b%40c",
+    "decision": "FLAG",
+    "risk": 52.1,
+    "reason": "URL model: 87% structural similarity to phishing URLs (baosteel.click)"
+   },
+   {
+    "url": "https://login.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.5,
+    "reason": "login.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://partner.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.1,
+    "reason": "partner.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://security-server-landing-page-1--bensonthomans5.replit.app/#ksson",
+    "decision": "ALLOW",
+    "risk": 28.9,
+    "reason": "URL model: 90% structural similarity to phishing URLs (security-server-landing-page-1--bensonthomans5.replit.app)"
+   },
+   {
+    "url": "http://www.demo-api.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.1,
+    "reason": "www.demo-api.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://hasanshahid32h-source.github.io/facebook-login/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "Names Meta on hasanshahid32h-source.github.io, a site anyone can publish to; Meta does not host its pages there"
+   },
+   {
+    "url": "https://mail.dari-card.com/Fed/ffv",
+    "decision": "ALLOW",
+    "risk": 24.2,
+    "reason": "URL model: 75% structural similarity to phishing URLs (mail.dari-card.com)"
+   },
+   {
+    "url": "https://compras.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 24.0,
+    "reason": "compras.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://sandbox.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.6,
+    "reason": "sandbox.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://webufexcv.vip/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (webufexcv.vip)"
+   },
+   {
+    "url": "https://kamal11234.github.io/amozon/gift.html",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (kamal11234.github.io)"
+   },
+   {
+    "url": "http://www.metamaskwallett.blogspot.com/",
+    "decision": "FLAG",
+    "risk": 47.5,
+    "reason": "www.metamaskwallett.blogspot.com \u2192 metamaskwallett.blogspot.com  (1 hop to a known-bad domain)"
+   },
+   {
+    "url": "https://devops.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 22.3,
+    "reason": "devops.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://mi-solicitud-card-9194.andres457646.workers.dev/solicitud/formulario?origen=index%2F",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (mi-solicitud-card-9194.andres457646.workers.dev)"
+   },
+   {
+    "url": "https://mailer.dari-card.com/////ZAn/",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (mailer.dari-card.com)"
+   },
+   {
+    "url": "https://www.roblox.com.bi/games/17590362521/Spelling-Bee?privateServerLinkCode=06713340521095578656367400665464&game_id=17590362521&game_name=Spelling-Bee",
+    "decision": "FLAG",
+    "risk": 37.1,
+    "reason": "High-entropy random-looking path (typical of kit-generated phishing pages)"
+   },
+   {
+    "url": "https://sewacourier.com/review-.html",
+    "decision": "ALLOW",
+    "risk": 0.2,
+    "reason": ""
+   },
+   {
+    "url": "https://membership.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 21.1,
+    "reason": "membership.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://pakpharma.ci/CHASE/login.php",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (pakpharma.ci)"
+   },
+   {
+    "url": "https://xfinitymailid.weebly.com/",
+    "decision": "FLAG",
+    "risk": 48.4,
+    "reason": "xfinitymailid.weebly.com \u2192 weebly.com \u2192 service-xinfinity.weebly.com  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://www.api-staging.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.6,
+    "reason": "www.api-staging.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://iam.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 25.2,
+    "reason": "iam.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://ehay-item.solaf.co/",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (ehay-item.solaf.co)"
+   },
+   {
+    "url": "https://bitly.cx/T1hjQ",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (bitly.cx)"
+   },
+   {
+    "url": "https://adminlogin.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.5,
+    "reason": "adminlogin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://idlogin.evergreenfin.ltd/",
+    "decision": "FLAG",
+    "risk": 46.8,
+    "reason": "idlogin.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 billing.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://25fthr77.blogspot.com/",
+    "decision": "FLAG",
+    "risk": 45.1,
+    "reason": "Hosted on a free/throw-away platform (25fthr77.blogspot.com)"
+   },
+   {
+    "url": "http://business.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 24.6,
+    "reason": "business.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://bitly.cx/q7jxe",
+    "decision": "FLAG",
+    "risk": 31.9,
+    "reason": "URL model: 99% structural similarity to phishing URLs (bitly.cx)"
+   },
+   {
+    "url": "http://loginservice.cloud/E.oNeOdkT04mWrBD-uAQ?/link?url=d42cf86bz535433d4918f6725dca3821r_348756293",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 100% structural similarity to phishing URLs (loginservice.cloud)"
+   },
+   {
+    "url": "http://onlinebank.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.8,
+    "reason": "onlinebank.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://xxhm.spyxe.sbs/x/p5/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (xxhm.spyxe.sbs)"
+   },
+   {
+    "url": "http://netease.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 26.5,
+    "reason": "netease.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://cvtd56l-hbkl.vercel.app/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (cvtd56l-hbkl.vercel.app)"
+   },
+   {
+    "url": "http://clienti.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.5,
+    "reason": "clienti.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "http://v2.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 28.8,
+    "reason": "v2.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://www.pay-staging.evergreenfin.ltd/",
+    "decision": "ALLOW",
+    "risk": 27.8,
+    "reason": "www.pay-staging.evergreenfin.ltd \u2192 evergreenfin.ltd \u2192 www.secure-dev.evergreenfin.ltd  (2 hops to a known-bad domain)"
+   },
+   {
+    "url": "https://odufps-fudyfuy.com/hcaptcha",
+    "decision": "ALLOW",
+    "risk": 19.9,
+    "reason": ""
+   },
+   {
+    "url": "https://ptai.in/dsb/page.html?sid=ktpkeZOUgDfP8MLRrKS0Tdg4lylWXIsh99exmABKPqfbAr4kzxcB7zkbrEyr8fTM15zyBJo0jTkPG634CnJ719PzaKbtRhz",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 98% structural similarity to phishing URLs (ptai.in)"
+   },
+   {
+    "url": "https://packgobx-mx.cfd/mx",
+    "decision": "FLAG",
+    "risk": 30.2,
+    "reason": "URL model: 94% structural similarity to phishing URLs (packgobx-mx.cfd)"
+   }
+  ],
+  "longtail": [
+   {
+    "url": "https://glavadnr.ru/",
+    "decision": "ALLOW",
+    "risk": 27.5,
+    "reason": ".ru domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://globalorigintrading.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://cnreagent.com/",
+    "decision": "ALLOW",
+    "risk": 8.0,
+    "reason": ""
+   },
+   {
+    "url": "https://jjhub.icu/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (jjhub.icu)"
+   },
+   {
+    "url": "https://micahflee.com/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://readfootball.com/",
+    "decision": "ALLOW",
+    "risk": 1.0,
+    "reason": ""
+   },
+   {
+    "url": "https://komikdewasa.run/",
+    "decision": "ALLOW",
+    "risk": 16.5,
+    "reason": ""
+   },
+   {
+    "url": "https://petergeen.com/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://tiendacarpfishing.es/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://adremover.org/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://cityofalbany.net/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://hd2live.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://vistanetwork.us/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://meilleurduweb.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://w3newspapers.com/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://rareusdt.com/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://my478.com/",
+    "decision": "ALLOW",
+    "risk": 16.5,
+    "reason": ""
+   },
+   {
+    "url": "https://kayak.com.ar/",
+    "decision": "ALLOW",
+    "risk": 4.2,
+    "reason": ""
+   },
+   {
+    "url": "https://comproorodoro.it/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://trivera.com/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://skiocheck.com/",
+    "decision": "ALLOW",
+    "risk": 8.8,
+    "reason": ""
+   },
+   {
+    "url": "https://lordux.online/",
+    "decision": "FLAG",
+    "risk": 39.4,
+    "reason": ".online domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://parisbaguette.com/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://orbitroyallounge.nl/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "https://rajaduniatogel.website/",
+    "decision": "FLAG",
+    "risk": 53.6,
+    "reason": "URL model: 90% structural similarity to phishing URLs (rajaduniatogel.website)"
+   },
+   {
+    "url": "https://uaotzenr.cc/",
+    "decision": "FLAG",
+    "risk": 48.0,
+    "reason": "URL model: 78% structural similarity to phishing URLs (uaotzenr.cc)"
+   },
+   {
+    "url": "https://ev88vip.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://skvk.ru/",
+    "decision": "ALLOW",
+    "risk": 22.0,
+    "reason": ".ru domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://setra.com/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "https://mir.az/",
+    "decision": "ALLOW",
+    "risk": 5.4,
+    "reason": ""
+   },
+   {
+    "url": "https://om.cn/",
+    "decision": "FLAG",
+    "risk": 30.6,
+    "reason": ".cn domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://scenicglobal.com/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://gamania.dev/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://redhen.org/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "https://7777sx.com/",
+    "decision": "ALLOW",
+    "risk": 12.1,
+    "reason": ""
+   },
+   {
+    "url": "https://gpstecnologistik.com/",
+    "decision": "ALLOW",
+    "risk": 19.6,
+    "reason": ""
+   },
+   {
+    "url": "https://arcsystemworks.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://horsedicks.net/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://deluisterlijn.nl/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://sakaiminato.lg.jp/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://nmcindia.ac.in/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://259r23.com/",
+    "decision": "ALLOW",
+    "risk": 21.1,
+    "reason": ""
+   },
+   {
+    "url": "https://hunter8.net/",
+    "decision": "ALLOW",
+    "risk": 8.8,
+    "reason": ""
+   },
+   {
+    "url": "https://wangdahuojia.com/",
+    "decision": "ALLOW",
+    "risk": 14.1,
+    "reason": ""
+   },
+   {
+    "url": "https://nnfestival.org.uk/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://globalbasecombat.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://kapten69ap.asia/",
+    "decision": "FLAG",
+    "risk": 30.6,
+    "reason": ".asia domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://campusadministraciondejusticia.com/",
+    "decision": "ALLOW",
+    "risk": 12.9,
+    "reason": ""
+   },
+   {
+    "url": "https://mexrentacar.com/",
+    "decision": "ALLOW",
+    "risk": 12.1,
+    "reason": ""
+   },
+   {
+    "url": "https://y0.pl/",
+    "decision": "ALLOW",
+    "risk": 23.9,
+    "reason": "URL model: 74% structural similarity to phishing URLs (y0.pl)"
+   },
+   {
+    "url": "https://weatherbyhealthcare.com/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://hondaoffife.com/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "https://bakufu.org/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://ttgshop.vn/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://gona-industrial.com/",
+    "decision": "ALLOW",
+    "risk": 12.9,
+    "reason": ""
+   },
+   {
+    "url": "https://londongoldnetwork.uk/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://payx1688.com/",
+    "decision": "ALLOW",
+    "risk": 17.7,
+    "reason": ""
+   },
+   {
+    "url": "https://kuvendikosoves.org/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://chelindbank.ru/",
+    "decision": "FLAG",
+    "risk": 41.6,
+    "reason": ".ru domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://lfg.inc/",
+    "decision": "ALLOW",
+    "risk": 11.1,
+    "reason": ""
+   },
+   {
+    "url": "https://gapagroup.cz/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://tralios.net/",
+    "decision": "ALLOW",
+    "risk": 5.5,
+    "reason": ""
+   },
+   {
+    "url": "https://13okbajee.com/",
+    "decision": "ALLOW",
+    "risk": 16.5,
+    "reason": ""
+   },
+   {
+    "url": "https://ursi.org/",
+    "decision": "ALLOW",
+    "risk": 0.2,
+    "reason": ""
+   },
+   {
+    "url": "https://plattentests.de/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://monopolylive-india.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://norwegianvoyages.com/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://studiobadass.net/",
+    "decision": "ALLOW",
+    "risk": 8.8,
+    "reason": ""
+   },
+   {
+    "url": "https://istinomer.rs/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://micra.org.uk/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://hanksome.gr/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://2fj6k1w86g.com/",
+    "decision": "ALLOW",
+    "risk": 22.1,
+    "reason": ""
+   },
+   {
+    "url": "https://resource2data.com/",
+    "decision": "ALLOW",
+    "risk": 8.0,
+    "reason": ""
+   },
+   {
+    "url": "https://edera.cz/",
+    "decision": "ALLOW",
+    "risk": 1.0,
+    "reason": ""
+   },
+   {
+    "url": "https://openinventionnetwork.com/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://brasty.cz/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://balanzacademy.com/",
+    "decision": "ALLOW",
+    "risk": 10.0,
+    "reason": ""
+   },
+   {
+    "url": "https://sbcdc.ch/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://arcteryx.ca/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://hotels-new-york.org/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://superdry.nl/",
+    "decision": "ALLOW",
+    "risk": 1.7,
+    "reason": ""
+   },
+   {
+    "url": "https://adinahotels.com/",
+    "decision": "ALLOW",
+    "risk": 8.0,
+    "reason": ""
+   },
+   {
+    "url": "https://ila-hq.org/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://tegsoftcloud.com/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://hiphopza.co.za/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://betspintank.store/",
+    "decision": "FLAG",
+    "risk": 45.6,
+    "reason": "URL model: 74% structural similarity to phishing URLs (betspintank.store)"
+   },
+   {
+    "url": "https://membrane.social/",
+    "decision": "ALLOW",
+    "risk": 14.1,
+    "reason": ""
+   },
+   {
+    "url": "https://milweb.net/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://fashionget.com/",
+    "decision": "ALLOW",
+    "risk": 5.6,
+    "reason": ""
+   },
+   {
+    "url": "https://rocairport.com/",
+    "decision": "ALLOW",
+    "risk": 3.0,
+    "reason": ""
+   },
+   {
+    "url": "https://rusrv.top/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (rusrv.top)"
+   },
+   {
+    "url": "https://moon61takes.shop/",
+    "decision": "ALLOW",
+    "risk": 22.3,
+    "reason": ".shop domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://furbedz.com/",
+    "decision": "ALLOW",
+    "risk": 8.8,
+    "reason": ""
+   },
+   {
+    "url": "https://citv.cn/",
+    "decision": "FLAG",
+    "risk": 39.7,
+    "reason": ".cn domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://ykbgzdpw3r96m.com/",
+    "decision": "ALLOW",
+    "risk": 28.9,
+    "reason": "URL model: 90% structural similarity to phishing URLs (ykbgzdpw3r96m.com)"
+   },
+   {
+    "url": "https://dessousmasculin.com/",
+    "decision": "ALLOW",
+    "risk": 10.0,
+    "reason": ""
+   },
+   {
+    "url": "https://encarguelo.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://featbit.co/",
+    "decision": "ALLOW",
+    "risk": 5.4,
+    "reason": ""
+   },
+   {
+    "url": "https://remoco.tv/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://fontello.com/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://e77fun.com/",
+    "decision": "ALLOW",
+    "risk": 16.5,
+    "reason": ""
+   },
+   {
+    "url": "https://cheers-to-you.de/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://ballorig.nl/",
+    "decision": "ALLOW",
+    "risk": 1.7,
+    "reason": ""
+   },
+   {
+    "url": "https://monkeeswilmington.com/",
+    "decision": "ALLOW",
+    "risk": 1.7,
+    "reason": ""
+   },
+   {
+    "url": "https://gitbaz.ir/",
+    "decision": "ALLOW",
+    "risk": 14.1,
+    "reason": ""
+   },
+   {
+    "url": "https://eushc.org/",
+    "decision": "ALLOW",
+    "risk": 0.8,
+    "reason": ""
+   },
+   {
+    "url": "https://glenbrookfarm.com/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "https://oneuptime.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://acemedixacademy.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://sas-ga.org/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://honarcredit.ir/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://a2w8s48ias.ru/",
+    "decision": "FLAG",
+    "risk": 50.6,
+    "reason": "URL model: 84% structural similarity to phishing URLs (a2w8s48ias.ru)"
+   },
+   {
+    "url": "https://luckynordiccasino.fi/",
+    "decision": "ALLOW",
+    "risk": 1.0,
+    "reason": ""
+   },
+   {
+    "url": "https://sdis.gov.co/",
+    "decision": "ALLOW",
+    "risk": 0.4,
+    "reason": ""
+   },
+   {
+    "url": "https://jobbydoo.it/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://sujena.com/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://sonono.de/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://sosoalseramurni.com/",
+    "decision": "ALLOW",
+    "risk": 16.5,
+    "reason": ""
+   },
+   {
+    "url": "https://lospleyers.com/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://xpollens.com/",
+    "decision": "ALLOW",
+    "risk": 5.4,
+    "reason": ""
+   },
+   {
+    "url": "https://sandalyemodeller.com/",
+    "decision": "ALLOW",
+    "risk": 3.0,
+    "reason": ""
+   },
+   {
+    "url": "https://auscelebs.net/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://gexpro.com/",
+    "decision": "ALLOW",
+    "risk": 5.5,
+    "reason": ""
+   },
+   {
+    "url": "https://getim-01.com/",
+    "decision": "ALLOW",
+    "risk": 17.4,
+    "reason": ""
+   },
+   {
+    "url": "https://filecloudpoint.biz/",
+    "decision": "ALLOW",
+    "risk": 17.4,
+    "reason": ""
+   },
+   {
+    "url": "https://townofgatecity.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://kuasakata.com/",
+    "decision": "ALLOW",
+    "risk": 8.0,
+    "reason": ""
+   },
+   {
+    "url": "https://wirelesstag.net/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "https://big-travel.club/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 94% structural similarity to phishing URLs (big-travel.club)"
+   },
+   {
+    "url": "https://runtopcam.com/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://kingmark.nl/",
+    "decision": "ALLOW",
+    "risk": 1.0,
+    "reason": ""
+   },
+   {
+    "url": "https://automingwei.com/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://beegtube.video/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://10jili.club/",
+    "decision": "FLAG",
+    "risk": 53.6,
+    "reason": "URL model: 90% structural similarity to phishing URLs (10jili.club)"
+   },
+   {
+    "url": "https://onemoney.in/",
+    "decision": "ALLOW",
+    "risk": 10.0,
+    "reason": ""
+   },
+   {
+    "url": "https://usa61fasts.xyz/",
+    "decision": "ALLOW",
+    "risk": 27.5,
+    "reason": ".xyz domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://radiomixfm.com.br/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://primamerate.it/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://cg3.co.kr/",
+    "decision": "ALLOW",
+    "risk": 21.1,
+    "reason": ""
+   },
+   {
+    "url": "https://urbanslotsnetwork.uk/",
+    "decision": "ALLOW",
+    "risk": 1.0,
+    "reason": ""
+   },
+   {
+    "url": "https://naflirt.cz/",
+    "decision": "ALLOW",
+    "risk": 2.6,
+    "reason": ""
+   },
+   {
+    "url": "https://infocatolica.com/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://arviga.co.id/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://justcoglobal.com/",
+    "decision": "ALLOW",
+    "risk": 8.0,
+    "reason": ""
+   },
+   {
+    "url": "https://invictawatchbands.com/",
+    "decision": "ALLOW",
+    "risk": 1.7,
+    "reason": ""
+   },
+   {
+    "url": "https://centre-liliya.com/",
+    "decision": "ALLOW",
+    "risk": 11.1,
+    "reason": ""
+   },
+   {
+    "url": "https://pjj.cc/",
+    "decision": "ALLOW",
+    "risk": 27.4,
+    "reason": ".cc domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://list-fg.co.uk/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://tvw.systems/",
+    "decision": "ALLOW",
+    "risk": 14.1,
+    "reason": ""
+   },
+   {
+    "url": "https://087ta.top/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 97% structural similarity to phishing URLs (087ta.top)"
+   },
+   {
+    "url": "https://channelfireball.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://srf.com/",
+    "decision": "ALLOW",
+    "risk": 0.8,
+    "reason": ""
+   },
+   {
+    "url": "https://sfina.gr/",
+    "decision": "ALLOW",
+    "risk": 0.6,
+    "reason": ""
+   },
+   {
+    "url": "https://baroul-bucuresti.ro/",
+    "decision": "ALLOW",
+    "risk": 21.1,
+    "reason": ""
+   },
+   {
+    "url": "https://casacuesta.com/",
+    "decision": "ALLOW",
+    "risk": 12.1,
+    "reason": ""
+   },
+   {
+    "url": "https://charnwoodwebdesign.co.uk/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://vlex.cl/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://skeidar.no/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://peak.ne.jp/",
+    "decision": "ALLOW",
+    "risk": 0.2,
+    "reason": ""
+   },
+   {
+    "url": "https://solarcardspath.it/",
+    "decision": "ALLOW",
+    "risk": 4.6,
+    "reason": ""
+   },
+   {
+    "url": "https://barwaa.com/",
+    "decision": "ALLOW",
+    "risk": 16.5,
+    "reason": ""
+   },
+   {
+    "url": "https://sportscarmarket.com/",
+    "decision": "ALLOW",
+    "risk": 5.4,
+    "reason": ""
+   },
+   {
+    "url": "https://duckcommander.com/",
+    "decision": "ALLOW",
+    "risk": 1.7,
+    "reason": ""
+   },
+   {
+    "url": "https://criodo.com/",
+    "decision": "ALLOW",
+    "risk": 3.6,
+    "reason": ""
+   },
+   {
+    "url": "https://cinema777z.com/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://ezy2ship.net/",
+    "decision": "ALLOW",
+    "risk": 8.8,
+    "reason": ""
+   },
+   {
+    "url": "https://bec-escrime.fr/",
+    "decision": "ALLOW",
+    "risk": 5.4,
+    "reason": ""
+   },
+   {
+    "url": "https://psut.edu.jo/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://heartlandferry.jp/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://idibapsrespiratoryresearch.org/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://muchocartucho.es/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://livy.systems/",
+    "decision": "ALLOW",
+    "risk": 12.1,
+    "reason": ""
+   },
+   {
+    "url": "https://lhtot.com/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://jacadi.jp/",
+    "decision": "ALLOW",
+    "risk": 3.0,
+    "reason": ""
+   },
+   {
+    "url": "https://iamaflowerchild.com/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://criciuma.sc.gov.br/",
+    "decision": "ALLOW",
+    "risk": 0.1,
+    "reason": ""
+   },
+   {
+    "url": "https://fastoddsstormhub.nl/",
+    "decision": "ALLOW",
+    "risk": 1.7,
+    "reason": ""
+   },
+   {
+    "url": "https://medtrum.eu/",
+    "decision": "ALLOW",
+    "risk": 5.4,
+    "reason": ""
+   },
+   {
+    "url": "https://daporkchop.net/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://bestroyalstormspace.nl/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://preferred.jp/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://manula.com/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ""
+   },
+   {
+    "url": "https://jiupins.com/",
+    "decision": "ALLOW",
+    "risk": 8.0,
+    "reason": ""
+   },
+   {
+    "url": "https://n17k9a33.com/",
+    "decision": "ALLOW",
+    "risk": 21.1,
+    "reason": ""
+   },
+   {
+    "url": "https://apsel.jp/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://9rw02ypu.com/",
+    "decision": "ALLOW",
+    "risk": 19.6,
+    "reason": ""
+   },
+   {
+    "url": "https://videeyy.me/",
+    "decision": "ALLOW",
+    "risk": 4.0,
+    "reason": ""
+   },
+   {
+    "url": "https://loman.ai/",
+    "decision": "ALLOW",
+    "risk": 0.8,
+    "reason": ""
+   },
+   {
+    "url": "https://zxigz2940637fafa.com/",
+    "decision": "ALLOW",
+    "risk": 29.8,
+    "reason": "URL model: 93% structural similarity to phishing URLs (zxigz2940637fafa.com)"
+   },
+   {
+    "url": "https://holz-metall.info/",
+    "decision": "FLAG",
+    "risk": 55.0,
+    "reason": "URL model: 94% structural similarity to phishing URLs (holz-metall.info)"
+   },
+   {
+    "url": "https://cx777f.com/",
+    "decision": "ALLOW",
+    "risk": 14.1,
+    "reason": ""
+   },
+   {
+    "url": "https://simplepdfreader.net/",
+    "decision": "ALLOW",
+    "risk": 5.5,
+    "reason": ""
+   },
+   {
+    "url": "https://iosys.jp/",
+    "decision": "ALLOW",
+    "risk": 3.2,
+    "reason": ""
+   },
+   {
+    "url": "https://movienova.sc/",
+    "decision": "ALLOW",
+    "risk": 6.6,
+    "reason": ""
+   },
+   {
+    "url": "https://madkoffee.com/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://itandi-accounts.com/",
+    "decision": "ALLOW",
+    "risk": 28.9,
+    "reason": "URL model: 90% structural similarity to phishing URLs (itandi-accounts.com)"
+   },
+   {
+    "url": "https://netsync.net/",
+    "decision": "ALLOW",
+    "risk": 14.1,
+    "reason": ""
+   },
+   {
+    "url": "https://v-s.mobi/",
+    "decision": "ALLOW",
+    "risk": 8.6,
+    "reason": ""
+   },
+   {
+    "url": "https://akgolf.co.kr/",
+    "decision": "ALLOW",
+    "risk": 8.1,
+    "reason": ""
+   },
+   {
+    "url": "https://xn--e1aaqjt5d.xn--p1ai/",
+    "decision": "FLAG",
+    "risk": 51.5,
+    "reason": "Internationalised domain that displays as \"\u043b\u0435\u0441\u043d\u044b\u0435.\u0440\u0444\""
+   }
+  ],
+  "top": [
+   {
+    "url": "https://pgammedia.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://hobbylobby.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://coupahost.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://amazon.com.mx/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://nv.ua/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://minutemedia-prebid.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://xxxaraby.net/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://prebid.cloud/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://adobess.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://titan.email/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://twtrdns.net/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://xhtv.today/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ".today domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://menshealth.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://sweb.ru/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ".ru domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://tokopedia.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://config-security.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://gwars.io/",
+    "decision": "ALLOW",
+    "risk": 0.6,
+    "reason": ""
+   },
+   {
+    "url": "https://azure-dns.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://unicamp.br/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://stripe.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://browserstack.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://ottgoods.ru/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ".ru domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://pixels.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://imolive.tv/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://hibiny.ru/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ".ru domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://dnsv5.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://netperf.org/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://pornpics.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://ufgrowfun.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://linksys.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://awsdns-20.net/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://ninisite.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://albumaty.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://un.org/",
+    "decision": "ALLOW",
+    "risk": 0.1,
+    "reason": ""
+   },
+   {
+    "url": "https://livescience.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://tgju.org/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://hihi2.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://msn.com/",
+    "decision": "ALLOW",
+    "risk": 1.0,
+    "reason": ""
+   },
+   {
+    "url": "https://opera-mini.net/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://youm7.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://netmarble.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://porndos.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://ladbrokes.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://cimri.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://soundcloud.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://yp.to/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://overdrive.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://qvc.de/",
+    "decision": "ALLOW",
+    "risk": 0.6,
+    "reason": ""
+   },
+   {
+    "url": "https://chicagotribune.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://southernliving.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://siteground.biz/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://br.de/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://livecamrips.to/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://ncore.pro/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ".pro domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://dpboss.tax/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://fast-dl.one/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://plausible.io/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://smi2.ru/",
+    "decision": "ALLOW",
+    "risk": 5.1,
+    "reason": ".ru domains are cheap and heavily abused"
+   },
+   {
+    "url": "https://dailymail.co.uk/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   },
+   {
+    "url": "https://businessweek.com/",
+    "decision": "ALLOW",
+    "risk": 1.4,
+    "reason": ""
+   }
+  ]
+ }
+}
