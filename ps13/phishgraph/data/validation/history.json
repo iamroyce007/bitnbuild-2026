@@ -5060,5 +5060,57 @@
     }
    ]
   }
+ },
+ {
+  "id": "unit_tests-20260929-212428",
+  "kind": "unit_tests",
+  "at": "2026-09-29T21:24:28",
+  "target": "backend test suite",
+  "summary": {
+   "passed": 487,
+   "failed": 0,
+   "total": 487,
+   "seconds": 21.1
+  },
+  "details": {
+   "by_file": [
+    {
+     "file": "test_api",
+     "about": "API: auth, public access, analysis endpoints, feedback loop, SSRF refusal, ops endpoints",
+     "passed": 10,
+     "failed": 0,
+     "skipped": 0
+    },
+    {
+     "file": "test_brand_guard",
+     "about": "Brand guarantee: every protected brand, impersonation never ALLOWed, genuine mail untouched",
+     "passed": 382,
+     "failed": 0,
+     "skipped": 0
+    },
+    {
+     "file": "test_domains",
+     "about": "Look-alike engine: google vs g00gle, homographs, typosquats, official domains never flagged",
+     "passed": 61,
+     "failed": 0,
+     "skipped": 0
+    },
+    {
+     "file": "test_engines",
+     "about": "Engines: NLP intents (English, Hindi, Tamil), URL rules, fusion, corroboration, graph hub dampening",
+     "passed": 23,
+     "failed": 0,
+     "skipped": 0
+    },
+    {
+     "file": "test_screenshot",
+     "about": "Screenshot extraction: iPhone/Android SMS, WhatsApp, Gmail app/web, Outlook layouts and entities",
+     "passed": 11,
+     "failed": 0,
+     "skipped": 0
+    }
+   ],
+   "failures": []
+  }
  }
 ]
