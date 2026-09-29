@@ -40,7 +40,7 @@ export default function Welcome({ onConnected }: { onConnected: () => void }) {
               <span className="label">Or paste the access key</span>
               <input className="input mt-1 font-mono" type="password" autoComplete="off" value={key} onChange={(e) => setK(e.target.value)} autoFocus />
             </label>
-            {err && <p role="alert" className="text-[13px] text-[#ffb1b2]">{err}</p>}
+            {err && <p role="alert" className="text-[13px] text-block">{err}</p>}
             <button className="btn btn-primary w-full" disabled={!key.trim() || busy}>{busy ? 'Connecting…' : 'Connect'}</button>
           </form>
           <p className="mt-4 text-[12px] text-faint">Running your own server? The key is the <code className="font-mono">API_KEYS</code> value you configured. It is stored only in this browser.</p>

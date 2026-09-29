@@ -9,14 +9,14 @@ export const TYPE_LABEL: Record<string, string> = {
 };
 
 function nodeColor(n: GraphNode) {
-  if (n.malicious) return '#ff4d4f';
+  if (n.malicious) return 'var(--color-block)';
   const r = n.risk ?? 0;
-  if (r >= 85) return '#ff4d4f';
-  if (r >= 60) return '#f07038';
-  if (r >= 30) return '#e0a106';
-  if (n.type === 'brand') return '#4d8eff';
-  if (n.type === 'campaign') return '#b48cff';
-  return '#7c8794';
+  if (r >= 85) return 'var(--color-block)';
+  if (r >= 60) return 'var(--color-quarantine)';
+  if (r >= 30) return 'var(--color-flag)';
+  if (n.type === 'brand') return 'var(--color-accent)';
+  if (n.type === 'campaign') return 'var(--color-campaign)';
+  return 'var(--color-neutral)';
 }
 
 function Shape({ type, r, fill, stroke }: { type: string; r: number; fill: string; stroke: string }) {
@@ -137,12 +137,12 @@ export default function GraphView({ data, height = 480, onSelect, selectedId }: 
         <g>
           {L.edges.map(([a, b], i) => {
             const on = hot != null && (a === hot || b === hot);
-            return <line key={i} x1={L.pos[a][0]} y1={L.pos[a][1]} x2={L.pos[b][0]} y2={L.pos[b][1]} stroke={on ? '#4d8eff' : '#26303b'} strokeWidth={on ? 1.6 : 1} />;
+            return <line key={i} x1={L.pos[a][0]} y1={L.pos[a][1]} x2={L.pos[b][0]} y2={L.pos[b][1]} stroke={on ? 'var(--color-accent)' : 'var(--color-line-strong)'} strokeWidth={on ? 1.6 : 1} />;
           })}
           {hot != null && L.relOf.filter((e) => e.source === L.nodes[hot].id || e.target === L.nodes[hot].id).slice(0, 14).map((e, i) => {
             const a = L.nodes.findIndex((n) => n.id === e.source), b = L.nodes.findIndex((n) => n.id === e.target);
             if (a < 0 || b < 0) return null;
-            return <text key={`r${i}`} x={(L.pos[a][0] + L.pos[b][0]) / 2} y={(L.pos[a][1] + L.pos[b][1]) / 2} fontSize="9" fill="#94a0ae" textAnchor="middle" paintOrder="stroke" stroke="#07090c" strokeWidth="3" fontFamily="Fira Code, monospace">{e.rel}</text>;
+            return <text key={`r${i}`} x={(L.pos[a][0] + L.pos[b][0]) / 2} y={(L.pos[a][1] + L.pos[b][1]) / 2} fontSize="9" fill="var(--color-muted)" textAnchor="middle" paintOrder="stroke" stroke="var(--color-surface)" strokeWidth="3" fontFamily="var(--font-mono)">{e.rel}</text>;
           })}
           {L.nodes.map((n, i) => {
             const dim = hot != null && i !== hot && !neighbours.get(hot)?.has(i);
@@ -154,8 +154,8 @@ export default function GraphView({ data, height = 480, onSelect, selectedId }: 
                 aria-label={`${TYPE_LABEL[n.type] || n.type} ${n.label}${n.malicious ? ', known bad' : ''}`}
                 onPointerEnter={() => setHover(i)} onPointerLeave={() => setHover(null)} onFocus={() => setHover(i)} onBlur={() => setHover(null)}
                 onClick={() => onSelect?.(n)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onSelect?.(n); }}>
-                <Shape type={n.type} r={focus ? 9 : 6} fill={c} stroke={focus ? '#e6e9ed' : n.malicious ? '#ffb1b2' : '#07090c'} />
-                {show && <text y={focus ? 20 : 16} fontSize={focus ? 11 : 9} fill={focus ? '#e6e9ed' : '#b4bdc8'} textAnchor="middle" paintOrder="stroke" stroke="#07090c" strokeWidth="3" fontFamily="Fira Code, monospace">
+                <Shape type={n.type} r={focus ? 9 : 6} fill={c} stroke={focus ? 'var(--color-ink)' : n.malicious ? 'var(--color-block)' : 'var(--color-surface)'} />
+                {show && <text y={focus ? 20 : 16} fontSize={focus ? 11 : 9} fill={focus ? 'var(--color-ink)' : 'var(--color-muted)'} textAnchor="middle" paintOrder="stroke" stroke="var(--color-surface)" strokeWidth="3" fontFamily="var(--font-mono)">
                   {String(n.label).length > 36 ? String(n.label).slice(0, 34) + '…' : n.label}
                 </text>}
               </g>
@@ -173,7 +173,7 @@ export default function GraphView({ data, height = 480, onSelect, selectedId }: 
 }
 
 export function GraphLegend() {
-  const items: [string, string][] = [['#ff4d4f', 'known-bad / block'], ['#f07038', 'quarantine range'], ['#e0a106', 'suspicious'], ['#7c8794', 'neutral'], ['#4d8eff', 'brand'], ['#b48cff', 'campaign']];
+  const items: [string, string][] = [['var(--color-block)', 'known-bad / block'], ['var(--color-quarantine)', 'quarantine range'], ['var(--color-flag)', 'suspicious'], ['var(--color-neutral)', 'neutral'], ['var(--color-accent)', 'brand'], ['var(--color-campaign)', 'campaign']];
   return (
     <div className="flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-muted">
       {items.map(([c, t]) => <span key={t} className="inline-flex items-center gap-1.5"><span className="size-2 rounded-full" style={{ background: c }} />{t}</span>)}

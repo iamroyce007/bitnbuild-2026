@@ -20,7 +20,7 @@ export default function Health() {
     <>
       <PageTitle title="System health" sub="Readiness of every dependency and the Prometheus metrics exposed at /metrics." right={<button className="btn" onClick={() => { ready.reload(); metrics.reload(); }}>Refresh</button>} />
       <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-        <Stat label="API" value={r.ready ? 'Ready' : 'Starting'} color={r.ready ? '#2fbf71' : '#e0a106'} />
+        <Stat label="API" value={r.ready ? 'Ready' : 'Starting'} color={r.ready ? 'var(--color-allow)' : 'var(--color-flag)'} />
         <Stat label="Database" value={String(r.database)} />
         <Stat label="Cache" value={String(r.cache)} />
         <Stat label="Graph store" value={String(r.graph)} />

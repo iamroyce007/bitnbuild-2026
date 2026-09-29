@@ -3,7 +3,7 @@ import { DemoTag, ErrorBox, Loading, PageTitle, Section, ago } from '../componen
 import { api } from '../lib/api';
 import { useApi } from '../lib/useApi';
 
-const STATE_COLOR: Record<string, string> = { online: '#2fbf71', degraded: '#e0a106', offline: '#ff4d4f', not_configured: '#66717e', disabled: '#66717e' };
+const STATE_COLOR: Record<string, string> = { online: 'var(--color-allow)', degraded: 'var(--color-flag)', offline: 'var(--color-block)', not_configured: 'var(--color-faint)', disabled: 'var(--color-faint)' };
 
 export default function Intel() {
   const prov = useApi(() => api.providers());

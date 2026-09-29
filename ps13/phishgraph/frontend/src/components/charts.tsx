@@ -11,7 +11,7 @@ export function StackedBars({ data, height = 150 }: { data: ({ t: string } & Par
     <figure>
       <svg viewBox={`0 0 100 ${height}`} preserveAspectRatio="none" className="h-[150px] w-full" role="img"
         aria-label={`Detections per hour, ${data.length} buckets, peak ${max}`}>
-        {[0.25, 0.5, 0.75].map((f) => <line key={f} x1="0" x2="100" y1={height * f} y2={height * f} stroke="#1d242d" strokeWidth="0.5" vectorEffect="non-scaling-stroke" />)}
+        {[0.25, 0.5, 0.75].map((f) => <line key={f} x1="0" x2="100" y1={height * f} y2={height * f} stroke="var(--color-line)" strokeWidth="0.5" vectorEffect="non-scaling-stroke" />)}
         {data.map((d, i) => {
           let y = height;
           return ORDER.slice().reverse().map((k) => {
@@ -37,7 +37,7 @@ export function Histogram({ bins }: { bins: number[] }) {
       <div className="flex h-24 items-end gap-1" role="img" aria-label={`Risk score distribution: ${bins.map((b, i) => `${i * 10}-${i * 10 + 9}: ${b}`).join(', ')}`}>
         {bins.map((b, i) => {
           const c = i >= 8.5 ? DECISION_COLOR.BLOCK : i >= 6 ? DECISION_COLOR.QUARANTINE : i >= 3 ? DECISION_COLOR.FLAG : DECISION_COLOR.ALLOW;
-          return <div key={i} className="flex-1 rounded-sm" style={{ height: `${Math.max(b ? 4 : 1, (b / max) * 100)}%`, background: b ? c : '#1d242d' }} title={`${i * 10}–${i * 10 + 9}: ${b}`} />;
+          return <div key={i} className="flex-1 rounded-sm" style={{ height: `${Math.max(b ? 4 : 1, (b / max) * 100)}%`, background: b ? c : 'var(--color-line)' }} title={`${i * 10}–${i * 10 + 9}: ${b}`} />;
         })}
       </div>
       <figcaption className="mt-1.5 flex justify-between font-mono text-[11px] text-faint"><span>0</span><span>50</span><span>100</span></figcaption>

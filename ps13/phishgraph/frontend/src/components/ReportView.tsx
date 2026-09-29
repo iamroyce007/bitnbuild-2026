@@ -5,7 +5,7 @@ import type { Report } from '../lib/types';
 import { DECISION_COLOR, DemoTag, ReasonList, RiskNumber, ScoreRow, Section, riskColor } from './ui';
 
 const SCORE_LABEL: Record<string, string> = { nlp: 'Language (NLP)', url: 'Link / URL model', brand: 'Brand impersonation', metadata: 'Sender & headers', threat_intelligence: 'Threat intelligence', graph: 'Infrastructure graph' };
-const INTENT_COLOR = '#e0a10633';
+const INTENT_COLOR = 'color-mix(in srgb, var(--color-flag) 18%, transparent)';
 
 function Highlighted({ text, spans }: { text: string; spans: { start: number; end: number; intent: string }[] }) {
   const s = [...spans].sort((a, b) => a.start - b.start).filter((x, i, arr) => i === 0 || x.start >= arr[i - 1].end);
@@ -13,7 +13,7 @@ function Highlighted({ text, spans }: { text: string; spans: { start: number; en
   let at = 0;
   for (const x of s) {
     if (x.start > at) out.push(text.slice(at, x.start));
-    out.push(<mark key={x.start} title={x.intent.replace(/_/g, ' ')} className="rounded-sm px-0.5 text-ink" style={{ background: INTENT_COLOR, boxShadow: 'inset 0 -1px 0 #e0a106' }}>{text.slice(x.start, x.end)}</mark>);
+    out.push(<mark key={x.start} title={x.intent.replace(/_/g, ' ')} className="rounded-sm px-0.5 text-ink" style={{ background: INTENT_COLOR, boxShadow: 'inset 0 -1px 0 var(--color-flag)' }}>{text.slice(x.start, x.end)}</mark>);
     at = x.end;
   }
   out.push(text.slice(at));
@@ -68,7 +68,7 @@ export default function ReportView({ r, status }: { r: Report; status?: string }
       </section>
 
       {r.conflicting_intelligence && (
-        <div role="note" className="rounded-md border border-[#4a3a0e] bg-[#e0a10610] px-4 py-2.5 text-[13px]"><span className="font-semibold text-flag">Conflicting intelligence.</span> {r.conflict_detail}</div>
+        <div role="note" className="rounded-md border border-flag/40 bg-flag/5 px-4 py-2.5 text-[13px]"><span className="font-semibold text-flag">Conflicting intelligence.</span> {r.conflict_detail}</div>
       )}
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">

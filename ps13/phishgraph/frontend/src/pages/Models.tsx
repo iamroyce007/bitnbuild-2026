@@ -28,7 +28,7 @@ export default function Models() {
         <Stat label="False-positive rate (reviewed)" value={d.false_positive_rate_reviewed != null ? `${Math.round(d.false_positive_rate_reviewed * 100)}%` : '—'} sub={`${d.reviewed} reviewed`} />
         <Stat label="Retraining queue" value={(data.training_queue.hard_negatives || 0) + (data.training_queue.confirmed_phishing || 0)} sub={`${data.training_queue.hard_negatives || 0} hard negatives`} />
       </div>
-      {d.recommendation && <div className="mb-5 rounded-md border border-[#4a3a0e] px-4 py-2 text-[13px] text-flag">{d.recommendation}</div>}
+      {d.recommendation && <div className="mb-5 rounded-md border border-flag/40 px-4 py-2 text-[13px] text-flag">{d.recommendation}</div>}
       <div className="space-y-5">
         {active.map((m) => (
           <Section key={m.name} title={`${m.name === 'url' ? 'URL model' : 'Email / SMS NLP model'} · v${m.version}`} right={<span className="font-mono text-[12px] text-faint">trained {m.trained_at} · {m.data.n?.toLocaleString()} samples · sha {m.sha256_16}</span>} flush>
