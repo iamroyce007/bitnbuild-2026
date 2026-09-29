@@ -160,6 +160,27 @@ def recent_events(since: str = ''):
 
 
 # built dashboard: frontend/dist (local/Docker) or static/ (bundled into the Vercel function by scripts/deploy_vercel.sh)
+_EXT_ZIP: bytes | None = None
+
+
+@app.get('/downloads/phishgraph-extension.zip', include_in_schema=False)
+def extension_zip():
+    """The Chrome extension as a ready-to-unpack zip (built on first request from the extension/ folder)."""
+    import io
+    import zipfile
+    from fastapi.responses import Response
+    global _EXT_ZIP
+    if _EXT_ZIP is None:
+        src = ROOT / 'extension'
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, 'w', zipfile.ZIP_DEFLATED) as z:
+            for f in sorted(src.rglob('*')):
+                if f.is_file() and not f.name.startswith('.'):
+                    z.write(f, f'phishgraph-extension/{f.relative_to(src)}')
+        _EXT_ZIP = buf.getvalue()
+    return Response(_EXT_ZIP, media_type='application/zip', headers={'Content-Disposition': 'attachment; filename="phishgraph-extension.zip"'})
+
+
 DIST = next((d for d in (ROOT / 'frontend' / 'dist', ROOT / 'static') if (d / 'index.html').exists()), ROOT / 'frontend' / 'dist')
 if (DIST / 'index.html').exists():
     app.mount('/assets', StaticFiles(directory=DIST / 'assets'), name='assets')
