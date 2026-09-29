@@ -22,7 +22,7 @@
   <main>
     <div class="brand"><img src="../icons/icon-32.png" alt="" />PhishGraph Guard</div>
     <h1 id="headline">Connect PhishGraph Guard</h1>
-    <p class="muted" id="lede">Open your PhishGraph dashboard, go to <b>Setup</b> and click <b>Connect extension</b>. That's it: no keys to copy.</p>
+    <p class="muted" id="lede">No setup needed: the extension already protects you using the public PhishGraph server.</p>
     <section class="card">
       <div class="row" style="justify-content:space-between">
         <div><div class="label">Status</div><div id="status" style="margin-top:4px">Not connected</div></div>
@@ -30,10 +30,10 @@
       </div>
     </section>
     <details class="card" style="margin-top:18px">
-      <summary class="label" style="cursor:pointer">Advanced: connect manually</summary>
+      <summary class="label" style="cursor:pointer">Advanced: use a different server</summary>
       <div style="margin-top:14px">
         <div class="field"><label class="label" for="server">Server URL</label><input type="url" id="server" placeholder="https://phishgraph.vercel.app" /></div>
-        <div class="field"><label class="label" for="apiKey">API key</label><input type="password" id="apiKey" placeholder="X-API-Key value" autocomplete="off" /></div>
+        <div class="field"><label class="label" for="apiKey">Access key (only for private servers)</label><input type="password" id="apiKey" placeholder="leave empty" autocomplete="off" /></div>
         <div class="row"><button class="btn" id="save">Save and test</button><span id="msg" class="muted"></span></div>
       </div>
     </details>

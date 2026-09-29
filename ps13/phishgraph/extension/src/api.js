@@ -1,5 +1,5 @@
 // Shared client for the PhishGraph API + settings. Only talks to the server the user configured.
-export const DEFAULTS = { server: 'https://phishgraph.vercel.app', apiKey: '', protectPages: true, scanGmail: false, blockThreshold: 'QUARANTINE' };
+export const DEFAULTS = { server: 'https://phishgraph.vercel.app', apiKey: '', connected: false, protectPages: true, scanGmail: false, blockThreshold: 'QUARANTINE' };
 // dashboards allowed to hand their connection details to the extension (must match the connect.js content script)
 export const DASHBOARD_ORIGINS = ['https://phishgraph.vercel.app', 'http://localhost:8000', 'http://localhost:5173'];
 const RANK = { ALLOW: 0, FLAG: 1, QUARANTINE: 2, BLOCK: 3 };
@@ -15,13 +15,12 @@ export function atLeast(decision, threshold) {
 
 async function call(path, body) {
   const s = await settings();
-  if (!s.apiKey) throw new Error('not-configured');
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 8000);
   try {
     const r = await fetch(`${s.server}${path}`, {
       method: 'POST', signal: ctrl.signal,
-      headers: { 'content-type': 'application/json', 'X-API-Key': s.apiKey },
+      headers: { 'content-type': 'application/json', ...(s.apiKey ? { 'X-API-Key': s.apiKey } : {}) }, // key only for private servers
       body: JSON.stringify(body),
     });
     if (!r.ok) throw new Error(`http-${r.status}`);

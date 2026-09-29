@@ -61,13 +61,13 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
     } else if (msg.type === 'configure') {
       // one-click connect from the dashboard; trust only the dashboard origin the message really came from
       const origin = sender.origin || (sender.url ? new URL(sender.url).origin : '');
-      if (!DASHBOARD_ORIGINS.includes(origin) || !msg.apiKey) return reply({ ok: false, error: 'not an allowed dashboard' });
-      await chrome.storage.sync.set({ server: origin, apiKey: String(msg.apiKey), protectPages: msg.protectPages !== false, scanGmail: !!msg.scanGmail });
+      if (!DASHBOARD_ORIGINS.includes(origin)) return reply({ ok: false, error: 'not an allowed dashboard' });
+      await chrome.storage.sync.set({ server: origin, apiKey: String(msg.apiKey || ''), protectPages: msg.protectPages !== false, scanGmail: !!msg.scanGmail, connected: true });
       cache.clear();
       reply({ ok: true, server: origin });
     } else if (msg.type === 'status') {
       const s = await settings();
-      reply({ connected: !!s.apiKey, server: s.server, protectPages: s.protectPages, scanGmail: s.scanGmail, version: chrome.runtime.getManifest().version });
+      reply({ connected: !!s.connected, server: s.server, protectPages: s.protectPages, scanGmail: s.scanGmail, version: chrome.runtime.getManifest().version });
     } else if (msg.type === 'check-url') {
       reply(await verdictFor(msg.url));
     }

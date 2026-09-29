@@ -4,7 +4,7 @@ const $ = (id) => document.getElementById(id);
 const s = await settings();
 $('dash').href = s.server;
 $('opts').onclick = () => chrome.runtime.openOptionsPage();
-$('status').textContent = !s.apiKey ? 'NOT CONFIGURED' : s.protectPages ? 'PROTECTING' : 'PAUSED';
+$('status').textContent = s.protectPages ? 'PROTECTING' : 'PAUSED';
 
 const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 const k = `tab:${tab?.id}`;
