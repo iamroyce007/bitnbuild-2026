@@ -61,7 +61,17 @@ export type Extraction = {
   warnings: string[];
 };
 
+export type Metric = { precision: number; recall: number; f1: number; roc_auc: number; pr_auc: number; n: number };
+export type TrainingRun = {
+  name: 'url' | 'email' | string; version: number; status: string; trained_at: string; sha256_16?: string;
+  splits: Record<string, Record<string, Metric>> | null; data: Record<string, unknown> | null;
+  fresh_feed?: Record<string, unknown> | null; calibration_fold?: Metric | null;
+};
+export type ValidationRun = { id: string; kind: 'unit_tests' | 'feature_check' | 'fresh_feed' | 'lookalike' | string; at: string; target: string;
+  summary: Record<string, unknown>; details: Record<string, unknown> };
+
 export const api = {
+  validation: () => req<{ training: TrainingRun[]; runs: ValidationRun[] }>('/api/v1/validation'),
   extract: (text: string, hint: 'auto' | 'sms' | 'email', ocr_confidence?: number, fields?: Pick<Extraction, 'channel' | 'sender' | 'subject' | 'body'>) =>
     post<Extraction>('/api/v1/extract', { text, hint, ocr_confidence, fields }),
   analyzeEmail: (b: { subject?: string; sender?: string; body?: string; html?: string; raw?: string; channel?: string; deep?: boolean }) => post<Analysis>('/api/v1/analyze/email', b),
