@@ -151,6 +151,12 @@ language data come from jsDelivr on first use.
   shape + word), `charts.tsx` (SVG), `GraphView.tsx`, `ReportView.tsx` (container queries, so it fits beside a form or full
   width), `DetectionTable.tsx` (new rows flash), `CommandPalette.tsx`, `ScreenshotInput.tsx` (pick → reading with scan beam
   → review with entity list), `FillFromCapture.tsx` (Email/SMS toolbar), `PasteTarget.tsx`.
+- Routes: `/` is the standalone **landing page** (`pages/Landing.tsx`, own navbar, canvas hero illustration, live metrics and graph
+  from the API); the console lives under `/overview` and the other pages; in-app docs are at `/documentation` (`/docs` is
+  FastAPI's OpenAPI UI, `/health` the API health check: never reuse either path). The HTML shell is served `no-cache`;
+  a request for a missing old-build script gets a one-time self-heal script (`main.py` `_Assets`).
+- `components/brand/` (logo mark, wordmark, loader, HeroGraph), `components/investigation/` (InvestigationInput,
+  InvestigationLoader, ThreatTimeline), `components/kit.tsx` (severity system, toasts, CopyButton, ThreatScore, states).
 - `src/pages/`: Overview, Feed, Analyze (Screenshot · Email · SMS/chat · Link · Raw .eml; pasting a whole email into
   Message splits it into fields, with Undo), Investigate (`?url=` starts at once), Detection, Graph, Campaigns, Campaign,
   Review, Intel, Models, **System health at `/system`** (not `/health`, which is the API health check), Setup, Settings.
@@ -179,12 +185,13 @@ in `fonts/`, so no third-party requests), `warning.*`, `popup.*`, `options.*`. T
 cd ps13/phishgraph
 python3 -m venv ../.venv && ../.venv/bin/pip install -r requirements-dev.txt [-r requirements-embeddings.txt]
 ../.venv/bin/python scripts/download_datasets.py [--reference-only] [--embeddings]
-(cd backend && ../../.venv/bin/python -m pytest -q)                 # 487 tests, ~20 s, isolated temp DB/graph
+(cd backend && ../../.venv/bin/python -m pytest -q)                 # 490 tests, ~25 s, isolated temp DB/graph
 ../.venv/bin/python scripts/seed_demo.py --reset                     # DEMO DATA
 ../.venv/bin/python -m uvicorn --app-dir backend app.main:app --port 8000
 ../.venv/bin/python scripts/demo_attack.py                           # scripted demo against the running API
 ../.venv/bin/python scripts/feature_check.py [--base URL] [--no-feedback]  # end-to-end check of every feature + URL expectations (recorded)
 ../.venv/bin/python scripts/run_tests.py                              # pytest + record per-file results in the testing history
+../.venv/bin/python scripts/real_world_check.py                       # 460 real URLs (live OpenPhish, long tail, top sites), feeds off, recorded
 ../.venv/bin/python scripts/eval_fresh_feed.py                        # deployed URL model vs today's live phishing (recorded)
 ../.venv/bin/python scripts/eval_lookalike.py                        # look-alike FP / recall numbers
 ../.venv/bin/python scripts/load_test.py --n 400 --concurrency 16    # needs RATE_LIMIT_PER_MINUTE raised

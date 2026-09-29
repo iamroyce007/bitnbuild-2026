@@ -109,12 +109,27 @@ cross-source email number is reported.
 `googel.com`, `google.com.verify-login.xyz`, `gitbuh.io` / `gogole.com` (letters shuffled: the permutation detector added
 after a reviewer found `hyeonseok067.gitbuh.io` allowed) → flagged with the exact reason. Pinned in `backend/tests/test_domains.py`.
 
+### Real-world URLs, feeds off (`scripts/real_world_check.py`)
+460 real URLs through the full pipeline with the threat feeds switched **off**, so the engines must decide alone
+(fast path, URL only):
+
+| Set | Result |
+|---|---|
+| 200 live phishing URLs (today's OpenPhish, unseen) | **41.5 %** flagged by the engines alone (37 % before the fixes it drove) |
+| 200 ordinary long-tail sites (Tranco 150k–1M) | 8.0 % false alarms, 0 % quarantined/blocked |
+| 60 top-10k sites | **0 %** false alarms |
+
+Most misses are normal-looking domains with no brand or keyword (`healthcheck.evergreenfin.ltd`); a URL alone cannot
+convict them, which is what the live feeds (which list them), full enrichment and the graph are for. This test found two
+real bugs, now fixed: pages on GitHub Pages / Weebly inherited the platform's "trusted" status, and a generic-word
+permutation false alarm.
+
 ### End-to-end
 - `scripts/feature_check.py`: **98 checks** through the HTTP API (service, every dashboard route, 43 URLs, 8 messages in
   English/Hindi/Tamil/WhatsApp, the brand guarantee, 6 screenshot layouts, investigation, SSRF refusals, graph, campaigns,
   intel, feedback, history). Latest runs: all passed locally and 97/97 against https://phishgraph.vercel.app (recorded).
 - Sample set (27 hand-written messages, not an accuracy claim): 12 / 12 legitimate allowed, 15 / 15 phishing caught.
-- `backend/tests`: **487 tests** (`scripts/run_tests.py` records each run).
+- `backend/tests`: **490 tests** (`scripts/run_tests.py` records each run).
 
 ### Performance (single process, Apple M-series laptop, `scripts/load_test.py`, fast path)
 | Endpoint | Throughput | p50 / p95 at 16 concurrent clients |
