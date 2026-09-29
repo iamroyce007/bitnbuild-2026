@@ -1,40 +1,60 @@
 # PhishGraph console: design notes
 
-Direction from the ui-ux-pro-max design-system query "enterprise security admin console B2B data tables"
-(density 7, motion 1, variance 2): **Minimalism / Swiss style**, navy primary with a blue call to action,
-built for enterprise and admin dashboards. The layout follows the familiar security-console pattern: a navy
-top bar, a grouped left navigation (Monitor, Investigate, Intelligence, Administration), a breadcrumb over
-every page title, KPI tiles, and dense tables.
+## Direction: the evidence board
 
-Deliberate deviations
-- The suggested typeface was Plus Jakarta Sans. We use the system UI font stack instead, so the console
-  downloads no web fonts and paints with the operating system's native font (Segoe UI, San Francisco, Roboto).
-- An earlier version was dark-only with neon severity colours. Enterprise users work in bright offices on
-  shared screens, so light is the default. Dark is one click away in the top bar, and a "system" value in
-  localStorage (`phishgraph.theme`) follows the OS.
+The skill (ui-ux-pro-max) was run with the brief "cybersecurity threat intelligence operations console distinctive"
+(variance 6, motion 6, density 7). Its first style was **Cyberpunk UI** (matrix green on black, glitch effects).
+We rejected it deliberately: neon green is the stock "hacker" look and reads as generic. From its alternatives we took:
 
-| Token | Light | Dark | Use |
+- **Style:** Data-Dense Dashboard (compact grid, KPI row, sortable tables, row highlight on hover).
+- **Type:** the "Developer Mono" pairing: IBM Plex Sans for the interface, JetBrains Mono for data (domains, IPs,
+  hashes, IDs) and for small uppercase eyebrow labels.
+- **Motion:** the skill's "Stagger List (Standard)" preset (300–450 ms, 50–60 ms stagger, soft overshoot), rebuilt in
+  CSS so no animation library ships.
+
+The identity is an analyst's evidence board: paper and graphite surfaces, ink-black primary actions, a faint dot grid
+behind the workspace, and one signature colour, **highlighter yellow**, used the way an investigator marks evidence.
+It marks the active page in the navigation, key headings, intent phrases in a message, and the "check what was read"
+step after a screenshot. Severity colours are used only for verdicts.
+
+| Token | Light (paper) | Dark (graphite) | Use |
 |---|---|---|---|
-| bg / surface / surface-2 | #f3f4f6 / #ffffff / #f6f7f9 | #0b0e12 / #11161c / #171d25 | page, cards, table headers and hover |
-| line / line-strong | #e1e4e8 / #c9ced6 | #232b35 / #323d4a | borders; line-strong on inputs and buttons |
-| ink / muted / faint | #111827 / #4b5563 / #6b7280 | #e6e9ed / #a3adb9 / #7d8896 | text hierarchy (all at least 4.5:1 on surface) |
-| chrome / chrome-ink | #13213a / #e8edf5 | #0e1319 / #e6e9ed | top bar |
-| accent | #0a5cc2 | #5b9bff | primary buttons, links, active navigation |
-| allow / flag / quarantine / block | #16803c / #a16207 / #c2410c / #be123c | #34c77b / #e0a106 / #f07038 / #ff5c5e | decision severity |
-| neutral / campaign | #6b7280 / #7c3aed | #8a95a3 / #b48cff | graph nodes |
+| bg / surface / surface-2 | #ece9e1 / #faf8f3 / #f1eee6 | #0d0d0b / #151512 / #1c1c18 | board, cards, table heads |
+| line / line-strong | #dcd6c8 / #c2baa6 | #292822 / #3b3931 | rules and control borders |
+| ink / muted / faint | #17150f / #4a463c / #6b6557 | #ece7da / #aaa493 / #878171 | text (all at least 4.5:1 on surface) |
+| primary / on-primary | #17150f / #faf8f3 | #ece7da / #0d0d0b | primary buttons, selected filters |
+| mark | #ffd83d | #ffd83d at 38% | highlighter (background only, never text) |
+| accent | #2140b8 | #93a8ff | links, focus ring |
+| allow / flag / quarantine / block | #1d7a46 / #946400 / #c2410c / #c4122f | #3fca82 / #e8b21c / #f07a3f / #ff5d6c | verdicts |
 
-Every colour in components, charts and the SVG graph is a CSS variable from `src/index.css`, so both themes
-come from one set of tokens. Translucent fills use `tint()` in `components/ui.tsx` (CSS `color-mix`), never hex
-with an alpha suffix.
+## Motion (all CSS; disabled under prefers-reduced-motion)
 
-Rules we hold to
-- Severity is never colour alone: decision pills carry a shape (○ △ ◇ ■) and the word; KPI tiles carry a
-  label; charts have text equivalents.
-- No emoji, gradients, glass or blur. SVG icons are hand-drawn paths.
-- Monospace is only for indicators and data (domains, IPs, hashes, IDs). Labels and headings use the sans font.
-- Live data shows its state (Live / Polling / Offline), a pause control, and a polite live region.
-- Every route is lazy-loaded; first load is about 63 KB of gzipped JS, and there are no web fonts. There are no
-  chart or graph libraries: charts are SVG, and the graph uses a small component-packed Fruchterman-Reingold
-  layout computed once, with no animation loop.
-- Reduced motion is respected, focus rings are always visible, and the graph has a tabular equivalent.
-- The top-bar lookup opens `/investigate?url=…`, which starts the investigation at once.
+| Where | What | Why |
+|---|---|---|
+| Route change | page rises 8 px and fades in (380 ms) | spatial continuity between pages |
+| Overview, report | children enter in a stagger | shows reading order |
+| KPI tiles | numbers count up; the severity rule draws in | draws the eye to change |
+| Verdict | a semicircular dial sweeps to the risk score, with 30 / 60 / 85 thresholds ticked | the score is read against the thresholds |
+| Score bars, charts | bars grow from their baseline | reads as measured data |
+| Highlighter | the yellow mark swipes in left to right | a marker stroke, the product's signature |
+| Screenshot OCR | a scan beam sweeps the image while text is read; % progress | honest progress for a slow step |
+| Live feed | rows under 20 s old flash yellow and fade | new evidence is visible without reading timestamps |
+| Live status | the dot pulses only while the stream is live | the pulse means "live", nothing else |
+| Buttons | press scale 0.97; the primary button lifts onto a yellow offset shadow | tactile feedback |
+| Loading | shimmer skeleton lines instead of "Loading…" | reserves the layout |
+
+## Interaction
+
+- ⌘K / Ctrl+K opens a command palette: paste a URL or domain to investigate it, jump to any page, analyse a
+  screenshot, load sample data, or switch theme. It is keyboard first (↑ ↓ ↵ esc) and returns focus to where it
+  was opened.
+- Screenshots can be dropped, chosen, pasted with ⌘V, or pasted with the "Paste from clipboard" button. OCR runs
+  in the browser; the image is never uploaded.
+- The report uses container queries, so it lays out correctly both full width and beside the Analyze form.
+
+## Rules we hold to
+
+- Severity is never colour alone: pills carry a shape (○ △ ◇ ■) and the word; the dial has a text label.
+- No emoji, gradients-as-decoration or glass. SVG icons are hand-drawn paths.
+- Weight: every route is lazy-loaded, the main bundle is about 64 KB of gzipped JS, and OCR (tesseract.js) is a
+  separate chunk fetched only when a screenshot is read. Fonts: two families, five weights, `display=swap`.
