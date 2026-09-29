@@ -42,13 +42,22 @@ try:
     from app.services.intel_store import get_intel_store  # noqa: E402
     from app.workers.feed_collector import STATUS, run_one  # noqa: E402
     store = get_intel_store()
+    if not manifest and (SNAP / 'manifest.json').exists():  # /tmp db survived from an earlier start of this instance
+        manifest = json.loads((SNAP / 'manifest.json').read_text())
+    STATUS['snapshot'] = {'status': 'ok' if manifest else 'absent', 'at': time.time(), 'built_at': manifest.get('built_at'),
+                          'files': sorted(p.name for p in (SNAP / 'feeds').glob('*')) if (SNAP / 'feeds').exists() else []}
     for name, info in (manifest.get('large_feeds') or {}).items():
         path = SNAP / 'feeds' / f'{name}.txt.gz'
         if info.get('status') == 'ok' and path.exists():
             t = time.time()
-            n = store.load_domain_list(path, name, at=manifest.get('built_at'))
-            STATUS[name] = {'status': 'ok', 'mode': f'snapshot {manifest.get("built_at")}', 'fetched': n, 'at': t,
-                            'seconds': round(time.time() - t, 1)}
+            try:
+                n = store.load_domain_list(path, name, at=manifest.get('built_at'))
+                STATUS[name] = {'status': 'ok', 'mode': f'snapshot {manifest.get("built_at")}', 'fetched': n, 'at': t,
+                                'seconds': round(time.time() - t, 1)}
+            except Exception as e:
+                STATUS[name] = {'status': 'error', 'at': t, 'error': f'{type(e).__name__}: {e}'[:200]}
+        else:
+            STATUS[name] = {'status': 'missing', 'at': time.time(), 'error': f'snapshot status {info.get("status")}, file present: {path.exists()}'}
 
     async def _live():
         await asyncio.gather(run_one('openphish'), run_one('urlhaus'))
