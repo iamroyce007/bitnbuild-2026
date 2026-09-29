@@ -1,19 +1,30 @@
-.pg-slot { margin: 0 0 12px; }
-.pg-banner { font: 13px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; border-radius: 8px; padding: 10px 14px; border: 1px solid; color: #1b1f24; }
-.pg-pending { background: #f3f5f8; border-color: #dfe3ea; color: #57606a; }
-.pg-allow { background: #f0faf4; border-color: #b6e3c8; }
-.pg-flag { background: #fff8e6; border-color: #f2d58a; }
-.pg-quarantine { background: #fff1ea; border-color: #f5b99a; }
-.pg-block { background: #fdeeee; border-color: #f1a7a9; }
-.pg-unknown { background: #f3f5f8; border-color: #dfe3ea; }
-.pg-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.pg-mark { width: 8px; height: 8px; border-radius: 50%; background: #8b949e; flex: none; }
-.pg-allow .pg-mark { background: #2f9e63; } .pg-flag .pg-mark { background: #d99a06; }
-.pg-quarantine .pg-mark { background: #f0703c; } .pg-block .pg-mark { background: #e5484d; }
+/* Verdict banner injected above an opened Gmail message. Same evidence-card look as the dashboard, but with
+   system fonts (nothing is loaded into Gmail) and scoped class names so Gmail's styles are untouched. */
+.pg-slot { margin: 0 0 14px; }
+.pg-banner { --pg-rule: #c2baa6; font: 13px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; color: #17150f; background: #faf8f3;
+  border: 1px solid #dcd6c8; border-left: 4px solid var(--pg-rule); border-radius: 3px; padding: 10px 14px 11px; box-shadow: 0 1px 0 rgba(23, 21, 15, .05);
+  animation: pg-rise .35s cubic-bezier(.2, .7, .2, 1) both; }
+.pg-allow { --pg-rule: #1d7a46; } .pg-flag { --pg-rule: #946400; } .pg-quarantine { --pg-rule: #c2410c; } .pg-block { --pg-rule: #c4122f; }
+.pg-pending { color: #4a463c; }
+.pg-head { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.pg-logo { width: 18px; height: 18px; flex: none; }
+.pg-name { font-weight: 600; letter-spacing: -.01em; }
+.pg-name b { font-weight: 400; }
 .pg-verdict { font-weight: 600; }
-.pg-score { margin-left: auto; font: 600 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: #57606a; }
+.pg-hl { background-image: linear-gradient(100deg, transparent .2em, #ffd83d .25em, #ffd83d calc(100% - .25em), transparent calc(100% - .2em)); background-repeat: no-repeat;
+  background-size: 100% 62%; background-position: 0 85%; padding: 0 .15em; animation: pg-swipe .6s cubic-bezier(.2, .7, .2, 1) .15s both; }
+.pg-score { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font: 600 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--pg-rule); }
+.pg-meter { width: 64px; height: 5px; border-radius: 3px; background: #ece9e1; overflow: hidden; }
+.pg-meter span { display: block; height: 100%; background: var(--pg-rule); transform-origin: left; animation: pg-grow .7s cubic-bezier(.2, .7, .2, 1) .1s both; }
 .pg-reasons { margin: 8px 0 0; padding: 0; list-style: none; }
-.pg-reasons li { padding: 3px 0; }
-.pg-cat { display: inline-block; min-width: 88px; font: 600 11px ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; letter-spacing: .04em; color: #57606a; }
-.pg-sub { margin-top: 6px; color: #57606a; font-size: 12px; }
-a.pg-risky-link { outline: 2px solid #e5484d !important; outline-offset: 1px; border-radius: 2px; background: #fdeeee !important; }
+.pg-reasons li { display: grid; grid-template-columns: 92px 1fr; gap: 10px; padding: 4px 0; border-top: 1px solid #ece9e1; }
+.pg-reasons li:first-child { border-top: 0; }
+.pg-cat { font: 500 10.5px/2 ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; letter-spacing: .1em; color: #6b6557; }
+.pg-sub { margin-top: 6px; color: #4a463c; font-size: 12px; }
+.pg-dots::after { content: ''; animation: pg-dots 1.2s steps(4) infinite; }
+a.pg-risky-link { outline: 2px solid #c4122f !important; outline-offset: 1px; border-radius: 2px; background: #fdeeee !important; }
+@keyframes pg-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pg-swipe { from { background-size: 0% 62%; } to { background-size: 100% 62%; } }
+@keyframes pg-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes pg-dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+@media (prefers-reduced-motion: reduce) { .pg-banner, .pg-hl, .pg-meter span, .pg-dots::after { animation: none !important; } }
